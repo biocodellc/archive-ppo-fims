@@ -499,11 +499,7 @@ function editExpedition(projectId, expeditionCode, e) {
     var searchId = $(e).closest("div")[0].id.replace("-configuration", "");
     var title = "Editing " + $("a#" + searchId)[0].textContent.trim();
 
-    if (e.parentElement.textContent.startsWith("yes")) {
-        currentPublic = true;
-    } else {
-        currentPublic = false;
-    }
+    currentPublic = !!e.parentElement.textContent.startsWith("yes");
 
     var message = "<table><tr><td>Public:</td><td><input type='checkbox' name='public'";
     if (currentPublic) {
@@ -513,32 +509,32 @@ function editExpedition(projectId, expeditionCode, e) {
 
     var buttons = {
         "Update": function () {
-            var public = $("[name='public']")[0].checked;
+            var isPublic = $("[name='public']")[0].checked;
 
-            $.get(biocodeFimsRestRoot + "expeditions/updateStatus/" + projectId + "/" + expeditionCode + "/" + public
-            ).done(function () {
-                var b = {
-                    "Ok": function () {
-                        $(this).dialog("close");
-                        location.reload();
-                    }
-                }
-                dialog("Successfully updated the public status.", "Success!", b);
-            }).fail(function (jqXHR) {
+            $.get(biocodeFimsRestRoot + "expeditions/updateStatus/" + projectId + "/" + expeditionCode + "/" + isPublic)
+                .done(function () {
+                    var b = {
+                        "Ok": function () {
+                            $(this).dialog("close");
+                            location.reload();
+                        }
+                    };
+                    dialog("Successfully updated the public status.", "Success!", b);
+                }).fail(function (jqXHR) {
                 $("#dialogContainer").addClass("error");
                 var b = {
                     "Ok": function () {
                         $("#dialogContainer").removeClass("error");
                         $(this).dialog("close");
                     }
-                }
+                };
                 dialog("Error updating expedition's public status!<br><br>" + JSON.stringify($.parseJSON(jqxhr.responseText).usrMessage), "Error!", buttons)
             });
         },
         "Cancel": function () {
             $(this).dialog("close");
         }
-    }
+    };
     dialog(message, title, buttons);
 }
 /* ====== profile.jsp Functions ======= */
@@ -1410,14 +1406,14 @@ function hideUpload() {
 function updateExpeditionPublicStatus(expeditionList) {
     $('#expeditionCode').change(function () {
         var code = $('#expeditionCode').val();
-        var public;
+        var isPublic;
         $.each(expeditionList, function (key, e) {
             if (e.expeditionCode == code) {
-                public = e.public;
+                isPublic = e.public;
                 return false;
             }
         });
-        if (public == 'true') {
+        if (isPublic == 'true') {
             $('#public_status').prop('checked', true);
         } else {
             $('#public_status').prop('checked', false);
@@ -1442,7 +1438,7 @@ function getExpeditionCodes() {
         }).fail(function (jqxhr) {
         var msg;
         var title = "Error!";
-        if (jqxhr.status = 401) {
+        if (jqxhr.status == 401) {
             msg = "Please login to load your expeditions.";
             title = "Warning!";
         } else {

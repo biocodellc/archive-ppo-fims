@@ -208,7 +208,6 @@ public class Query extends FimsService {
      * filter parameters are of the form:
      * name={URI} value={filter value}
      *
-     *
      * @return
      */
     @POST
@@ -299,7 +298,6 @@ public class Query extends FimsService {
      * filter parameters are of the form:
      * name={URI} value={filter value}
      *
-     *
      * @return
      */
     @POST
@@ -350,8 +348,8 @@ public class Query extends FimsService {
                 graphs = Arrays.copyOf(valueArray, valueArray.length, String[].class);
             } else if (key.equalsIgnoreCase("project_id")) {
                 projectId = Integer.parseInt((String) value.get(0));
-                System.out.println("project_id_val=" + (String)value.get(0) );
-                System.out.println("project_id_int=" + projectId );
+                System.out.println("project_id_val=" + (String) value.get(0));
+                System.out.println("project_id_int=" + projectId);
             } else if (key.equalsIgnoreCase("boolean")) {
                 /// AND|OR
                 //projectId = Integer.parseInt((String) value.get(0));
@@ -456,7 +454,7 @@ public class Query extends FimsService {
             username = user.getUsername();
         }
 
-        ProjectMinter project= new ProjectMinter();
+        ProjectMinter project = new ProjectMinter();
 
         JSONArray graphs = project.getLatestGraphs(projectId, username);
         Iterator it = graphs.iterator();
@@ -506,25 +504,25 @@ public class Query extends FimsService {
      * @return
      */
     private FimsFilterCondition parsePOSTFilter(String key, String value) {
-        URI uri = null;
+        String uri = null;
 
         if (key == null || key.equals("") || value == null || value.equals(""))
             return null;
 
         // this is a predicate/URI query
         if (key.contains(":")) {
-            try {
-                uri = new URI(key);
-            } catch (URISyntaxException e) {
-                throw new FimsRuntimeException(500, e);
-            }
+            uri = key;
         } else {
             Mapping mapping = new Mapping();
             mapping.addMappingRules(configFile);
             ArrayList<Attribute> attributeArrayList = mapping.getAllAttributes(mapping.getDefaultSheetName());
-            uri = mapping.lookupColumn(key, attributeArrayList);
+            uri = mapping.lookupUriForColumn(key, attributeArrayList);
         }
-        return new FimsFilterCondition(uri, value, FimsFilterCondition.AND);
+        try {
+            return new FimsFilterCondition(new URI(uri), value, FimsFilterCondition.AND);
+        } catch (URISyntaxException e) {
+            throw new FimsRuntimeException(500, e);
+        }
 
     }
 
@@ -535,12 +533,13 @@ public class Query extends FimsService {
      * @param filter
      * @return
      */
+
     private FimsFilterCondition parseGETFilter(String filter) {
         Mapping mapping = new Mapping();
         mapping.addMappingRules(configFile);
 
         String delimiter = ":";
-        URI uri = null;
+        String uri = null;
         URLDecoder decoder = new URLDecoder();
 
         if (filter == null)
@@ -568,15 +567,15 @@ public class Query extends FimsService {
 
                 // If the key contains a semicolon, then assume it is a URI
                 if (key.contains(":")) {
-                    uri = new URI(key);
+                    uri = key;
                 }
                 // If there is no semicolon here then assume the user passed in a column name
                 else {
                     ArrayList<Attribute> attributeArrayList = mapping.getAllAttributes(mapping.getDefaultSheetName());
-                    uri = mapping.lookupColumn(key, attributeArrayList);
+                    uri = mapping.lookupUriForColumn(key, attributeArrayList);
                 }
             }
-            return new FimsFilterCondition(uri, value, FimsFilterCondition.AND);
+            return new FimsFilterCondition(new URI(uri), value, FimsFilterCondition.AND);
         } catch (UnsupportedEncodingException e) {
             throw new FimsRuntimeException(500, e);
         } catch (URISyntaxException e) {
