@@ -11,7 +11,6 @@ import biocode.fims.fuseki.query.FimsQueryBuilder;
 import biocode.fims.rest.FimsService;
 import biocode.fims.service.OAuthProviderService;
 import biocode.fims.settings.SettingsManager;
-import org.apache.commons.digester3.Digester;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -34,13 +33,13 @@ import java.util.*;
  */
 @Controller
 @Path("/projects/query")
-public class Query extends FimsService {
-    private static Logger logger = LoggerFactory.getLogger(Query.class);
+public class QueryController extends FimsService {
+    private static Logger logger = LoggerFactory.getLogger(QueryController.class);
     private File configFile;
     private int projectId;
 
     @Autowired
-    Query(OAuthProviderService providerService, SettingsManager settingsManager) {
+    QueryController(OAuthProviderService providerService, SettingsManager settingsManager) {
         super(providerService, settingsManager);
     }
 
@@ -73,6 +72,32 @@ public class Query extends FimsService {
         }
     }
 
+//    /**
+//     * Return JSON for a graph query.
+//     *
+//     * @param graphs indicate a comma-separated list of graphs, or all
+//     * @return
+//     */
+//    @GET
+//    @Path("/json/")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response queryJson(
+//            @QueryParam("graphs") String graphs,
+//            @QueryParam("project_id") Integer project_id,
+//            @QueryParam("filter") String filter) {
+//
+//        FimsQueryBuilder q = GETQueryResult(graphs, project_id, filter);
+//
+//        String response = q.getJSON().toJSONString();
+//
+//        // Return response
+//        if (response == null) {
+//            return Response.status(204).build();
+//        } else {
+//            return Response.ok(response).build();
+//        }
+//    }
+
     /**
      * Return JSON for a graph query.
      *
@@ -83,20 +108,21 @@ public class Query extends FimsService {
     @Path("/json/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response queryJson(
-            @QueryParam("graphs") String graphs,
-            @QueryParam("project_id") Integer project_id,
+            @QueryParam("expeditions") List<String> expeditions,
+            @QueryParam("projectId") Integer projectId,
             @QueryParam("filter") String filter) {
 
-        FimsQueryBuilder q = GETQueryResult(graphs, project_id, filter);
+//        FimsQueryBuilder q = GETQueryResult(graphs, project_id, filter);
 
-        String response = q.getJSON().toJSONString();
+//        String response = q.getJSON().toJSONString();
 
         // Return response
-        if (response == null) {
-            return Response.status(204).build();
-        } else {
-            return Response.ok(response).build();
-        }
+//        if (response == null) {
+//            return Response.status(204).build();
+//        } else {
+//            return Response.ok(response).build();
+//        }
+        return Response.ok().build();
     }
 
     /**
@@ -143,7 +169,7 @@ public class Query extends FimsService {
     @Path("/kml/")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/vnd.google-earth.kml+xml")
-    public Response queryKml(
+    public Response queryKmlAsPost(
             MultivaluedMap<String, String> form) {
 
         // Build the query, etc..
@@ -208,12 +234,13 @@ public class Query extends FimsService {
      * filter parameters are of the form:
      * name={URI} value={filter value}
      *
+     *
      * @return
      */
     @POST
     @Path("/tab/")
     @Consumes("application/x-www-form-urlencoded")
-    public Response queryTab(
+    public Response queryTabAsPost(
             MultivaluedMap<String, String> form) {
 
         // Build the query, etc..
@@ -298,13 +325,14 @@ public class Query extends FimsService {
      * filter parameters are of the form:
      * name={URI} value={filter value}
      *
+     *
      * @return
      */
     @POST
     @Path("/excel/")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/vnd.ms-excel")
-    public Response queryExcel(
+    public Response queryExcelAsPost(
             MultivaluedMap<String, String> form) {
 
         // Build the query, etc..
@@ -348,8 +376,8 @@ public class Query extends FimsService {
                 graphs = Arrays.copyOf(valueArray, valueArray.length, String[].class);
             } else if (key.equalsIgnoreCase("project_id")) {
                 projectId = Integer.parseInt((String) value.get(0));
-                System.out.println("project_id_val=" + (String) value.get(0));
-                System.out.println("project_id_int=" + projectId);
+                System.out.println("project_id_val=" + (String)value.get(0) );
+                System.out.println("project_id_int=" + projectId );
             } else if (key.equalsIgnoreCase("boolean")) {
                 /// AND|OR
                 //projectId = Integer.parseInt((String) value.get(0));
@@ -454,7 +482,7 @@ public class Query extends FimsService {
             username = user.getUsername();
         }
 
-        ProjectMinter project = new ProjectMinter();
+        ProjectMinter project= new ProjectMinter();
 
         JSONArray graphs = project.getLatestGraphs(projectId, username);
         Iterator it = graphs.iterator();
@@ -511,7 +539,7 @@ public class Query extends FimsService {
 
         // this is a predicate/URI query
         if (key.contains(":")) {
-            uri = key;
+                uri = key;
         } else {
             Mapping mapping = new Mapping();
             mapping.addMappingRules(configFile);
@@ -533,7 +561,6 @@ public class Query extends FimsService {
      * @param filter
      * @return
      */
-
     private FimsFilterCondition parseGETFilter(String filter) {
         Mapping mapping = new Mapping();
         mapping.addMappingRules(configFile);

@@ -21,7 +21,7 @@
         return;
     }
 
-    $.getJSON("/rest/utils/getMapboxToken", function(data) {
+    $.getJSON("/ppo/rest/utils/getMapboxToken", function(data) {
         L.mapbox.accessToken = data.accessToken;
     }).fail(function() {
         console.log("Failed to retrieve mapbox accessToken. Mapping features will not work.");
@@ -159,9 +159,9 @@ function generateMap(id, projectId) {
     }
     $('#' + id).html('Loading map...');
     // generate a map with markers for all resource points
-    $.getJSON("/rest/projects/" + projectId + "/getLatLongColumns/"
+    $.getJSON("/ppo/rest/projects/" + projectId + "/getLatLongColumns/"
         ).done(function(data) {
-            $.getJSON("/rest/projects/" + projectId + "/uniqueKey/"
+            $.getJSON("/ppo/rest/projects/" + projectId + "/uniqueKey/"
                 ).done(function(uniqueKeyData) {
                     data.uniqueKey = uniqueKeyData.uniqueKey;
                 }).always(function() {

@@ -1,6 +1,6 @@
 package biocode.fims.rest.services.rest;
 
-import biocode.fims.rest.FimsService;
+import biocode.fims.rest.services.rest.FimsAbstractUtilsController;
 import biocode.fims.service.OAuthProviderService;
 import biocode.fims.settings.SettingsManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +12,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * ppo-Fims utility services
+ * Biscicol-Fims utility services
  */
 @Path("utils/")
-public class PPOUtils extends FimsService {
+public class UtilsController extends FimsAbstractUtilsController {
 
     @Autowired
-    PPOUtils(OAuthProviderService providerService, SettingsManager settingsManager) {
+    UtilsController(OAuthProviderService providerService, SettingsManager settingsManager) {
         super(providerService, settingsManager);
     }
 

@@ -1,6 +1,6 @@
 /* ====== General Utility Functions ======= */
 var appRoot = "/";
-var biocodeFimsRestRoot = "/rest/v1.1/";
+var biocodeFimsRestRoot = "/ppo/rest/v1.1/";
 
 $.ajaxSetup({
     beforeSend: function (jqxhr, config) {
@@ -213,7 +213,7 @@ function populateDivFromService(url, elementID, failMessage) {
 }
 
 function populateProjects() {
-    theUrl = biocodeFimsRestRoot + "projects/list?includePublic=true";
+    theUrl = biocodeFimsRestRoot + "projects?includePublic=true";
     var jqxhr = $.getJSON(theUrl, function (data) {
         var listItems = "";
         listItems += "<option value='0'>Select a project ...</option>";
@@ -1457,7 +1457,7 @@ function getExpeditionCodes() {
     });
 }
 
-// function to handle the results from the rest service /rest/validate
+// function to handle the results from the rest service /ppo/rest/validate
 function validationResults(data) {
     $("#resultsContainer").html("");
     var title = "Validation Results";
@@ -1484,7 +1484,7 @@ function validationResults(data) {
     }
 }
 
-// function to handle the results from the rest service /rest/validate/continue
+// function to handle the results from the rest service /ppo/rest/validate/continue
 function uploadResults(data) {
     var title = "Upload Results";
     if (data.done != null || data.error != null) {

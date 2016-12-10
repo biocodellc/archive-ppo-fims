@@ -21,16 +21,6 @@ angular.module('ppoApp')
                 templateUrl: "app/components/validation/validation.html",
                 controller: "ValidationCtrl as vm"
             })
-            .state('lookup', {
-                url: "/lookup?id",
-                templateUrl: "app/components/lookup/lookup.html",
-                controller: "LookupCtrl as vm"
-            })
-            .state('lookup.metadata', {
-                url: "/metadata/*ark",
-                templateUrl: "app/components/lookup/lookup.metadata.html",
-                controller: "LookupMetadataCtrl as vm"
-            })
             .state('resetPass', {
                 url: "/resetPass",
                 templateUrl: "app/components/users/resetPass.jsp",
@@ -50,12 +40,6 @@ angular.module('ppoApp')
                 templateUrl: "app/components/query/query.html",
                 controller: "QueryCtrl as queryVm",
             })
-            .state('creator', {
-                url: "/bcidCreator",
-                templateUrl: "app/components/creator/bcidCreator.jsp",
-                controller: "CreatorCtrl as vm",
-                loginRequired: true
-            })
             .state('profile', {
                 url: "/secure/profile?error",
                 templateUrl: "app/components/users/profile.html",
@@ -73,40 +57,10 @@ angular.module('ppoApp')
                 templateUrl: "app/components/expeditions/expeditions.html",
                 controller: "ExpeditionCtrl as vm",
                 loginRequired: true
-            })
-            .state('resourceTypes', {
-                url: "/resourceTypes",
-                templateUrl: "app/components/creator/resourceTypes.jsp",
-                controller: "ResourceTypesCtrl as vm"
             });
 
         $locationProvider.html5Mode(true);
 
         // For any unmatched url, redirect to /
-        // $urlRouterProvider.otherwise("/");
-
-        // redirect all legacy route
-        $urlRouterProvider
-            .when('/index.jsp', 'home')
-            .when('/login.jsp', 'login')
-            .when('/validation.jsp', 'validate')
-            .when('/lookup.jsp', ['$state', '$location', function ($state, $location) {
-                // forward query params
-                $state.go('lookup', $location.search());
-            }])
-            .when('/query.jsp', ['$state', '$location', function ($state, $location) {
-                $state.go('query', $location.search());
-            }])
-            .when('/reset.jsp', 'reset')
-            .when('/resetPass.jsp', ['$state', '$location', function ($state, $location) {
-                $state.go('template', $location.search());
-            }])
-            .when('/resourceTypes.jsp', 'resourceTypes')
-            .when('/templates.jsp', ['$state', '$location', function ($state, $location) {
-                $state.go('template', $location.search());
-            }])
-            .when('/secure/bcidCreator.jsp', 'creator')
-            .when('/secure/expeditions.jsp', 'expeditionManager')
-            .when('/secure/profile.jsp', 'profile')
-            .when('/secure/projects.jsp', 'projects')
+        $urlRouterProvider.otherwise("/");
     }]);

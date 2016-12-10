@@ -28,7 +28,7 @@ angular.element(document).ready(function() {
     var ppoSessionStorage = JSON.parse(window.sessionStorage.ppo);
     var accessToken = ppoSessionStorage.accessToken;
     if (!isTokenExpired() && accessToken) {
-        $.get('/rest/users/profile?access_token=' + accessToken, function (data) {
+        $.get('/ppo/rest/users/profile?access_token=' + accessToken, function (data) {
             currentUser = data;
             angular.bootstrap(document, ['ppoApp']);
         }).fail(function() {

@@ -13,7 +13,6 @@ javadocs/*
 tripleOutput/*
 .gradle
 jetty-env.xml
-src/main/java/biocode/fims/rest/test.java
 ppo-fims.ipr
 ppo-fims.iws
 out/
