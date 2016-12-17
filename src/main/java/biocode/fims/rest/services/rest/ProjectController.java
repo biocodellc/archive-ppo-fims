@@ -45,14 +45,12 @@ public class ProjectController extends FimsAbstractProjectsController {
     private static Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
     private final UserService userService;
-    private final Client esClient;
 
     @Autowired
     ProjectController(ExpeditionService expeditionService, SettingsManager settingsManager,
-                      ProjectService projectService, UserService userService, Client esClient) {
+                      ProjectService projectService, UserService userService) {
         super(expeditionService, settingsManager, projectService);
         this.userService = userService;
-        this.esClient = esClient;
     }
 
     @GET
