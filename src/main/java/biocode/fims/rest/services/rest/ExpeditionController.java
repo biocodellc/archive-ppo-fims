@@ -9,6 +9,7 @@ import biocode.fims.service.OAuthProviderService;
 import biocode.fims.settings.SettingsManager;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -21,13 +22,14 @@ import java.util.ArrayList;
 /**
  * REST services dealing with expeditions
  */
+@Controller
 @Path("expeditions")
 public class ExpeditionController extends FimsAbstractExpeditionController {
 
 
     @Autowired
-    public ExpeditionController(ExpeditionService expeditionService, OAuthProviderService providerService, SettingsManager settingsManager) {
-        super(expeditionService, providerService, settingsManager);
+    public ExpeditionController(ExpeditionService expeditionService, SettingsManager settingsManager) {
+        super(expeditionService, settingsManager);
     }
 
     @GET
@@ -81,7 +83,7 @@ public class ExpeditionController extends FimsAbstractExpeditionController {
     public Response listDatasetsAsTable(@PathParam("expeditionId") int expeditionId) {
         ExpeditionMinter expeditionMinter = new ExpeditionMinter();
 
-        if (!ignoreUser && !expeditionMinter.userOwnsExpedition(user.getUserId(), expeditionId)) {
+        if (!ignoreUser && !expeditionMinter.userOwnsExpedition(userContext.getUser().getUserId(), expeditionId)) {
             throw new ForbiddenRequestException("You must own this expedition in order to view its datasets.");
         }
 
@@ -124,7 +126,7 @@ public class ExpeditionController extends FimsAbstractExpeditionController {
     public Response listMetadataAsTable(@PathParam("expeditionId") int expeditionId) {
         ExpeditionMinter e = new ExpeditionMinter();
 
-        if (!ignoreUser && !e.userOwnsExpedition(user.getUserId(), expeditionId)) {
+        if (!ignoreUser && !e.userOwnsExpedition(userContext.getUser().getUserId(), expeditionId)) {
             throw new ForbiddenRequestException("You must own this expedition in order to view its datasets.");
         }
 

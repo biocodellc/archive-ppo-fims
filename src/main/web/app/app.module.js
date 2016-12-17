@@ -8,8 +8,6 @@ var app = angular.module('ppoApp', [
     'fims.validation',
     'fims.projects',
     'fims.users',
-    'fims.lookup',
-    'fims.creator',
     'utils.autofocus'
 ]);
 

@@ -39,8 +39,8 @@ public class QueryController extends FimsService {
     private int projectId;
 
     @Autowired
-    QueryController(OAuthProviderService providerService, SettingsManager settingsManager) {
-        super(providerService, settingsManager);
+    QueryController(SettingsManager settingsManager) {
+        super(settingsManager);
     }
 
     /**
@@ -72,32 +72,6 @@ public class QueryController extends FimsService {
         }
     }
 
-//    /**
-//     * Return JSON for a graph query.
-//     *
-//     * @param graphs indicate a comma-separated list of graphs, or all
-//     * @return
-//     */
-//    @GET
-//    @Path("/json/")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response queryJson(
-//            @QueryParam("graphs") String graphs,
-//            @QueryParam("project_id") Integer project_id,
-//            @QueryParam("filter") String filter) {
-//
-//        FimsQueryBuilder q = GETQueryResult(graphs, project_id, filter);
-//
-//        String response = q.getJSON().toJSONString();
-//
-//        // Return response
-//        if (response == null) {
-//            return Response.status(204).build();
-//        } else {
-//            return Response.ok(response).build();
-//        }
-//    }
-
     /**
      * Return JSON for a graph query.
      *
@@ -108,21 +82,20 @@ public class QueryController extends FimsService {
     @Path("/json/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response queryJson(
-            @QueryParam("expeditions") List<String> expeditions,
-            @QueryParam("projectId") Integer projectId,
+            @QueryParam("graphs") String graphs,
+            @QueryParam("project_id") Integer project_id,
             @QueryParam("filter") String filter) {
 
-//        FimsQueryBuilder q = GETQueryResult(graphs, project_id, filter);
+        FimsQueryBuilder q = GETQueryResult(graphs, project_id, filter);
 
-//        String response = q.getJSON().toJSONString();
+        String response = q.getJSON().toJSONString();
 
         // Return response
-//        if (response == null) {
-//            return Response.status(204).build();
-//        } else {
-//            return Response.ok(response).build();
-//        }
-        return Response.ok().build();
+        if (response == null) {
+            return Response.status(204).build();
+        } else {
+            return Response.ok(response).build();
+        }
     }
 
     /**
@@ -478,8 +451,8 @@ public class QueryController extends FimsService {
     private String[] getAllGraphs(Integer projectId) {
         List<String> graphsList = new ArrayList<String>();
         String username = null;
-        if (user != null) {
-            username = user.getUsername();
+        if (userContext.getUser() != null) {
+            username = userContext.getUser().getUsername();
         }
 
         ProjectMinter project= new ProjectMinter();
