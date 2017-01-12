@@ -298,51 +298,6 @@ function getProjectID() {
     return e.options[e.selectedIndex].value;
 }
 
-/* ====== reset.jsp Functions ======= */
-
-function resetSubmit() {
-    var jqxhr = $.get(biocodeFimsRestRoot + "users/" + $("#username").val() + "/sendResetToken")
-        .done(function (data) {
-            if (data.success) {
-                var buttons = {
-                    "Ok": function () {
-                        window.location.replace(appRoot);
-                        $(this).dialog("close");
-                    }
-                }
-                dialog(data.success, "Password Reset Sent", buttons);
-                return;
-            } else {
-                failError(null);
-            }
-        }).fail(function (jqxhr) {
-            failError(jqxhr);
-        });
-}
-
-/* ====== resetPass.jsp Functions ======= */
-
-// function to submit the reset password form
-function resetPassSubmit() {
-    var jqxhr = $.post(biocodeFimsRestRoot + "users/resetPassword/", $("#resetForm").serialize())
-        .done(function (data) {
-            if (data.success) {
-                var buttons = {
-                    "Ok": function () {
-                        window.location.replace(appRoot);
-                        $(this).dialog("close");
-                    }
-                }
-                dialog(data.success, "Password Reset", buttons);
-                return;
-            } else {
-                failError(null);
-            }
-        }).fail(function (jqxhr) {
-            failError(jqxhr);
-        });
-}
-
 /* ====== bcidCreator.jsp Functions ======= */
 
 // Populate the SELECT box with resourceTypes from the server

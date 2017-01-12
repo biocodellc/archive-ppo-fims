@@ -23,12 +23,8 @@ angular.module('ppoApp')
             })
             .state('resetPass', {
                 url: "/resetPass",
-                templateUrl: "app/components/users/resetPass.jsp",
+                templateUrl: "app/components/users/resetPass.html",
                 controller: "ResetPassCtrl as vm"
-            })
-            .state('reset', {
-                url: "/reset",
-                templateUrl: "app/components/users/reset.html",
             })
             .state('template', {
                 url: "/template?projectId",

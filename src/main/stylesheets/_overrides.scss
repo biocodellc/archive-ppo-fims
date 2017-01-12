@@ -1,6 +1,7 @@
 // import any components here
 @import "components/header";
 @import "components/login";
+@import "components/resetPass";
 
 
 /**
@@ -10,6 +11,9 @@
   display: none !important;
 }
 
+.alert-link {
+  cursor: pointer;
+}
 //body {
 //  margin: 0;
 //  padding: 10px;
@@ -315,17 +319,6 @@
 //  font-size: 1.4em;
 //}
 //
-//.pw-weak .label {
-//  color: #d73027;
-//}
-//
-//.pw-good .label {
-//  color: #25D500;
-//}
-//
-//.pw-strong .label {
-//  color: #188B00;
-//}
 //
 //.navbar-default {
 //  color: #333;

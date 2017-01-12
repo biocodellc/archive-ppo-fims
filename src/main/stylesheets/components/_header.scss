@@ -7,9 +7,11 @@
 }
 
 .navbar-brand {
-  padding-top: ($navbar-padding-vertical / 2.5);
-  font-size: ($font-size-base * 2.75);
+  padding-top: ($navbar-padding-vertical / 2);
+  font-size: ($font-size-base * 3);
   font-weight: 400;
+  text-transform: capitalize;
+  font-family: "baskerville", $font-family-sans-serif;
 }
 
 .navbar-nav {

@@ -8,7 +8,9 @@ var app = angular.module('ppoApp', [
     'fims.validation',
     'fims.projects',
     'fims.users',
-    'utils.autofocus'
+    'utils.autofocus',
+    'ui.bootstrap.showErrors',
+    'angularSpinner'
 ]);
 
 var currentUser = {};

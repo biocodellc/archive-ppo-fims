@@ -1,0 +1,25 @@
+.pw-label {
+  font-size: 100%;
+  display: block;
+}
+
+.pw-weak {
+  .label {
+    @extend .pw-label;
+    color: $state-danger-text;
+  }
+}
+
+.pw-good {
+  .label {
+    @extend .pw-label;
+    color: $brand-success;
+  }
+}
+
+.pw-strong {
+  .label {
+    @extend .pw-label;
+    color: $brand-success;
+  }
+}
