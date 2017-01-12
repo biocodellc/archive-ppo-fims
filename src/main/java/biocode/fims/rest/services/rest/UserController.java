@@ -24,13 +24,13 @@ import javax.ws.rs.core.Response;
  */
 @Controller
 @Path("users")
-public class UserController extends FimsService {
+public class UserController extends FimsAbstractUserController {
 
     private final UserService userService;
 
     @Autowired
     UserController(UserService userService, SettingsManager settingsManager) {
-        super(settingsManager);
+        super(userService, settingsManager);
         this.userService = userService;
     }
 
