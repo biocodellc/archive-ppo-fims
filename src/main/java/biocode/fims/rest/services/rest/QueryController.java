@@ -165,43 +165,6 @@ public class QueryController extends FimsService {
     }
 
     /**
-     * Return KML for a graph query using POST
-     * filter is just a single value to filter the entire dataset
-     *
-     * @param graphs indicate a comma-separated list of graphs, or all
-     * @return
-     */
-    @GET
-    @Path("/cspace/")
-    @Produces(MediaType.APPLICATION_XML)
-    public Response queryCspace(
-            @QueryParam("graphs") String graphs,
-            @QueryParam("project_id") Integer project_id,
-            @QueryParam("filter") String filter) {
-
-        // Construct a file
-        FimsQueryBuilder q = GETQueryResult(graphs, project_id, filter);
-
-        Mapping mapping = getMapping(projectId);
-        Validation validation = new Validation();
-        validation.addValidationRules(configFile, mapping);
-
-        // Return file to client
-        Response.ResponseBuilder response = Response.ok(q.writeCSPACE(validation));
-
-        // response.header("Content-Disposition",
-        //       "attachment; filename=biocode-fims-output.xml");
-
-        // Return response
-        if (response == null) {
-            return Response.status(204).build();
-        } else {
-            return response.build();
-        }
-
-    }
-
-    /**
      * Return Tab delimited data for a graph query using POST
      * * <p/>
      * filter parameters are of the form:

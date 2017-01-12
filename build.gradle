@@ -9,6 +9,7 @@ buildscript {
     dependencies {
         classpath "org.ajoberstar:gradle-git:1.4.2"
         classpath "com.github.marceloemanoel:gradle-environments-plugin:0.1"
+        classpath "gradle.plugin.org.kravemir.gradle.sass:GradleSassPlugin:1.2.2"
     }
 }
 
@@ -27,6 +28,7 @@ apply plugin: "war"
 apply plugin: "idea"
 apply plugin: "environments"
 apply plugin: "com.eriwen.gradle.js"
+apply plugin: 'org.kravemir.gradle.sass'
 
 targetCompatibility = 1.8
 sourceCompatibility = 1.8
@@ -118,6 +120,16 @@ javascript.source {
             srcDir "src/main/web/app"
             include "**/module.js"
         }
+    }
+}
+
+sass{
+    main {
+        srcDir = file("$projectDir/main/stylesheets")
+        outDir = file("$buildDir/generated/resources")
+
+        outSubDir = "css"
+        registerInSourceSets ( 'main' )
     }
 }
 
