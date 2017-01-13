@@ -29,7 +29,7 @@ angular.module('ppoApp')
             .state('template', {
                 url: "/template?projectId",
                 templateUrl: "app/components/templates/templates.html",
-                controller: "TemplateCtrl as vm"
+                controller: "TemplateCtrl as templateVm"
             })
             .state('query', {
                 url: "/query",

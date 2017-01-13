@@ -279,7 +279,7 @@ function dialog(msg, title, buttons) {
 // A short message
 function showMessage(message) {
     $('#alerts').append(
-        '<div class="fims-alert">' +
+        '<div class="fims-alert alert-dismissable">' +
         '<button type="button" class="close" data-dismiss="alert">' +
         '&times;</button>' + message + '</div>');
 }
@@ -784,30 +784,6 @@ function projectToggle(id) {
 }
 
 /* ====== templates.html Functions ======= */
-function hideTemplateInfo() {
-    if (!$('#abstract').is(':hidden')) {
-        $('#abstract').hide(400);
-    }
-    if (!$('#definition').is(':hidden')) {
-        $('#definition').hide(400);
-    }
-    if (!$('#cat1').is(':hidden')) {
-        $('#cat1').hide(400);
-    }
-}
-
-function showTemplateInfo() {
-    if ($('#abstract').is(':hidden')) {
-        $('#abstract').show(400);
-    }
-    if ($('#definition').is(':hidden')) {
-        $('#definition').show(400);
-    }
-    if ($('#cat1').is(':hidden')) {
-        $('#cat1').show(400);
-    }
-}
-
 function populate_bottom() {
     var selected = new Array();
     var listElement = document.createElement("ul");
@@ -850,7 +826,6 @@ function populateDefinitions(column) {
         .done(function (data) {
             $("#definition").html(data);
         }).fail(function (jqXHR, textStatus) {
-            hideTemplateInfo();
             failError(jqXHR);
         });
 }
@@ -872,7 +847,6 @@ function populateColumns(targetDivId) {
             if (textStatus == "timeout") {
                 showMessage("Timed out waiting for response!");
             } else {
-                hideTemplateInfo();
                 failError(jqXHR);
             }
         });
@@ -907,103 +881,7 @@ function populateAbstract(targetDivId) {
     });
 }
 
-var savedConfig;
-function saveTemplateConfig() {
-    var message = "<table><tr><td>Configuration Name:</td><td><input type='text' name='configName' /></td></tr></table>";
-    var title = "Save Template Generator Configuration";
-    var buttons = {
-        "Save": function () {
-            var checked = [];
-            var configName = $("input[name='configName']").val();
-
-            if (configName.toUpperCase() == "Default".toUpperCase()) {
-                $("#dialogContainer").addClass("error");
-                dialog("Talk to the project admin to change the default configuration.<br><br>" + message, title, buttons);
-                return;
-            }
-
-            $("#cat1 input[type='checkbox']:checked").each(function () {
-                checked.push($(this).data().uri);
-            });
-
-            savedConfig = configName;
-            $.post(biocodeFimsRestRoot + "projects/" + $("#projects").val() + "/saveTemplateConfig", $.param(
-                {
-                    "configName": configName,
-                    "checkedOptions": checked,
-                    "projectId": $("#projects").val()
-                }, true)
-            ).done(function (data) {
-                if (data.error != null) {
-                    $("#dialogContainer").addClass("error");
-                    var m = data.error + "<br><br>" + message;
-                    dialog(m, title, buttons);
-                } else {
-                    $("#dialogContainer").removeClass("error");
-                    populateConfigs();
-                    var b = {
-                        "Ok": function () {
-                            $(this).dialog("close");
-                        }
-                    }
-                    dialog(data.success + "<br><br>", "Success!", b);
-                }
-            }).fail(function (jqXHR) {
-                failError(jqXHR);
-            });
-        },
-        "Cancel": function () {
-            $("#dialogContainer").removeClass("error");
-            $(this).dialog("close");
-        }
-    }
-
-    dialog(message, title, buttons);
-}
-
-function populateConfigs() {
-    var projectId = $("#projects").val();
-    if (projectId == 0) {
-        $("#configs").html("<option value=0>Select a Project</option>");
-    } else {
-        var el = $("#configs");
-        el.empty();
-        el.append($("<option></option>").attr("value", 0).text("Loading configs..."));
-        var jqxhr = $.getJSON(biocodeFimsRestRoot + "projects/" + projectId + "/getTemplateConfigs").done(function (data) {
-            var listItems = "";
-
-            el.empty();
-            data.forEach(function (configName) {
-                el.append($("<option></option>").attr("value", configName).text(configName));
-            });
-
-            if (savedConfig != null) {
-                $("#configs").val(savedConfig);
-            }
-
-            // if there are more then the default config, show the remove link
-            if (data.length > 1) {
-                if ($('.toggle-content#remove_config_toggle').is(':hidden')) {
-                    $('.toggle-content#remove_config_toggle').show(400);
-                }
-            } else {
-                if (!$('.toggle-content#remove_config_toggle').is(':hidden')) {
-                    $('.toggle-content#remove_config_toggle').hide();
-                }
-            }
-
-        }).fail(function (jqXHR, textStatus) {
-            if (textStatus == "timeout") {
-                showMessage("Timed out waiting for response! Try again later or reduce the number of graphs you are querying. If the problem persists, contact the System Administrator.");
-            } else {
-                showMessage("Error fetching template configurations!");
-            }
-        });
-    }
-}
-
-function updateCheckedBoxes() {
-    var configName = $("#configs").val();
+function updateCheckedBoxes(configName) {
     if (configName == "Default") {
         populateColumns("#cat1");
     } else {
@@ -1028,51 +906,6 @@ function updateCheckedBoxes() {
             }
         });
     }
-}
-
-function removeConfig() {
-    var configName = $("#configs").val();
-    if (configName == "Default") {
-        var buttons = {
-            "Ok": function () {
-                $(this).dialog("close");
-            }
-        }
-        dialog("You can not remove the Default configuration", title, buttons);
-        return;
-    }
-
-    var message = "Are you sure you want to remove " + configName + " configuration?";
-    var title = "Warning";
-    var buttons = {
-        "OK": function () {
-            var buttons = {
-                "Ok": function () {
-                    $(this).dialog("close");
-                }
-            }
-            var title = "Remove Template Generator Configuration";
-
-            $.getJSON(biocodeFimsRestRoot + "projects/" + $("#projects").val() + "/removeTemplateConfig/" + configName.replace("/\//g", "%2F")).done(function (data) {
-                if (data.error != null) {
-                    showMessage(data.error);
-                    return;
-                }
-
-                savedConfig = null;
-                populateConfigs();
-                dialog(data.success, title, buttons);
-            }).fail(function (jqXHR) {
-                failError(jqXHR);
-            });
-        },
-        "Cancel": function () {
-            $("#dialogContainer").removeClass("error");
-            $(this).dialog("close");
-        }
-    }
-
-    dialog(message, title, buttons);
 }
 
 /* ====== validation.html Functions ======= */

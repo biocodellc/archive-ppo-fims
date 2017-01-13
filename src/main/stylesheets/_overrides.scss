@@ -14,6 +14,13 @@
 .alert-link {
   cursor: pointer;
 }
+
+a {
+  &.disabled {
+    @extend .btn.disabled;
+    @extend a.btn.disabled;
+  }
+}
 //body {
 //  margin: 0;
 //  padding: 10px;

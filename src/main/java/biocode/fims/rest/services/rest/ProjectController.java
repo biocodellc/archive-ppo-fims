@@ -360,16 +360,16 @@ public class ProjectController extends FimsAbstractProjectsController {
         StringBuilder output = new StringBuilder();
         output.append("<a href='#' id='select_all'>Select ALL</a> | ");
         output.append("<a href='#' id='select_none'>Select NONE</a> | ");
-        output.append("<a href='#' onclick='saveTemplateConfig()'>Save</a>");
+        output.append("<a href='#' id='save_template'>Save</a>");
         output.append("<script>" +
                 "$('#select_all').click(function(event) {\n" +
                 "      // Iterate each checkbox\n" +
-                "      $(':checkbox').each(function() {\n" +
+                "      $('#cat1 :checkbox').each(function() {\n" +
                 "          this.checked = true;\n" +
                 "      });\n" +
                 "  });\n" +
                 "$('#select_none').click(function(event) {\n" +
-                "    $(':checkbox').each(function() {\n" +
+                "    $('#cat1 :checkbox').each(function() {\n" +
                 "       if (!$(this).is(':disabled')) {\n" +
                 "          this.checked = false;}\n" +
                 "      });\n" +

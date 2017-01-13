@@ -28,7 +28,7 @@ angular.element(document).ready(function() {
     var ppoSessionStorage = JSON.parse(window.sessionStorage.ppo);
     var accessToken = ppoSessionStorage.accessToken;
     if (!isTokenExpired() && accessToken) {
-        $.get('/ppo/rest/users/profile?access_token=' + accessToken, function (data) {
+        $.get('/rest/users/profile?access_token=' + accessToken, function (data) {
             currentUser = data;
             angular.bootstrap(document, ['ppoApp']);
         }).fail(function() {
@@ -99,7 +99,7 @@ app.factory('postInterceptor', ['$injector', '$httpParamSerializerJQLike',
                 if (config.method == "POST") {
                     config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
                     if (config.data instanceof Object)
-                        config.data = $httpParamSerializerJQLike(config.data);
+                        config.data = config.paramSerializer(config.data);
                 }
                 return config;
             }

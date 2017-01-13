@@ -1,0 +1,34 @@
+<div class="modal-header">
+    <h3 class="modal-title">Remove Template Generator Configuration</h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" name="vm.configForm" ng-show="vm.new">
+        <div class="form-group" show-errors>
+            <label class="control-label col-xs-4">Configuration Name</label>
+            <div class="col-xs-8">
+                <input class="form-control" type="text" name="config" ng-model="vm.config"/>
+                <p class="help-block" style="padding-left:0px;"
+                   ng-show="vm.configForm.config.$error.default">
+                    Talk to the project admin to change the default configuration.
+                </p>
+            </div>
+        </div>
+    </form>
+    <div ng-show="!vm.new">
+        <p ng-show="vm.config.toUpperCase() == 'Default'.toUpperCase()">
+            You can not remove the Default configuration
+        </p>
+        <p ng-show="vm.config.toUpperCase() != 'Default'.toUpperCase()">
+            Are you sure you want to remove the {{vm.config}} configuration?
+        </p>
+    </div>
+</div>
+<div class="modal-footer">
+    <button ng-show="!vm.new && vm.config.toUpperCase() != 'Default'.toUpperCase()" class="btn btn-danger" type="button"
+            ng-click="vm.remove()">Remove
+    </button>
+    <button ng-show="vm.new" class="btn btn-primary" type="button"
+            ng-click="vm.save()">Save
+    </button>
+    <button class="btn btn-default" type="button" ng-click="vm.close(vm.config)">Cancel</button>
+</div>
