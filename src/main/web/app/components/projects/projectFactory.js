@@ -4,7 +4,9 @@ angular.module('fims.projects')
         function ($http, UserFactory, REST_ROOT) {
             var projectFactory = {
                 getProjects: getProjects,
-                getProjectsForUser: getProjectsForUser
+                getProjectsForUser: getProjectsForUser,
+                getProjectsForAdmin: getProjectsForAdmin,
+                updateProject: updateProject
             };
 
             return projectFactory;
@@ -15,5 +17,18 @@ angular.module('fims.projects')
 
             function getProjectsForUser() {
                 return $http.get(REST_ROOT + 'users/' + UserFactory.user.userId + '/projects');
+            }
+
+            function getProjectsForAdmin() {
+                return $http.get(REST_ROOT + 'users/' + UserFactory.user.userId + '/admin/projects');
+            }
+
+            function updateProject(project) {
+                return $http({
+                    method: 'POST',
+                    url: REST_ROOT + 'projects/' + project.projectId,
+                    data: project,
+                    keepJson: true
+                });
             }
         }]);

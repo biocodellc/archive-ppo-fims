@@ -96,7 +96,7 @@ app.factory('postInterceptor', ['$injector', '$httpParamSerializerJQLike',
     function ($injector, $httpParamSerializerJQLike) {
         return {
             request: function (config) {
-                if (config.method == "POST") {
+                if (config.method == "POST" && !config.keepJson) {
                     config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
                     if (config.data instanceof Object)
                         config.data = config.paramSerializer(config.data);

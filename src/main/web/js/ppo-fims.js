@@ -1,6 +1,6 @@
 /* ====== General Utility Functions ======= */
 var appRoot = "/";
-var biocodeFimsRestRoot = "/rest/v1.1/";
+var biocodeFimsRestRoot = "/rest/v1/";
 
 $.ajaxSetup({
     beforeSend: function (jqxhr, config) {

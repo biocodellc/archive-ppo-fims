@@ -1,0 +1,6 @@
+.alert {
+  &-small {
+    padding-top: ceil($alert-padding * .3);
+    padding-bottom: ceil($alert-padding * .3);
+  }
+}
