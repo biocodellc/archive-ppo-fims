@@ -8,9 +8,7 @@ angular.module('fims.validation', ['fims.users'])
         $rootScope.$on('projectSelectLoadedEvent', function(event){
             fimsBrowserCheck($('#warning'));
 
-            if (vm.isAuthenticated)
-                getExpeditionCodes();
-            
+
             validationFormToggle();
 
             // call validatorSubmit if the enter key was pressed in an input

@@ -611,7 +611,6 @@ function populateAbstract(targetDivId) {
         if (textStatus == "timeout") {
             showMessage("Timed out waiting for response!");
         } else {
-            hideTemplateInfo();
             failError(jqXHR);
         }
     });

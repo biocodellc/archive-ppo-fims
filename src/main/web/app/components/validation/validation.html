@@ -1,3 +1,6 @@
+<style>
+    tr.toggle-content { display: none; }
+</style>
 <div id="validation" class="section">
     <div id="warning"></div>
 
@@ -14,7 +17,12 @@
                             <td><input type="file" class="btn btn-default btn-xs" name="dataset" id="dataset" /></td>
                         </tr>
 
-                        <tr class="toggle-content" id="projects_toggle" project-select></tr>
+                        <tr class="toggle-content" id="projects_toggle">
+                            <td align="right">&nbsp;&nbsp;Choose Project&nbsp;&nbsp;</td>
+                            <td>
+                        <project-select public-btn-classes="pull-right" project-id="templateVm.projectId"></project-select>
+                        </td>
+                        </tr>
 
                         <tr>
                             <td align="right">Upload&nbsp;&nbsp;</td>
