@@ -38,8 +38,8 @@ angular.module('fims.projects')
 
         }])
 
-    .controller('ProjectManagerProjectCtrl', ['$scope', 'UserFactory', 'ProjectFactory', 'ExpeditionFactory',
-        function ($scope, UserFactory, ProjectFactory, ExpeditionFactory) {
+    .controller('ProjectManagerProjectCtrl', ['$scope', '$uibModal', 'UserFactory', 'ProjectFactory', 'ExpeditionFactory',
+        function ($scope, $uibModal, UserFactory, ProjectFactory, ExpeditionFactory) {
             var originalExpeditions = [];
             var vm = this;
             vm.editMetadata = false;
@@ -53,13 +53,97 @@ angular.module('fims.projects')
             vm.project = null;
             vm.expeditions = [];
             vm.modifiedExpeditions = [];
+            vm.members = [];
             vm.updateProject = updateProject;
             vm.setProject = setProject;
+            vm.updateExpeditions = updateExpeditions;
             vm.updateModifiedExpeditions = updateModifiedExpeditions;
+            vm.removeMember = removeMember;
+            vm.addMember = addMember;
+            vm.editMember = editMember;
+
+            function editMember(username) {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'app/components/projects/editMemberModal.tpl.html',
+                    size: 'md',
+                    controller: 'EditMemberModalCtrl',
+                    controllerAs: 'vm',
+                    windowClass: 'app-modal-window',
+                    backdrop: 'static',
+                    resolve: {
+                        username: function () {
+                            return username;
+                        }
+                    }
+                });
+            }
+
+            function addMember() {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'app/components/projects/addProjectMemberModal.tpl.html',
+                    size: 'md',
+                    controller: 'AddProjectMemberModalCtrl',
+                    controllerAs: 'vm',
+                    windowClass: 'app-modal-window',
+                    backdrop: 'static',
+                    resolve: {
+                        projectId: function () {
+                            return vm.project.projectId;
+                        }
+                    }
+                });
+
+                modalInstance.result
+                    .then(
+                        function () {
+                            getMembers();
+                        }, function (error) {
+                            vm.messages.error.members = error;
+                        }
+                    );
+            }
+
+            function removeMember(username) {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'app/components/projects/removeMemberConformationModal.tpl.html',
+                    size: 'md',
+                    controller: 'RemoveMemberConformationModalCtrl',
+                    controllerAs: 'vm',
+                    windowClass: 'app-modal-window',
+                    backdrop: 'static',
+                    resolve: {
+                        username: function () {
+                            return username;
+                        }
+                    }
+                });
+
+                modalInstance.result
+                    .then(
+                        function () {
+                            _removeUser(username);
+                        }, function () {
+                            // if here, the user canceled
+                        }
+                    )
+            }
+
+            function _removeUser(username) {
+                ProjectFactory.removeMember(vm.project.projectId, username)
+                    .then(
+                        function (response) {
+                            vm.messages.success.members = "Successfully removed member";
+                            getMembers();
+                        }, function (response) {
+                            vm.messages.error.members = response.data.error || response.data.usrMessage || "Server Error!";
+                        }
+                    )
+            }
 
             function setProject(project) {
                 vm.project = project;
                 getExpeditions();
+                getMembers();
             }
 
             function updateExpeditions() {
@@ -98,6 +182,17 @@ angular.module('fims.projects')
                             angular.copy(vm.expeditions, originalExpeditions);
                         }, function (response) {
                             vm.messages.error.expeditions = response.data.error || response.data.usrMessage || "Server Error!";
+                        }
+                    )
+            }
+
+            function getMembers() {
+                ProjectFactory.getMembers(vm.project.projectId)
+                    .then(
+                        function (response) {
+                            vm.members = response.data;
+                        }, function (response) {
+                            vm.messages.error.members = response.data.error || response.data.usrMessage || "Server Error!";
                         }
                     )
             }

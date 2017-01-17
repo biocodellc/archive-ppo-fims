@@ -5,7 +5,10 @@ angular.module('fims.projects')
             var projectFactory = {
                 getProjects: getProjects,
                 getProjectsForAdmin: getProjectsForAdmin,
-                updateProject: updateProject
+                updateProject: updateProject,
+                getMembers: getMembers,
+                removeMember: removeMember,
+                addMember: addMember
             };
 
             return projectFactory;
@@ -25,5 +28,17 @@ angular.module('fims.projects')
                     data: project,
                     keepJson: true
                 });
+            }
+
+            function getMembers(projectId) {
+                return $http.get(REST_ROOT + 'projects/' + projectId + '/members');
+            }
+
+            function removeMember(projectId, username) {
+                return $http.delete(REST_ROOT + 'projects/' + projectId + '/members/' + username);
+            }
+
+            function addMember(projectId, username) {
+                return $http.put(REST_ROOT + 'projects/' + projectId + '/members/' + username);
             }
         }]);

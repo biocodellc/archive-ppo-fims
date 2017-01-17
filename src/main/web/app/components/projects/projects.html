@@ -100,7 +100,7 @@
                                     </thead>
 
                                     <tbody>
-                                        <tr ng-repeat="expedition in pmProjectVm.expeditions | orderBy:'expedition.user.username'">
+                                        <tr ng-repeat="expedition in pmProjectVm.expeditions | orderBy:'expedition.user.username' track by expedition.expeditionId">
                                             <td>{{expedition.user.username}}</td>
                                             <td>{{expedition.expeditionTitle}}</td>
                                             <td>
@@ -150,74 +150,57 @@
                         </uib-accordion-group>
                     </uib-accordion>
 
+                    <!-- Project Members-->
+                    <uib-accordion template-url="app/partials/sub-accordion.tpl.html">
+                        <uib-accordion-group template-url="app/partials/sub-accordion-group.tpl.html"
+                                             heading="Project Members">
+                            <form class="form-horizontal">
+                                <div class="form-group col-xs-12"
+                                     ng-repeat="member in pmProjectVm.members | orderBy: 'member.username' track by member.userId">
+                                    <label class="col-xs-2 control-label">{{ member.username }}</label>
+                                    <div class="col-xs-2">
+                                        <button type="button" class="btn btn-default btn-xs col-xs-6"
+                                            ng-click="pmProjectVm.editMember(member.username)">Edit
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-xs col-xs-6"
+                                                ng-click="pmProjectVm.removeMember(member.username)">Remove
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-2 col-xs-offset-2">
+                                        <button type="button" class="btn btn-block btn-primary btn-sm"
+                                                ng-click="pmProjectVm.addMember()">Add Member
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="alert alert-error alert-dismissable alert-small"
+                                     role="alert" ng-show="pmProjectVm.messages.error.members">
+                                    <button type="button" class="close" aria-label="Close"
+                                            ng-click="pmProjectVm.messages.error.members = null">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </button>
+                                    <strong>Error!</strong> {{ pmProjectVm.messages.error.members }}
+                                </div>
+
+                                <div class="alert alert-success alert-dismissable alert-small"
+                                     role="alert" ng-show="pmProjectVm.messages.success.members">
+                                    <button type="button" class="close" aria-label="Close"
+                                            ng-click="pmProjectVm.messages.success.members= null">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </button>
+                                    {{ pmProjectVm.messages.success.members }}
+                                </div>
+
+                            </form>
+                        </uib-accordion-group>
+                    </uib-accordion>
+
                 </uib-accordion-group>
             </div>
         </uib-accordion>
     </div>
 
 </div>
-
-<!--<div class="section">-->
-<!--<div class="sectioncontent">-->
-<!--<uib-accordion close-others="false">-->
-<!--<div uib-accordion-group class="panel-default" heading="Project Metadata">-->
-<!--<table class="table">-->
-<!--<tr>-->
-<!--<td>Title:</td>-->
-<!--<td>{{vm.project.projectTitle}}</td>-->
-<!--</tr>-->
-<!--<tr>-->
-<!--<td>Configuration File:</td>-->
-<!--<td>{{vm.project.validationXml}}</td>-->
-<!--</tr>-->
-<!--<tr>-->
-<!--<td>Public Project:</td>-->
-<!--<td>{{vm.project.public}}</td>-->
-<!--</tr>-->
-<!--</table>-->
-<!--</div>-->
-
-<!--<div uib-accordion-group class="panel-default" heading="Project Expeditions">-->
-<!--<form ng-submit="vm.updateExpeditions()">-->
-<!--<table class="table">-->
-<!--<tr>-->
-<!--<th>Username</th>-->
-<!--<th>Expedition Title</th>-->
-<!--<th>Public</th>-->
-<!--</tr>-->
-
-<!--<tr ng-repeat="expedition in vm.expeditions | orderBy='user.username'">-->
-<!--<td>{{expedition.user.username}}</td>-->
-<!--<td>{{expedition.expedition.expeditionTitle}}</td>-->
-<!--<td><input type="checkbox" ng-model="expedition.expedition.public"/></td>-->
-<!--</tr>-->
-
-<!--<button type="submit" class="btn btn-default">Update</button>-->
-<!--</table>-->
-<!--</form>-->
-<!--</div>-->
-
-<!--<div uib-accordion-group class="panel-default" heading="Project Users">-->
-<!--<div id="users"></div>-->
-<!--&lt;!&ndash;<form ng-submit="vm.addUser()">&ndash;&gt;-->
-<!--&lt;!&ndash;<table class="table">&ndash;&gt;-->
-<!--&lt;!&ndash;<tr ng-repeat="user in vm.projectUsers">&ndash;&gt;-->
-<!--&lt;!&ndash;<td>{{user.username}}</td>&ndash;&gt;-->
-<!--&lt;!&ndash;<td>&ndash;&gt;-->
-<!--&lt;!&ndash;<button class="btn btn-default" ng-click="vm.editUser(user.userId)">Edit</button>&ndash;&gt;-->
-<!--&lt;!&ndash;<button class="glyphicon glyphicon-remove btn btn-danger" ng-click="vm.removeUser(user.userId)"></button>&ndash;&gt;-->
-<!--&lt;!&ndash;</td>&ndash;&gt;-->
-<!--&lt;!&ndash;</tr>&ndash;&gt;-->
-
-<!--&lt;!&ndash;<tr>&ndash;&gt;-->
-<!--&lt;!&ndash;<td>Add User:</td>&ndash;&gt;-->
-<!--&lt;!&ndash;<td><select class="form-control" ng-model="vm.userToAdd" ng-options="userId as username for user in vm.systemUsers"></select></td>&ndash;&gt;-->
-<!--&lt;!&ndash;</tr>&ndash;&gt;-->
-<!--&lt;!&ndash;<button type="submit" class="btn btn-default">Add User</button>&ndash;&gt;-->
-<!--&lt;!&ndash;</table>&ndash;&gt;-->
-<!--&lt;!&ndash;</form>&ndash;&gt;-->
-<!--</div>-->
-<!--</uib-accordion>-->
-
-<!--</div>-->
-<!--</div>-->
