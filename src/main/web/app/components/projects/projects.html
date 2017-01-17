@@ -5,10 +5,11 @@
         <uib-accordion close-others="false" template-url="app/partials/accordion.tpl.html">
             <div ng-controller="ProjectManagerProjectCtrl as pmProjectVm"
                  ng-repeat="project in vm.projects track by project.projectId"
-                 ng-init="isOpen=vm.projects.length == 1;pmProjectVm.project = project;">
+                 ng-init="isOpen=vm.projects.length == 1;pmProjectVm.setProject(project);">
                 <uib-accordion-group template-url="app/partials/accordion-group.tpl.html"
                                      is-open="isOpen"
                                      class="" heading="{{project.projectTitle}}">
+
                     <!-- Project Configuration -->
                     <uib-accordion template-url="app/partials/sub-accordion.tpl.html">
                         <uib-accordion-group template-url="app/partials/sub-accordion-group.tpl.html"
@@ -45,19 +46,22 @@
                                 </div>
 
                                 <div class="col-xs-10 col-xs-offset-2 alert alert-error alert-dismissable alert-small"
-                                     role="alert" ng-show="pmProjectVm.metadataError">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                     role="alert" ng-show="pmProjectVm.messages.error.metadata">
+                                    <button type="button" class="close" aria-label="Close"
+                                            ng-click="pmProjectVm.messages.error.metadata = null">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                     </button>
-                                    <strong>Error!</strong> {{ pmProjectVm.metadataError }}
+                                    <strong>Error!</strong> {{ pmProjectVm.messages.error.metadata }}
                                 </div>
 
-                                <div class="col-xs-10 col-xs-offset-2 alert alert-success alert-dismissable alert-small" role="alert"
-                                     ng-show="pmProjectVm.metadataSuccess">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <div class="col-xs-10 col-xs-offset-2 alert alert-success alert-dismissable alert-small"
+                                     role="alert"
+                                     ng-show="pmProjectVm.messages.success.metadata">
+                                    <button type="button" class="close" aria-label="Close"
+                                            ng-click="pmProjectVm.messages.success.metadata = null">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                     </button>
-                                    {{ pmProjectVm.metadataSuccess }}
+                                    {{ pmProjectVm.messages.success.metadata }}
                                 </div>
 
 
@@ -85,20 +89,64 @@
                     <uib-accordion template-url="app/partials/sub-accordion.tpl.html">
                         <uib-accordion-group template-url="app/partials/sub-accordion-group.tpl.html"
                                              heading="Project Expeditions">
-                            <table class="table">
-                                <tr>
-                                    <td>Title:</td>
-                                    <td>{{project.projectTitle}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Configuration File:</td>
-                                    <td>{{project.validationXml}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Public Project:</td>
-                                    <td>{{project.public}}</td>
-                                </tr>
-                            </table>
+                            <form class="form-horizontal" ng-submit="pmProjectVm.updateExpeditions()">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Username</th>
+                                            <th>Expedition Title</th>
+                                            <th>Public</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr ng-repeat="expedition in pmProjectVm.expeditions | orderBy:'expedition.user.username'">
+                                            <td>{{expedition.user.username}}</td>
+                                            <td>{{expedition.expeditionTitle}}</td>
+                                            <td>
+                                                <input ng-model="expedition.public" type="checkbox"
+                                                       ng-click="pmProjectVm.updateModifiedExpeditions(expedition)"
+                                                       ng-disabled="!pmProjectVm.editExpeditions">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="alert alert-error alert-dismissable alert-small"
+                                     role="alert" ng-show="pmProjectVm.messages.error.expeditions">
+                                    <button type="button" class="close" aria-label="Close"
+                                            ng-click="pmProjectVm.messages.error.expeditions = null">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </button>
+                                    <strong>Error!</strong> {{ pmProjectVm.messages.error.expeditions }}
+                                </div>
+
+                                <div class="alert alert-success alert-dismissable alert-small"
+                                     role="alert" ng-show="pmProjectVm.messages.success.expeditions">
+                                    <button type="button" class="close" aria-label="Close"
+                                            ng-click="pmProjectVm.messages.success.expeditions = null">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </button>
+                                    {{ pmProjectVm.messages.success.expeditions }}
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-2 col-xs-offset-5">
+                                        <button type="button" class="btn btn-block btn-primary btn-sm"
+                                                ng-show="!pmProjectVm.editExpeditions"
+                                                ng-click="pmProjectVm.editExpeditions = true">Edit
+                                        </button>
+                                        <div ng-show="pmProjectVm.editExpeditions">
+                                            <button type="submit" class="btn btn-primary btn-sm col-xs-6">Save
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-sm col-xs-6"
+                                                    ng-click="pmProjectVm.editExpeditions = false">Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
                         </uib-accordion-group>
                     </uib-accordion>
 

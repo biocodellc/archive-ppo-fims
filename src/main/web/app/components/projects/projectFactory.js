@@ -4,7 +4,6 @@ angular.module('fims.projects')
         function ($http, UserFactory, REST_ROOT) {
             var projectFactory = {
                 getProjects: getProjects,
-                getProjectsForUser: getProjectsForUser,
                 getProjectsForAdmin: getProjectsForAdmin,
                 updateProject: updateProject
             };
@@ -15,12 +14,8 @@ angular.module('fims.projects')
                 return $http.get(REST_ROOT + 'projects?includePublic=' + includePublic);
             }
 
-            function getProjectsForUser() {
-                return $http.get(REST_ROOT + 'users/' + UserFactory.user.userId + '/projects');
-            }
-
             function getProjectsForAdmin() {
-                return $http.get(REST_ROOT + 'users/' + UserFactory.user.userId + '/admin/projects');
+                return $http.get(REST_ROOT + 'projects?admin');
             }
 
             function updateProject(project) {
