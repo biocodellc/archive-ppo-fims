@@ -340,7 +340,7 @@ task deployFimsDev {
 
     doLast {
         def workingDir = "/tmp/ppoDev/"
-        remoteDeploy(workingDir, remoteDevLibsDirectory, remoteWarDevDirectory, "dev")
+        remoteDeploy(workingDir, remoteDevLibsDirectory, remoteWarDevDirectory, "www.dev")
 
     }
 }
