@@ -1,7 +1,7 @@
 angular.module('fims.expeditions')
 
-    .factory('ExpeditionFactory', ['$http', 'UserFactory', 'REST_ROOT',
-        function ($http, UserFactory, REST_ROOT) {
+    .factory('ExpeditionFactory', ['$http', 'REST_ROOT',
+        function ($http, REST_ROOT) {
             var expeditionFactory = {
                 getExpeditions: getExpeditions,
                 getExpeditionsForAdmin: getExpeditionsForAdmin,

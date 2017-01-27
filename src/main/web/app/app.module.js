@@ -92,8 +92,8 @@ app.controller('NavCtrl', ['$rootScope', '$scope', '$location', '$state', 'AuthF
 
 // register an interceptor to convert objects to a form-data like string for $http data attributes and
 // set the appropriate header
-app.factory('postInterceptor', ['$injector', '$httpParamSerializerJQLike',
-    function ($injector, $httpParamSerializerJQLike) {
+app.factory('postInterceptor', [
+    function () {
         return {
             request: function (config) {
                 if (config.method == "POST" && !config.keepJson) {
