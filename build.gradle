@@ -294,7 +294,7 @@ task updateDependencies {
     }
 }
 
-ext.remoteDeploy = { workingDir, remoteLibsDir, remoteWarDir ->
+ext.remoteDeploy = { workingDir, remoteLibsDir, remoteWarDir,subDomain ->
     ssh.run {
         session(remotes.biscicol) {
             // Cleanup to begin
@@ -310,7 +310,7 @@ ext.remoteDeploy = { workingDir, remoteLibsDir, remoteWarDir ->
             // Need to remove the war file itself-- we instead just copy it into /tmp for safekeeping in case next step fails
             execute "/bin/rm -fr " + remoteWarDir + "ppo.war"
             // Need to execute zip command from the working Directory in order to get relative paths correct
-            execute "cd " + workingDir + ";/usr/bin/zip -r " + remoteWarDir + "root-www.plantphenology.org.war " + " ."
+            execute "cd " + workingDir + ";/usr/bin/zip -r " + remoteWarDir + "root-" +subDomain + ".plantphenology.org.war " + " ."
             // Cleanup
             execute "/bin/rm -rf " + workingDir
         }
@@ -327,7 +327,7 @@ task deployFims {
 
     doLast {
         def workingDir = "/tmp/ppoProd/"
-        remoteDeploy(workingDir, remoteLibsDirectory, remoteWarDirectory)
+        remoteDeploy(workingDir, remoteLibsDirectory, remoteWarDirectory, "www")
     }
 }
 
@@ -340,7 +340,7 @@ task deployFimsDev {
 
     doLast {
         def workingDir = "/tmp/ppoDev/"
-        remoteDeploy(workingDir, remoteDevLibsDirectory, remoteWarDevDirectory)
+        remoteDeploy(workingDir, remoteDevLibsDirectory, remoteWarDevDirectory, "www.dev")
 
     }
 }
