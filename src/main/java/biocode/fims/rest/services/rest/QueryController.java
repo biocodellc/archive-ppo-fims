@@ -11,6 +11,7 @@ import biocode.fims.fuseki.query.FimsQueryBuilder;
 import biocode.fims.rest.FimsService;
 import biocode.fims.service.OAuthProviderService;
 import biocode.fims.settings.SettingsManager;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -62,7 +63,7 @@ public class QueryController extends FimsService {
         FimsQueryBuilder q = POSTQueryResult(form);
 
         // Run the query, passing in a format and returning the location of the output file
-        String response = q.getJSON().toJSONString();
+        ArrayNode response = q.getJSON();
 
         // Return response
         if (response == null) {
@@ -88,7 +89,7 @@ public class QueryController extends FimsService {
 
         FimsQueryBuilder q = GETQueryResult(graphs, project_id, filter);
 
-        String response = q.getJSON().toJSONString();
+        ArrayNode response = q.getJSON();
 
         // Return response
         if (response == null) {
