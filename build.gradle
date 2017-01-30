@@ -294,7 +294,7 @@ task updateDependencies {
     }
 }
 
-ext.remoteDeploy = { workingDir, remoteLibsDir, remoteWarDir,subDomain ->
+ext.remoteDeploy = { workingDir, remoteLibsDir, remoteWarDir, subDomain ->
     ssh.run {
         session(remotes.biscicol) {
             // Cleanup to begin
