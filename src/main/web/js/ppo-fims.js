@@ -937,9 +937,9 @@ function updateExpeditionPublicStatus(expeditionList) {
             }
         });
         if (isPublic == 'true') {
-            $('#public_status').prop('checked', true);
+            $('#public').prop('checked', true);
         } else {
-            $('#public_status').prop('checked', false);
+            $('#public').prop('checked', false);
         }
     });
 }
