@@ -61,9 +61,9 @@ public class ValidateController extends FimsService {
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response validate(@FormDataParam("projectId") Integer projectId,
                            @FormDataParam("expeditionCode") String expeditionCode,
-                           @FormDataParam("upload") String upload,
+                           @FormDataParam("upload") boolean upload,
                            @FormDataParam("public_status") String publicStatus,
-                           @FormDataParam("dataset") FormDataBodyPart fimsMetadata) {
+                           @FormDataParam("fimsMetadata") FormDataBodyPart fimsMetadata) {
         Map<String, Map<String, Object>> fmProps = new HashMap<>();
         JSONObject returnValue = new JSONObject();
         boolean closeProcess = true;
@@ -107,7 +107,7 @@ public class ValidateController extends FimsService {
 
             processController.setProcess(process);
 
-            if (process.validate() && StringUtils.equalsIgnoreCase(upload, "on")) {
+            if (process.validate() && upload) {
                 if (userContext.getUser() == null) {
                     throw new UnauthorizedRequestException("You must be logged in to upload.");
                 }

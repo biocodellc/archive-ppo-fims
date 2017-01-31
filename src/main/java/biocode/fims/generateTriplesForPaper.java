@@ -9,6 +9,8 @@ import biocode.fims.reader.JsonTabularDataConverter;
 import biocode.fims.reader.ReaderManager;
 import biocode.fims.reader.plugins.TabularDataReader;
 import biocode.fims.run.ProcessController;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.google.common.collect.Lists;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.context.ApplicationContext;
@@ -126,7 +128,8 @@ public class generateTriplesForPaper {
 
 
         JsonTabularDataConverter jtdr = new JsonTabularDataConverter(tdr);
-        fimsMetadata = jtdr.convert(
+        //fimsMetadata = jtdr.convert(
+        ArrayNode fimsMetadata = new JsonTabularDataConverter(tdr).convert(
                 mapping.getDefaultSheetAttributes(),
                 sheetname
         );
@@ -138,8 +141,7 @@ public class generateTriplesForPaper {
 
         if (isValid) {
             Triplifier t = new Triplifier("ppo_paper", outputDirectory, processController);
-            JSONObject resource = (JSONObject) fimsMetadata.get(0);
-            t.run(validation.getSqliteFile(), new ArrayList<String>(resource.keySet()));
+            t.run(validation.getSqliteFile(), Lists.newArrayList(fimsMetadata.get(0).fieldNames()));
 
             return t.getTripleOutputFile();
 
