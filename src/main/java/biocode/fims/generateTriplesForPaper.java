@@ -17,8 +17,6 @@ import biocode.fims.service.ExpeditionService;
 import biocode.fims.settings.SettingsManager;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Lists;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
