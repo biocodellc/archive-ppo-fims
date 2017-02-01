@@ -3,22 +3,16 @@ package biocode.fims;
 import biocode.fims.application.config.PPOAppConfig;
 import biocode.fims.digester.Mapping;
 import biocode.fims.digester.Validation;
-import biocode.fims.fileManagers.fimsMetadata.FimsMetadataFileManager;
-import biocode.fims.fileManagers.fimsMetadata.FimsMetadataPersistenceManager;
 import biocode.fims.fimsExceptions.FimsRuntimeException;
-import biocode.fims.fuseki.fileManagers.fimsMetadata.FusekiFimsMetadataPersistenceManager;
 import biocode.fims.fuseki.triplify.Triplifier;
 import biocode.fims.reader.JsonTabularDataConverter;
 import biocode.fims.reader.ReaderManager;
 import biocode.fims.reader.plugins.TabularDataReader;
+import biocode.fims.renderers.RowMessage;
 import biocode.fims.run.ProcessController;
-import biocode.fims.service.BcidService;
-import biocode.fims.service.ExpeditionService;
-import biocode.fims.settings.SettingsManager;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Lists;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.File;
@@ -36,10 +30,7 @@ public class generateTriplesForPaper {
     String configFile = null;
     String outputDirectory = "output/";
     static ArrayList<String> outputFiles = new ArrayList<String>();
-    private ExpeditionService expeditionService;
-    private BcidService bcidService;
-    private SettingsManager settingsManager;
-    private MessageSource messageSource;
+
 
     /**
      * Constructure sets common configuration file and output directory.
@@ -47,13 +38,8 @@ public class generateTriplesForPaper {
      *
      * @param configFile
      */
-    public generateTriplesForPaper(String configFile, ExpeditionService expeditionService, BcidService bcidService,
-                                   SettingsManager settingsManager, MessageSource messageSource) {
+    public generateTriplesForPaper(String configFile) {
         this.configFile = configFile;
-        this.expeditionService = expeditionService;
-        this.bcidService = bcidService;
-        this.settingsManager = settingsManager;
-        this.messageSource = messageSource;
         outputFiles = new ArrayList<String>();
 
     }
@@ -61,22 +47,17 @@ public class generateTriplesForPaper {
 
     public static void main(String[] args) throws Exception {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(PPOAppConfig.class);
-        ExpeditionService expeditionService = applicationContext.getBean(ExpeditionService.class);
-        BcidService bcidService = applicationContext.getBean(BcidService.class);
-        SettingsManager settingsManager = applicationContext.getBean(SettingsManager.class);
-        MessageSource messageSource = applicationContext.getBean(MessageSource.class);
+
         // ******************
         // NPN files
         // ******************
         generateTriplesForPaper gTFP = new generateTriplesForPaper(
-                "/Users/jdeck/IdeaProjects/biocode-fims-configurator/projects/plantPhenology/npn/npn.xml",
-                expeditionService, bcidService, settingsManager, messageSource);
-
-
+                "/Users/jdeck/IdeaProjects/biocode-fims-configurator/projects/plantPhenology/npn/npn.xml"
+        );
         // This one works
         //outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/biocode-fims-configurator/projects/plantPhenology/npn/input/NPN_raw_data_leaf_example_1row.xlsx"));
         // These throwing an exception for now.
-        //outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/ppo_data/data/npn/datasheet_1485012823554/status_intensity_observation_data.csv"));
+       //outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/ppo_data/data/npn/datasheet_1485012823554/status_intensity_observation_data.csv"));
         //outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/ppo_data/data/npn/datasheet_1485013283920/status_intensity_observation_data.csv"));
         try {
             outputFiles.add(gTFP.triplify("/Users/jdeck/Downloads/test.csv"));
@@ -126,7 +107,7 @@ public class generateTriplesForPaper {
         rm.loadReaders();
 
         // Attempt to load file
-        TabularDataReader tdr = rm.openFile(inputFile, mapping.getDefaultSheetName(), outputDirectory);
+        TabularDataReader tdr = rm.openFile(inputFile, mapping.getDefaultSheetName(),outputDirectory);
 
         if (tdr == null) {
             System.out.println("Unable to open file " + inputFile + " with sheetname = " + mapping.getDefaultSheetName());
@@ -143,23 +124,37 @@ public class generateTriplesForPaper {
             }
         }
 
-        // Load file
-        FimsMetadataPersistenceManager persistenceManager =
-                new FusekiFimsMetadataPersistenceManager(expeditionService, bcidService, settingsManager);
-        FimsMetadataFileManager fm =
-                new FimsMetadataFileManager(persistenceManager, settingsManager, expeditionService,
-                bcidService, messageSource);
-        fm.setProcessController(processController);
-        fm.setFilename(inputFile);
+             /*
+        JsonTabularDataConverter jtdr = new JsonTabularDataConverter(tdr);
+        ArrayNode fimsMetadata = jtdr.convert(
+                mapping.getDefaultSheetAttributes(),
+                sheetname
+        ); */
+        ArrayNode fimsMetadata = null;
+        boolean isValid = true;
 
-        // Validate file
-        boolean isValid = fm.validate();
-        ArrayNode fimsMetadata = fm.getDataset();
+        try {
+                      JsonTabularDataConverter tdc = new JsonTabularDataConverter(tdr);
+                      fimsMetadata = tdc.convert(mapping.getDefaultSheetAttributes(), sheetname);
 
-        // Add messages to process controller and print
+                      // Run the validation
+                      validation.run(tdr, "test", processController.getOutputFolder(), mapping, fimsMetadata);
+                  } catch (FimsRuntimeException e) {
+                      if (e.getErrorCode() != null) {
+                          processController.addMessage(sheetname, new RowMessage(e.getUsrMessage(), "Initial Spreadsheet check", RowMessage.ERROR));
+                          isValid = false;
+                      } else {
+                          throw e;
+                      }
+                  } finally {
+                      tdr.closeFile();
+                  }
+
+        //boolean isValid = validation.run(tdr, "test", outputDirectory, mapping, fimsMetadata);
+
+        // add messages to process controller and print
         processController.addMessages(validation.getMessages());
 
-        // Triplify
         if (isValid) {
             Triplifier t = new Triplifier("ppo_paper", outputDirectory, processController);
             t.run(validation.getSqliteFile(), Lists.newArrayList(fimsMetadata.get(0).fieldNames()));
