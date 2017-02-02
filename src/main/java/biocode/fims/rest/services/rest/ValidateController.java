@@ -1,19 +1,18 @@
 package biocode.fims.rest.services.rest;
 
 import biocode.fims.config.ConfigurationFileFetcher;
+import biocode.fims.entities.Project;
 import biocode.fims.fileManagers.AuxilaryFileManager;
 import biocode.fims.fileManagers.fimsMetadata.FimsMetadataFileManager;
-import biocode.fims.fimsExceptions.FimsRuntimeException;
-import biocode.fims.fimsExceptions.UnauthorizedRequestException;
+import biocode.fims.fimsExceptions.*;
 import biocode.fims.fimsExceptions.errorCodes.UploadCode;
 import biocode.fims.rest.FimsService;
 import biocode.fims.run.Process;
 import biocode.fims.run.ProcessController;
 import biocode.fims.service.ExpeditionService;
-import biocode.fims.service.OAuthProviderService;
+import biocode.fims.service.ProjectService;
 import biocode.fims.settings.SettingsManager;
 import biocode.fims.utils.FileUtils;
-import org.apache.commons.lang.StringUtils;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.json.simple.JSONObject;
@@ -37,14 +36,16 @@ public class ValidateController extends FimsService {
     private final ExpeditionService expeditionService;
     private final List<AuxilaryFileManager> fileManagers;
     private final FimsMetadataFileManager fimsMetadataFileManager;
+    private final ProjectService projectService;
 
-    public ValidateController(ExpeditionService expeditionService,
+    public ValidateController(ExpeditionService expeditionService, ProjectService projectService,
                               FimsMetadataFileManager fimsMetadataFileManager, List<AuxilaryFileManager> fileManagers,
                               SettingsManager settingsManager) {
         super(settingsManager);
         this.expeditionService = expeditionService;
         this.fimsMetadataFileManager = fimsMetadataFileManager;
         this.fileManagers = fileManagers;
+        this.projectService = projectService;
     }
 
     /**
@@ -68,6 +69,12 @@ public class ValidateController extends FimsService {
         JSONObject returnValue = new JSONObject();
         boolean closeProcess = true;
         boolean removeController = true;
+
+        Project project = projectService.getProject(projectId, appRoot);
+
+        if (project == null) {
+            throw new biocode.fims.fimsExceptions.BadRequestException("Project not found");
+        }
 
         // create a new processController
         ProcessController processController = new ProcessController(projectId, expeditionCode);
