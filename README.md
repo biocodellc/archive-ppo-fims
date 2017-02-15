@@ -5,7 +5,7 @@ https://github.com/stuckyb/ontobuilder
   * code for building ontologies
 
 https://github.com/plantPhenoOntology/PPO
-        place to build and store the official plant phenology ontology
+  * place to build and store the official plant phenology ontology
 
 # Data components -- raw data sources that are referenced by the plantphenology website
 https://github.com/plantPhenoOntology/pheno_data 
@@ -23,6 +23,6 @@ https://github.com/biocodellc/biocode-fims-configurator
 https://github.com/biocodellc/ppo-fims
   * plant phenology website
   * plantPhenology specific configuration scripts from configurator
-                stores ppo_ingest.owl file
-                stores the npn.xml and pep.xml configuration files
+    * stores ppo_ingest.owl file
+    * stores the npn.xml and pep.xml configuration files
   * Python Scripts for loading loading data sources (data stored under other relevant respoitories, see Data components above)
