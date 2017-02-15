@@ -15,8 +15,6 @@ ingest file  draws from the [ontobuilder] (https://github.com/stuckyb/ontobuilde
   %cd build # and remove files if doing a fresh build
   %make -f ../Makefile imports # build the imports
   %make -f ../Makefile  #build the ontology and writes to ontology/ppo_ingest.owl)
-  git push (where appropriate)
-```
 		
 Step 2: 
 
@@ -38,4 +36,10 @@ build syntax for configurator
 Step 3: 
 
 Load FIMS data
-  
+#STUB:
+```
+  %cd build
+  # To add to Makefile arguments: fixed arguments REST service endpoint/create/public/upload
+  # The rest have some arguments like this:
+  %make -f ../Makefile loader projectId= username= password= filename= expedition=
+```

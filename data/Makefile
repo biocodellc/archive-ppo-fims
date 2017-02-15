@@ -30,14 +30,14 @@ termsfiles :=
 # generate the suffix for import ontology module file names; if you wish to
 # customize the import module suffix, set the value of "import_mod_suffix" in
 # the section "Variables for processing ontology import modules."
-ontology_IRI := https://raw.githubusercontent.com/biocodellc/biocode-fims-configurator/projects/plantPhenology/ppo_ingest.owl
+ontology_IRI := https://raw.githubusercontent.com/biocodellc/ppo-fims/master/data/ontology/ppo_ingest.owl
 
 # The location of the ontobuilder executables (OPTIONAL).  By default, the
 # build process assumes that the location of the build executables has been
 # added to the search path, but if that is not the case, you must provide their
 # location as the value of the variable "ontobuilder_bin".
 #ontobuilder_bin := ../../ontobuilder/bin
-ontobuilder_bin := ../../../bin
+ontobuilder_bin := ../../../biocode-fims-configurator/bin
 #ontobuilder_bin := 
 
 
