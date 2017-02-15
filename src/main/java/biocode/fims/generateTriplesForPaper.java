@@ -57,7 +57,7 @@ public class generateTriplesForPaper {
         // This one works
         //outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/biocode-fims-configurator/projects/plantPhenology/npn/input/NPN_raw_data_leaf_example_1row.xlsx"));
         // These throwing an exception for now.
-       //outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/ppo_data/data/npn/datasheet_1485012823554/status_intensity_observation_data.csv"));
+        //outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/ppo_data/data/npn/datasheet_1485012823554/status_intensity_observation_data.csv"));
         //outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/ppo_data/data/npn/datasheet_1485013283920/status_intensity_observation_data.csv"));
         try {
             outputFiles.add(gTFP.triplify("/Users/jdeck/Downloads/test.csv"));
@@ -74,11 +74,10 @@ public class generateTriplesForPaper {
         // Generated Triples
         // ******************
         Iterator it = outputFiles.iterator();
-        System.out.println("##########\n# Output Files\n###########");
+        System.out.println("##########\n# Results\n###########");
         while (it.hasNext()) {
-            String outputFile = (String) it.next();
-            if (outputFile != null)
-                System.out.println("\t" + outputFile);
+            String message = (String) it.next();
+            System.out.println(message);
         }
     }
 
@@ -107,13 +106,14 @@ public class generateTriplesForPaper {
         rm.loadReaders();
 
         // Attempt to load file
-        TabularDataReader tdr = rm.openFile(inputFile, mapping.getDefaultSheetName(),outputDirectory);
+        TabularDataReader tdr = rm.openFile(inputFile, mapping.getDefaultSheetName(), outputDirectory);
 
         if (tdr == null) {
             System.out.println("Unable to open file " + inputFile + " with sheetname = " + mapping.getDefaultSheetName());
             return null;
         }
 
+        // Attempt to get the sheetname
         String sheetname = "default";
         try {
             sheetname = tdr.getSheet().getSheetName();
@@ -124,45 +124,40 @@ public class generateTriplesForPaper {
             }
         }
 
-             /*
-        JsonTabularDataConverter jtdr = new JsonTabularDataConverter(tdr);
-        ArrayNode fimsMetadata = jtdr.convert(
-                mapping.getDefaultSheetAttributes(),
-                sheetname
-        ); */
+        // Run the validation
         ArrayNode fimsMetadata = null;
         boolean isValid = true;
-
         try {
-                      JsonTabularDataConverter tdc = new JsonTabularDataConverter(tdr);
-                      fimsMetadata = tdc.convert(mapping.getDefaultSheetAttributes(), sheetname);
+            JsonTabularDataConverter tdc = new JsonTabularDataConverter(tdr);
+            fimsMetadata = tdc.convert(mapping.getDefaultSheetAttributes(), sheetname);
 
-                      // Run the validation
-                      validation.run(tdr, "test", processController.getOutputFolder(), mapping, fimsMetadata);
-                  } catch (FimsRuntimeException e) {
-                      if (e.getErrorCode() != null) {
-                          processController.addMessage(sheetname, new RowMessage(e.getUsrMessage(), "Initial Spreadsheet check", RowMessage.ERROR));
-                          isValid = false;
-                      } else {
-                          throw e;
-                      }
-                  } finally {
-                      tdr.closeFile();
-                  }
+            // Run the validation
+            isValid = validation.run(tdr, "test", "output", mapping, fimsMetadata);
+        } catch (FimsRuntimeException e) {
+            if (e.getErrorCode() != null) {
+                processController.addMessage(sheetname, new RowMessage(e.getUsrMessage(), "Initial Spreadsheet check", RowMessage.ERROR));
+                isValid = false;
+            } else {
+                throw e;
+            }
+        } finally {
+            tdr.closeFile();
+        }
 
-        //boolean isValid = validation.run(tdr, "test", outputDirectory, mapping, fimsMetadata);
 
         // add messages to process controller and print
         processController.addMessages(validation.getMessages());
+
+        // Triplify results if we're all good
 
         if (isValid) {
             Triplifier t = new Triplifier("ppo_paper", outputDirectory, processController);
             t.run(validation.getSqliteFile(), Lists.newArrayList(fimsMetadata.get(0).fieldNames()));
 
-            return t.getTripleOutputFile();
+            return "Processing " + inputFile + " ...\n" + t.getTripleOutputFile();
 
         } else {
-            throw new Exception(processController.getMessages().toString());
+            return "Processing " + inputFile + " ...\n" + processController.printMessages();
         }
 
     }
