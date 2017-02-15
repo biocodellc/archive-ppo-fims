@@ -1,0 +1,11 @@
+spreadsheet sheet name,spreadsheet column name,internal uri,datatype,defined by,definition,entity alias,notes
+Samples,record_id,http://rs.tdwg.org/dwc/terms/EventID,integer,,Record Identifier,phenologicalObservingProcess,
+Samples,ind_plant_id,http://rs.tdwg.org/dwc/terms/materialSampleID,integer,,Individual Plant Identifier,"wholePlant, identificationAssertion",This will be mapped to {organism virus or viroid in the ontology}
+Samples,Latitude,http://rs.tdwg.org/dwc/terms/decimalLatitude,float,,Decimal Latitude,"location, plantStructurePresence, measurementDatum",each column can contain multiple entity aliases where it can appear.  Use comman seperation 
+Samples,Longitude,http://rs.tdwg.org/dwc/terms/decimalLongitude,float,,Decimal Longitude,"location, plantStructurePresence, measurementDatum",
+Samples,species,http://rs.tdwg.org/dwc/terms/scientificName,string,,Scientific Name,"taxon, identificationAssertion",
+Samples,Phenophase_Description,rdf:type,string,,Whole plant phenological stage,"plantStructurePresence","Using rdf:type indicates the values will be object properties, in this case defined by a list association in rules.csv."
+Samples,year,http://rs.tdwg.org/dwc/terms/year,integer,,The year the observation took place,"phenologicalObservingProcess, plantStructurePresence, measurementDatum",
+Samples,dayofyear,http://rs.tdwg.org/dwc/terms/startDayOfYear,integer,,Day of year the observation took place,"phenologicalObservingProcess, plantStructurePresence, measurementDatum",
+Samples,Lower_Intensity_Value,{lower count},integer,,The lower value of an intensity value range,measurementDatum,
+Samples,Upper_Intensity_Value,{upper count},integer,,The upper value of an intensity value range,measurementDatum,

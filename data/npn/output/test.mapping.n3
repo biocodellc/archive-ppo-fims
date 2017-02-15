@@ -1,0 +1,227 @@
+@prefix map: <> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix d2rq: <http://www.wiwiss.fu-berlin.de/suhl/bizer/D2RQ/0.1#> .
+@prefix jdbc: <http://d2rq.org/terms/jdbc/> .
+@prefix ro: <http://www.obofoundry.org/ro/ro.owl#> .
+@prefix bsc: <http://biscicol.org/terms/index.html#> .
+@prefix urn: <http://biscicol.org/terms/index.html#> .
+@prefix ark: <http://biscicol.org/id/ark:> .
+
+map:database a d2rq:Database;
+	d2rq:jdbcDriver "org.sqlite.JDBC";
+	d2rq:jdbcDSN "jdbc:sqlite:/Users/jdeck/IdeaProjects/biscicol-fims/tripleOutput/_output.80.sqlite";
+	d2rq:fetchSize "500";
+	.
+map:Samples_eventHASH_event a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "urn:x-biscicol:event:@@Samples.eventHASH@@";
+	d2rq:class <http://rs.tdwg.org/dwc/terms/Event>;
+	.
+map:Samples_eventHASH_event_record_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Samples_eventHASH_event;
+	d2rq:condition "Samples.record_id <> ''";
+	d2rq:additionalPropertyDefinitionProperty map:Samples_eventHASH_event_record_id_Equivalence;
+	d2rq:property <http://rs.tdwg.org/dwc/terms/EventID>;
+	d2rq:column "Samples.record_id";
+	.
+
+map:Samples_eventHASH_event_record_id_Equivalence a d2rq:AdditionalProperty;
+	d2rq:propertyName <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>;
+	d2rq:propertyValue <http://rs.tdwg.org/dwc/terms/EventID>;
+	.
+map:Samples_eventHASH_event_year a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Samples_eventHASH_event;
+	d2rq:condition "Samples.year <> ''";
+	d2rq:additionalPropertyDefinitionProperty map:Samples_eventHASH_event_year_Equivalence;
+	d2rq:property <http://rs.tdwg.org/dwc/terms/year>;
+	d2rq:column "Samples.year";
+	.
+
+map:Samples_eventHASH_event_year_Equivalence a d2rq:AdditionalProperty;
+	d2rq:propertyName <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>;
+	d2rq:propertyValue <http://rs.tdwg.org/dwc/terms/year>;
+	.
+map:Samples_eventHASH_event_dayofyear a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Samples_eventHASH_event;
+	d2rq:condition "Samples.dayofyear <> ''";
+	d2rq:additionalPropertyDefinitionProperty map:Samples_eventHASH_event_dayofyear_Equivalence;
+	d2rq:property <http://rs.tdwg.org/dwc/terms/startDayOfYear>;
+	d2rq:column "Samples.dayofyear";
+	.
+
+map:Samples_eventHASH_event_dayofyear_Equivalence a d2rq:AdditionalProperty;
+	d2rq:propertyName <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>;
+	d2rq:propertyValue <http://rs.tdwg.org/dwc/terms/startDayOfYear>;
+	.
+map:Samples_ind_plant_id_individualPlant a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "urn:x-biscicol:individualPlant:@@Samples.ind_plant_id@@";	d2rq:condition "Samples.ind_plant_id <> ''";
+	d2rq:class <http://rs.tdwg.org/dwc/terms/LivingSpecimen>;
+	.
+map:Samples_ind_plant_id_individualPlant_ind_plant_id a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Samples_ind_plant_id_individualPlant;
+	d2rq:condition "Samples.ind_plant_id <> ''";
+	d2rq:additionalPropertyDefinitionProperty map:Samples_ind_plant_id_individualPlant_ind_plant_id_Equivalence;
+	d2rq:property <http://rs.tdwg.org/dwc/terms/materialSampleID>;
+	d2rq:column "Samples.ind_plant_id";
+	.
+
+map:Samples_ind_plant_id_individualPlant_ind_plant_id_Equivalence a d2rq:AdditionalProperty;
+	d2rq:propertyName <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>;
+	d2rq:propertyValue <http://rs.tdwg.org/dwc/terms/materialSampleID>;
+	.
+map:Samples_locationHASH_location a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "urn:x-biscicol:location:@@Samples.locationHASH@@";
+	d2rq:class <http://purl.org/dc/terms/Location>;
+	.
+map:Samples_locationHASH_location_Latitude a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Samples_locationHASH_location;
+	d2rq:condition "Samples.Latitude <> ''";
+	d2rq:additionalPropertyDefinitionProperty map:Samples_locationHASH_location_Latitude_Equivalence;
+	d2rq:property <http://rs.tdwg.org/dwc/terms/decimalLatitude>;
+	d2rq:column "Samples.Latitude";
+	.
+
+map:Samples_locationHASH_location_Latitude_Equivalence a d2rq:AdditionalProperty;
+	d2rq:propertyName <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>;
+	d2rq:propertyValue <http://rs.tdwg.org/dwc/terms/decimalLatitude>;
+	.
+map:Samples_locationHASH_location_Longitude a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Samples_locationHASH_location;
+	d2rq:condition "Samples.Longitude <> ''";
+	d2rq:additionalPropertyDefinitionProperty map:Samples_locationHASH_location_Longitude_Equivalence;
+	d2rq:property <http://rs.tdwg.org/dwc/terms/decimalLongitude>;
+	d2rq:column "Samples.Longitude";
+	.
+
+map:Samples_locationHASH_location_Longitude_Equivalence a d2rq:AdditionalProperty;
+	d2rq:propertyName <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>;
+	d2rq:propertyValue <http://rs.tdwg.org/dwc/terms/decimalLongitude>;
+	.
+map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "urn:x-biscicol:wholePlantPhenologicalStage:@@Samples.wholePlantPhenologicalStageHASH@@";
+	d2rq:class <http://purl.obolibrary.org/obo/PPO_0000001>;
+	.
+map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage_Latitude a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage;
+	d2rq:condition "Samples.Latitude <> ''";
+	d2rq:additionalPropertyDefinitionProperty map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage_Latitude_Equivalence;
+	d2rq:property <http://rs.tdwg.org/dwc/terms/decimalLatitude>;
+	d2rq:column "Samples.Latitude";
+	.
+
+map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage_Latitude_Equivalence a d2rq:AdditionalProperty;
+	d2rq:propertyName <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>;
+	d2rq:propertyValue <http://rs.tdwg.org/dwc/terms/decimalLatitude>;
+	.
+map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage_Longitude a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage;
+	d2rq:condition "Samples.Longitude <> ''";
+	d2rq:additionalPropertyDefinitionProperty map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage_Longitude_Equivalence;
+	d2rq:property <http://rs.tdwg.org/dwc/terms/decimalLongitude>;
+	d2rq:column "Samples.Longitude";
+	.
+
+map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage_Longitude_Equivalence a d2rq:AdditionalProperty;
+	d2rq:propertyName <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>;
+	d2rq:propertyValue <http://rs.tdwg.org/dwc/terms/decimalLongitude>;
+	.
+map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage_Phenophase_Description a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage;
+	d2rq:condition "Samples.Phenophase_Description <> ''";
+	d2rq:additionalPropertyDefinitionProperty map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage_Phenophase_Description_Equivalence;
+	d2rq:property <rdf:type>;
+	d2rq:translateWith map:Phenophase_DescriptionTranslationTable;
+	d2rq:uriColumn "Samples.Phenophase_Description";
+	.
+
+map:Phenophase_DescriptionTranslationTable a d2rq:TranslationTable;
+	d2rq:translation [d2rq:databaseValue "Breaking leaf buds"; d2rq:rdfValue <http://purl.obolibrary.org/obo/PPO_0000017>];
+	d2rq:translation [d2rq:databaseValue "Breaking needle buds (conifers)"; d2rq:rdfValue <http://purl.obolibrary.org/obo/PPO_0000017>];
+	d2rq:translation [d2rq:databaseValue "Colored leaves"; d2rq:rdfValue <http://purl.obolibrary.org/obo/PPO_0000006>];
+	d2rq:translation [d2rq:databaseValue "Emerging needles (pines)"; d2rq:rdfValue <http://purl.obolibrary.org/obo/PPO_0000018>];
+	d2rq:translation [d2rq:databaseValue "Falling leaves"; d2rq:rdfValue <http://purl.obolibrary.org/obo/PPO_0000008>];
+	d2rq:translation [d2rq:databaseValue "Increasing leaf size"; d2rq:rdfValue <http://purl.obolibrary.org/obo/PPO_0000003>];
+	d2rq:translation [d2rq:databaseValue "Initial growth (forbs)"; d2rq:rdfValue <http://purl.obolibrary.org/obo/PPO_0000020>];
+	d2rq:translation [d2rq:databaseValue "Leaves"; d2rq:rdfValue <http://purl.obolibrary.org/obo/PPO_0000003>];
+	d2rq:translation [d2rq:databaseValue "Leaves (forbs)"; d2rq:rdfValue <http://purl.obolibrary.org/obo/PPO_0000005>];
+	d2rq:translation [d2rq:databaseValue "Young leaves (tree/shrub)"; d2rq:rdfValue <http://purl.obolibrary.org/obo/PPO_0000003>];
+	d2rq:translation [d2rq:databaseValue "Young needles (conifers)"; d2rq:rdfValue <http://purl.obolibrary.org/obo/PPO_0000003>];
+	d2rq:translation [d2rq:databaseValue "Young needles (pines)"; d2rq:rdfValue <http://purl.obolibrary.org/obo/PPO_0000003>];
+	.
+map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage_Phenophase_DescriptionLabel a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage;
+	d2rq:condition "Samples.Phenophase_Description <> ''";
+	d2rq:column "Samples.Phenophase_Description";
+	d2rq:property <rdfs:Label>;
+	.
+
+map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage_Phenophase_Description_Equivalence a d2rq:AdditionalProperty;
+	d2rq:propertyName <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>;
+	d2rq:propertyValue <rdf:type>;
+	.
+map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage_year a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage;
+	d2rq:condition "Samples.year <> ''";
+	d2rq:additionalPropertyDefinitionProperty map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage_year_Equivalence;
+	d2rq:property <http://rs.tdwg.org/dwc/terms/year>;
+	d2rq:column "Samples.year";
+	.
+
+map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage_year_Equivalence a d2rq:AdditionalProperty;
+	d2rq:propertyName <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>;
+	d2rq:propertyValue <http://rs.tdwg.org/dwc/terms/year>;
+	.
+map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage_dayofyear a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage;
+	d2rq:condition "Samples.dayofyear <> ''";
+	d2rq:additionalPropertyDefinitionProperty map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage_dayofyear_Equivalence;
+	d2rq:property <http://rs.tdwg.org/dwc/terms/startDayOfYear>;
+	d2rq:column "Samples.dayofyear";
+	.
+
+map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage_dayofyear_Equivalence a d2rq:AdditionalProperty;
+	d2rq:propertyName <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>;
+	d2rq:propertyValue <http://rs.tdwg.org/dwc/terms/startDayOfYear>;
+	.
+map:Samples_taxonHASH_taxon a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "urn:x-biscicol:taxon:@@Samples.taxonHASH@@";
+	d2rq:class <http://rs.tdwg.org/dwc/terms/Taxon>;
+	.
+map:Samples_taxonHASH_taxon_species a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Samples_taxonHASH_taxon;
+	d2rq:condition "Samples.species <> ''";
+	d2rq:additionalPropertyDefinitionProperty map:Samples_taxonHASH_taxon_species_Equivalence;
+	d2rq:property <http://rs.tdwg.org/dwc/terms/scientificName>;
+	d2rq:column "Samples.species";
+	.
+
+map:Samples_taxonHASH_taxon_species_Equivalence a d2rq:AdditionalProperty;
+	d2rq:propertyName <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>;
+	d2rq:propertyValue <http://rs.tdwg.org/dwc/terms/scientificName>;
+	.
+map:Samples_ind_plant_id_individualPlant_Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage_rel a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Samples_ind_plant_id_individualPlant;
+	d2rq:property <urn:exhibits_some>;
+	d2rq:uriPattern "urn:x-biscicol:wholePlantPhenologicalStage:@@Samples.wholePlantPhenologicalStageHASH@@";
+	.
+map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage_Samples_eventHASH_event_rel a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Samples_wholePlantPhenologicalStageHASH_wholePlantPhenologicalStage;
+	d2rq:property <urn:occurs_at_some_event>;
+	d2rq:uriPattern "urn:x-biscicol:event:@@Samples.eventHASH@@";
+	.
+map:Samples_eventHASH_event_Samples_locationHASH_location_rel a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Samples_eventHASH_event;
+	d2rq:property <urn:occurs_at_some_location>;
+	d2rq:uriPattern "urn:x-biscicol:location:@@Samples.locationHASH@@";
+	.
+map:Samples_ind_plant_id_individualPlant_Samples_taxonHASH_taxon_rel a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Samples_ind_plant_id_individualPlant;
+	d2rq:property <urn:hasSomeName>;
+	d2rq:uriPattern "urn:x-biscicol:taxon:@@Samples.taxonHASH@@";
+	.

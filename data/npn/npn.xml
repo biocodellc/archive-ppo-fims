@@ -1,0 +1,246 @@
+<?xml version="1.0" ?>
+<fims>
+    <metadata default_worksheet="Samples" doi="" eml_location="eml_location" ontology_location="ppo.owl" queryTarget="http://data.biscicol.org/ds" shortname="plantPhenologyOntology" target="http://data.biscicol.org/ds/data">
+        This is for testing the conversion of spreadsheets into instance data using the plant phenology ontology.
+    </metadata>
+    <validation>
+        <worksheet sheetname="Samples">
+            <rule column="record_id" level="error" type="uniqueValue"/>
+            <rule column="record_id" level="error" type="RequiredColumn"/>
+            <rule column="ind_plant_id" level="error" type="RequiredColumn"/>
+            <rule column="Phenophase_Description" level="error" type="RequiredColumn"/>
+            <rule column="Latitude" level="error" type="RequiredColumn"/>
+            <rule column="Longitude" level="error" type="RequiredColumn"/>
+            <rule column="year" level="error" type="RequiredColumn"/>
+            <rule column="dayofyear" level="error" type="RequiredColumn"/>
+            <rule column="Phenophase_Description" level="error" list="phenophase_description" type="controlledVocabulary"/>
+            <rule column="Lower_Intensity_Value,Upper_Intensity_Value" level="error" type="minimumMaximumNumberCheck"/>
+        </worksheet>
+        <lists>
+            <list alias="phenophase_description">
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002006">
+                    &gt;=75% of full leaf size (deciduous)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002007">
+                    &gt;=50% of leaves colored (deciduous)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002007">
+                    All leaves colored (deciduous)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002009">
+                    &gt;=50% of leaves fallen (deciduous)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002009">
+                    All leaves fallen (deciduous)
+                </field>
+                <field defined_by="{pollen-releasing flower presence}">
+                    Full pollen release (angiosperms)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002008">
+                    Breaking leaf buds
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002016">
+                    Ripe fruits
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002005">
+                    Increasing leaf size
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002007">
+                    Falling leaves
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002004">
+                    Leaves
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002007">
+                    Colored leaves
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002011">
+                    Flowers or flower buds
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002013">
+                    Open flowers
+                </field>
+                <field defined_by="{pollen-releasing flower presence}">
+                    Pollen release (flowers)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002017">
+                    Recent fruit or seed drop
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002015">
+                    Fruits
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002011">
+                    Full flowering (50%)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002007">
+                    All leaves withered (herbaceous and grasses)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002013">
+                    Open flowers (1 location)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002016">
+                    Ripe fruits (1 location)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0000002">
+                    Initial growth (forbs)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002004">
+                    Leaves (forbs)
+                </field>
+            </list>
+        </lists>
+    </validation>
+    <mapping>
+        <entity conceptAlias="phenologicalObservingProcess" conceptURI="http://purl.obolibrary.org/obo/PPO_0002000" uri="http://purl.obolibrary.org/obo/PPO_0002000" worksheet="Samples" worksheetUniqueKey="phenologicalObservingProcessHASH">
+            <attribute column="record_id" datatype="integer" displayAnnotationProperty="true" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/EventID">
+                Record Identifier
+            </attribute>
+            <attribute column="year" datatype="integer" displayAnnotationProperty="true" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/year">
+                The year the observation took place
+            </attribute>
+            <attribute column="dayofyear" datatype="integer" displayAnnotationProperty="true" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/startDayOfYear">
+                Day of year the observation took place
+            </attribute>
+        </entity>
+        <entity conceptAlias="wholePlant" conceptURI="http://purl.obolibrary.org/obo/PO_0000003" uri="http://purl.obolibrary.org/obo/PO_0000003" worksheet="Samples" worksheetUniqueKey="ind_plant_id">
+            <attribute column="ind_plant_id" datatype="integer" displayAnnotationProperty="true" group="wholePlant" uri="http://rs.tdwg.org/dwc/terms/materialSampleID">
+                Individual Plant Identifier
+            </attribute>
+        </entity>
+        <entity conceptAlias="identificationAssertion" conceptURI="http://purl.obolibrary.org/obo/bco_0000042" uri="http://purl.obolibrary.org/obo/bco_0000042" worksheet="Samples" worksheetUniqueKey="identificationAssertionHASH">
+            <attribute column="ind_plant_id" datatype="integer" displayAnnotationProperty="false" group="wholePlant" uri="http://rs.tdwg.org/dwc/terms/materialSampleID">
+                Individual Plant Identifier
+            </attribute>
+            <attribute column="species" datatype="string" displayAnnotationProperty="false" group="taxon" uri="http://rs.tdwg.org/dwc/terms/scientificName">
+                Scientific Name
+            </attribute>
+        </entity>
+        <entity conceptAlias="location" conceptURI="http://purl.org/dc/terms/Location" uri="http://purl.org/dc/terms/Location" worksheet="Samples" worksheetUniqueKey="locationHASH">
+            <attribute column="Latitude" datatype="float" displayAnnotationProperty="true" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLatitude">
+                Decimal Latitude
+            </attribute>
+            <attribute column="Longitude" datatype="float" displayAnnotationProperty="true" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLongitude">
+                Decimal Longitude
+            </attribute>
+        </entity>
+        <entity conceptAlias="plantStructurePresence" conceptURI="http://purl.obolibrary.org/obo/PPO_0002002" uri="http://purl.obolibrary.org/obo/PPO_0002002" worksheet="Samples" worksheetUniqueKey="plantStructurePresenceHASH">
+            <attribute column="Latitude" datatype="float" displayAnnotationProperty="false" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLatitude">
+                Decimal Latitude
+            </attribute>
+            <attribute column="Longitude" datatype="float" displayAnnotationProperty="false" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLongitude">
+                Decimal Longitude
+            </attribute>
+            <attribute column="Phenophase_Description" datatype="string" displayAnnotationProperty="true" group="plantStructurePresence" uri="rdf:type">
+                Whole plant phenological stage
+            </attribute>
+            <attribute column="year" datatype="integer" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/year">
+                The year the observation took place
+            </attribute>
+            <attribute column="dayofyear" datatype="integer" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/startDayOfYear">
+                Day of year the observation took place
+            </attribute>
+        </entity>
+        <entity conceptAlias="measurementDatum" conceptURI="http://purl.obolibrary.org/obo/IAO_0000109" uri="http://purl.obolibrary.org/obo/IAO_0000109" worksheet="Samples" worksheetUniqueKey="measurementDatumHASH">
+            <attribute column="Latitude" datatype="float" displayAnnotationProperty="false" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLatitude">
+                Decimal Latitude
+            </attribute>
+            <attribute column="Longitude" datatype="float" displayAnnotationProperty="false" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLongitude">
+                Decimal Longitude
+            </attribute>
+            <attribute column="year" datatype="integer" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/year">
+                The year the observation took place
+            </attribute>
+            <attribute column="dayofyear" datatype="integer" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/startDayOfYear">
+                Day of year the observation took place
+            </attribute>
+            <attribute column="Lower_Intensity_Value" datatype="integer" displayAnnotationProperty="true" group="measurementDatum" uri="http://purl.obolibrary.org/obo/PPO_0001000">
+                The lower value of an intensity value range
+            </attribute>
+            <attribute column="Upper_Intensity_Value" datatype="integer" displayAnnotationProperty="true" group="measurementDatum" uri="http://purl.obolibrary.org/obo/PPO_0001001">
+                The upper value of an intensity value range
+            </attribute>
+        </entity>
+        <entity conceptAlias="taxon" conceptURI="http://rs.tdwg.org/dwc/terms/Taxon" uri="http://rs.tdwg.org/dwc/terms/Taxon" worksheet="Samples" worksheetUniqueKey="taxonHASH">
+            <attribute column="species" datatype="string" displayAnnotationProperty="true" group="taxon" uri="http://rs.tdwg.org/dwc/terms/scientificName">
+                Scientific Name
+            </attribute>
+        </entity>
+        <relation>
+            <subject>
+                measurementDatum
+            </subject>
+            <predicate>
+                http://purl.obolibrary.org/obo/IAO_0000136
+            </predicate>
+            <object>
+                plantStructurePresence
+            </object>
+        </relation>
+        <relation>
+            <subject>
+                phenologicalObservingProcess
+            </subject>
+            <predicate>
+                http://purl.obolibrary.org/obo/OBI_0000299
+            </predicate>
+            <object>
+                measurementDatum
+            </object>
+        </relation>
+        <relation>
+            <subject>
+                phenologicalObservingProcess
+            </subject>
+            <predicate>
+                http://purl.obolibrary.org/obo/BFO_0000066
+            </predicate>
+            <object>
+                location
+            </object>
+        </relation>
+        <relation>
+            <subject>
+                phenologicalObservingProcess
+            </subject>
+            <predicate>
+                http://purl.obolibrary.org/obo/OBI_0000293
+            </predicate>
+            <object>
+                wholePlant
+            </object>
+        </relation>
+        <relation>
+            <subject>
+                plantStructurePresence
+            </subject>
+            <predicate>
+                http://purl.obolibrary.org/obo/RO_0000080
+            </predicate>
+            <object>
+                wholePlant
+            </object>
+        </relation>
+        <relation>
+            <subject>
+                identificationAssertion
+            </subject>
+            <predicate>
+                http://purl.obolibrary.org/obo/BCO_0000086
+            </predicate>
+            <object>
+                wholePlant
+            </object>
+        </relation>
+        <relation>
+            <subject>
+                identificationAssertion
+            </subject>
+            <predicate>
+                http://purl.obolibrary.org/obo/BCO_0000085
+            </predicate>
+            <object>
+                taxon
+            </object>
+        </relation>
+    </mapping>
+</fims>

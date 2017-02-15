@@ -1,0 +1,1 @@
+python /Users/jdeck/IdeaProjects/biocode-fims-commons/src/python/fims-runner.py -e test_npn8 --create --public -u -user biocode -pass biocode2013 http://plantphenology.org/rest/v1 27 /Users/jdeck/IdeaProjects/biocode-fims-configurator/projects/plantPhenology/npn/input/NPN_raw_data_leaf_example_1row_short.xlsx

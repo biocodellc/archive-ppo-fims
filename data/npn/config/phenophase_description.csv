@@ -1,0 +1,24 @@
+field,defined_by
+>=75% of full leaf size (deciduous),{mature leaf presence}
+>=50% of leaves colored (deciduous),{senescent leaf presence}
+All leaves colored (deciduous),{senescent leaf presence}
+>=50% of leaves fallen (deciduous),{abscised leaf presence}
+All leaves fallen (deciduous),{abscised leaf presence}
+Full pollen release (angiosperms),{pollen-releasing flower presence}
+Breaking leaf buds,{breaking buds presence}
+Ripe fruits,{ripening fruit presence}
+Increasing leaf size,{expanding leaf presence}
+Falling leaves,{senescent leaf presence}
+Leaves,{leaf presence}
+Colored leaves,{senescent leaf presence}
+Flowers or flower buds,{flower presence}
+Open flowers,{open flower presence}
+Pollen release (flowers),{pollen-releasing flower presence}
+Recent fruit or seed drop,{abscised fruit or seed presence}
+Fruits,{fruit presence}
+Full flowering (50%),{flower presence}
+All leaves withered (herbaceous and grasses),{senescent leaf presence}
+Open flowers (1 location),{open flower presence}
+Ripe fruits (1 location),{ripening fruit presence}
+Initial growth (forbs),{initial growth phenological stage}
+Leaves (forbs),{leaf presence}
