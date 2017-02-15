@@ -15,6 +15,7 @@ ingest file  draws from the [ontobuilder] (https://github.com/stuckyb/ontobuilde
   %cd build # and remove files if doing a fresh build
   %make -f ../Makefile imports # build the imports
   %make -f ../Makefile  #build the ontology and writes to ontology/ppo_ingest.owl)
+  git push (where appropriate)
 ```
 		
 Step 2: 
