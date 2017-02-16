@@ -13,8 +13,8 @@
             <rule column="Longitude" level="error" type="RequiredColumn"/>
             <rule column="Observation_Date" level="error" type="RequiredColumn"/>
             <rule column="Day_of_Year" level="error" type="RequiredColumn"/>
+            <rule column="Intensity_Value" level="error" type="RequiredColumn"/>
             <rule column="Phenophase_Description" level="error" list="phenophase_description" type="controlledVocabulary"/>
-            <rule column="Lower_Intensity_Value,Upper_Intensity_Value" level="error" type="minimumMaximumNumberCheck"/>
         </worksheet>
         <lists>
             <list alias="phenophase_description">
@@ -153,11 +153,8 @@
             <attribute column="Day_of_Year" datatype="integer" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/startDayOfYear">
                 Day of year the observation took place
             </attribute>
-            <attribute column="Lower_Intensity_Value" datatype="integer" displayAnnotationProperty="true" group="measurementDatum" uri="http://purl.obolibrary.org/obo/PPO_0001000">
+            <attribute column="Intensity_Value" datatype="integer" displayAnnotationProperty="true" group="measurementDatum" uri="http://purl.obolibrary.org/obo/PPO_0001000">
                 The lower value of an intensity value range
-            </attribute>
-            <attribute column="Upper_Intensity_Value" datatype="integer" displayAnnotationProperty="true" group="measurementDatum" uri="http://purl.obolibrary.org/obo/PPO_0001001">
-                The upper value of an intensity value range
             </attribute>
         </entity>
         <entity conceptAlias="taxon" conceptURI="http://rs.tdwg.org/dwc/terms/Taxon" uri="http://rs.tdwg.org/dwc/terms/Taxon" worksheet="Samples" worksheetUniqueKey="taxonHASH">

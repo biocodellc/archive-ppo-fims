@@ -52,7 +52,7 @@ public class generateTriplesForPaper {
         // NPN files
         // ******************
         generateTriplesForPaper gTFP = new generateTriplesForPaper(
-                "/Users/jdeck/IdeaProjects/biocode-fims-configurator/projects/plantPhenology/npn/npn.xml"
+                "/Users/jdeck/IdeaProjects/ppo-fims/data/npn/npn.xml"
         );
         // This one works
         //outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/biocode-fims-configurator/projects/plantPhenology/npn/input/NPN_raw_data_leaf_example_1row.xlsx"));
@@ -60,7 +60,7 @@ public class generateTriplesForPaper {
         //outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/ppo_data/data/npn/datasheet_1485012823554/status_intensity_observation_data.csv"));
         //outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/ppo_data/data/npn/datasheet_1485013283920/status_intensity_observation_data.csv"));
         try {
-            outputFiles.add(gTFP.triplify("/Users/jdeck/Downloads/test.csv"));
+            outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/ppo-fims/data/bin/foo.csv"));
         } catch (Exception e) {
             e.printStackTrace();
         }
