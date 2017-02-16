@@ -2,7 +2,7 @@
 
 Contained in this directory are scripts and tools for importing plant phenology data sources.
 
-Step 1:
+* Step 1:
 
 The first step is creating the application ontology file which is built especially 
 for annotating incoming data sources with relevant PPO terms.   Occassionally other terms for other 
@@ -16,7 +16,7 @@ ingest file  draws from the [ontobuilder] (https://github.com/stuckyb/ontobuilde
   %make -f ../Makefile imports # build the imports
   %make -f ../Makefile  #build the ontology and writes to ontology/ppo_ingest.owl)
 		
-Step 2: 
+* Step 2: 
 
 The second step involves building Bicode FIMS configuration file for each project. E.g. for npn
 
@@ -32,8 +32,11 @@ build syntax for configurator
   %cd build
   %make -f ../Makefile configurator project_name="{project_name}"
 ```
+
+Once the configurator does its work and we have succesfully built a configuration you should push 
+the completed config file to github (or wherever it should be accessed on the web)
  
-Step 3: 
+* Step 3: 
 
 Loading FIMS data.  See README.md in the bin directory
 ```

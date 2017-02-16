@@ -33,7 +33,7 @@
                 <field defined_by="http://purl.obolibrary.org/obo/PPO_0002009">
                     All leaves fallen (deciduous)
                 </field>
-                <field defined_by="{pollen-releasing flower presence}">
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002014">
                     Full pollen release (angiosperms)
                 </field>
                 <field defined_by="http://purl.obolibrary.org/obo/PPO_0002008">
@@ -60,7 +60,7 @@
                 <field defined_by="http://purl.obolibrary.org/obo/PPO_0002013">
                     Open flowers
                 </field>
-                <field defined_by="{pollen-releasing flower presence}">
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002014">
                     Pollen release (flowers)
                 </field>
                 <field defined_by="http://purl.obolibrary.org/obo/PPO_0002017">
