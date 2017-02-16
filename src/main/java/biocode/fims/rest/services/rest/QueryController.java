@@ -4,12 +4,10 @@ import biocode.fims.bcid.ProjectMinter;
 import biocode.fims.config.ConfigurationFileFetcher;
 import biocode.fims.digester.Attribute;
 import biocode.fims.digester.Mapping;
-import biocode.fims.digester.Validation;
 import biocode.fims.fimsExceptions.FimsRuntimeException;
 import biocode.fims.fuseki.query.FimsFilterCondition;
 import biocode.fims.fuseki.query.FimsQueryBuilder;
 import biocode.fims.rest.FimsService;
-import biocode.fims.service.OAuthProviderService;
 import biocode.fims.settings.SettingsManager;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.json.simple.JSONArray;
@@ -339,7 +337,7 @@ public class QueryController extends FimsService {
         Mapping mapping = getMapping(projectId);
 
         // Build the Query
-        FimsQueryBuilder q = new FimsQueryBuilder(mapping, graphs, uploadPath());
+        FimsQueryBuilder q = new FimsQueryBuilder(mapping, graphs, defaultOutputDirectory());
 
         // Loop the filterMap entries and build the filterConditionArrayList
         Iterator it = filterMap.entrySet().iterator();
@@ -392,7 +390,7 @@ public class QueryController extends FimsService {
 
         // Run the query
         // Build the Query Object by passing this object and an array of graph objects, separated by commas
-        FimsQueryBuilder q = new FimsQueryBuilder(mapping, graphsArray, uploadPath());
+        FimsQueryBuilder q = new FimsQueryBuilder(mapping, graphsArray, defaultOutputDirectory());
 
         if (filterCondition != null) {
             // Add our filter conditions
@@ -403,7 +401,7 @@ public class QueryController extends FimsService {
     }
 
     private Mapping getMapping(Integer projectId) {
-        configFile = new ConfigurationFileFetcher(projectId, uploadPath(), true).getOutputFile();
+        configFile = new ConfigurationFileFetcher(projectId, defaultOutputDirectory(), true).getOutputFile();
 
         // Parse the Mapping object (this object is used extensively in downstream functions!)
         Mapping mapping = new Mapping();
