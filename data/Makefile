@@ -149,6 +149,17 @@ configurator:
 	$(ontobuilder_bin)/configurator.py -d ../$(project_name)/config/ -b ../ontology/$(ontology_file) \
 		-o ../$(project_name)/$(project_name).xml -n 
 
+#--------
+# Build the FIMS configuration file
+#--------
+.PHONY: loader
+python_tools := /Users/jdeck/IdeaProjects/biocode-fims-python-tools
+fims_uri := http://www.plantphenology.org/rest/v2 
+loader:
+	$(python_tools)/loader.py -e $(expedition_code) --create --public -u -user $(username) -pass $(password) \
+		$(fims_uri) $(project_id) $(file_name)
+#/Users/jdeck/IdeaProjects/biocode-fims-configurator/examples/plantPhenology/npn/input/NPN_raw_data_leaf_example_1row_short.xlsx
+#
 # Set "ontology" as the default build goal.
 .DEFAULT_GOAL := ontology
 

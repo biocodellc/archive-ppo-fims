@@ -35,11 +35,8 @@ build syntax for configurator
  
 Step 3: 
 
-Load FIMS data
-#STUB:
+Loading FIMS data.  See README.md in the bin directory
 ```
-  %cd build
-  # To add to Makefile arguments: fixed arguments REST service endpoint/create/public/upload
-  # The rest have some arguments like this:
-  %make -f ../Makefile loader projectId= username= password= filename= expedition=
+  %cd bin
+  %loader.sh -h
 ```
