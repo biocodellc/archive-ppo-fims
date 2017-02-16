@@ -61,7 +61,7 @@ do
     	echo "Missing content from row: " $row
     # Here we call the fims-runner script if all lines are good
     else 
-    	echo $python_tools_loader -u --public expedition_code=$expedition username=$username password=$password $fims_uri $project_id $file_name
+    	eval $python_tools_loader --create -u --public -e $expedition -user $username -pass $password "${fims_uri}" "${project_id}" "${file_name}"
     fi
 done
 
