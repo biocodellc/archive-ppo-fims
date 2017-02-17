@@ -54,13 +54,11 @@ public class generateTriplesForPaper {
         generateTriplesForPaper gTFP = new generateTriplesForPaper(
                 "/Users/jdeck/IdeaProjects/ppo-fims/data/npn/npn.xml"
         );
-        // This one works
-        //outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/biocode-fims-configurator/projects/plantPhenology/npn/input/NPN_raw_data_leaf_example_1row.xlsx"));
-        // These throwing an exception for now.
-        //outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/ppo_data/data/npn/datasheet_1485012823554/status_intensity_observation_data.csv"));
-        //outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/ppo_data/data/npn/datasheet_1485013283920/status_intensity_observation_data.csv"));
+
         try {
-            outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/ppo-fims/data/bin/foo.csv"));
+            //outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/ppo-fims/data/bin/foo.csv"));
+            //outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/ppo_data/pheno_paper/npn/datasheet_1485012823554/status_intensity_observation_data.csv"));
+            outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/ppo_data/pheno_paper/npn/datasheet_1485013283920/status_intensity_observation_data.csv"));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -92,73 +92,73 @@
     </validation>
     <mapping>
         <entity conceptAlias="phenologicalObservingProcess" conceptURI="http://purl.obolibrary.org/obo/PPO_0002000" uri="http://purl.obolibrary.org/obo/PPO_0002000" worksheet="Samples" worksheetUniqueKey="phenologicalObservingProcessHASH">
-            <attribute column="Observation_ID" datatype="integer" displayAnnotationProperty="true" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/EventID">
+            <attribute column="Observation_ID" dataformat="" datatype="integer" displayAnnotationProperty="true" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/EventID">
                 Record Identifier
             </attribute>
-            <attribute column="Observation_Date" datatype="date" displayAnnotationProperty="true" group="phenologicalObservingProcess" uri="ttp://rs.tdwg.org/dwc/terms/Event">
+            <attribute column="Observation_Date" dataformat="YYYY-MM-DD" datatype="date" displayAnnotationProperty="true" group="phenologicalObservingProcess" uri="ttp://rs.tdwg.org/dwc/terms/Event">
                 The date the observation took place
             </attribute>
-            <attribute column="Day_of_Year" datatype="integer" displayAnnotationProperty="true" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/startDayOfYear">
+            <attribute column="Day_of_Year" dataformat="" datatype="integer" displayAnnotationProperty="true" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/startDayOfYear">
                 Day of year the observation took place
             </attribute>
         </entity>
         <entity conceptAlias="wholePlant" conceptURI="http://purl.obolibrary.org/obo/PO_0000003" uri="http://purl.obolibrary.org/obo/PO_0000003" worksheet="Samples" worksheetUniqueKey="Individual_ID">
-            <attribute column="Individual_ID" datatype="integer" displayAnnotationProperty="true" group="wholePlant" uri="http://rs.tdwg.org/dwc/terms/materialSampleID">
+            <attribute column="Individual_ID" dataformat="" datatype="integer" displayAnnotationProperty="true" group="wholePlant" uri="http://rs.tdwg.org/dwc/terms/materialSampleID">
                 Individual Plant Identifier
             </attribute>
         </entity>
         <entity conceptAlias="identificationAssertion" conceptURI="http://purl.obolibrary.org/obo/bco_0000042" uri="http://purl.obolibrary.org/obo/bco_0000042" worksheet="Samples" worksheetUniqueKey="identificationAssertionHASH">
-            <attribute column="Individual_ID" datatype="integer" displayAnnotationProperty="false" group="wholePlant" uri="http://rs.tdwg.org/dwc/terms/materialSampleID">
+            <attribute column="Individual_ID" dataformat="" datatype="integer" displayAnnotationProperty="false" group="wholePlant" uri="http://rs.tdwg.org/dwc/terms/materialSampleID">
                 Individual Plant Identifier
             </attribute>
-            <attribute column="species" datatype="string" displayAnnotationProperty="false" group="taxon" uri="http://rs.tdwg.org/dwc/terms/scientificName">
+            <attribute column="species" dataformat="" datatype="string" displayAnnotationProperty="false" group="taxon" uri="http://rs.tdwg.org/dwc/terms/scientificName">
                 Scientific Name
             </attribute>
         </entity>
         <entity conceptAlias="location" conceptURI="http://purl.org/dc/terms/Location" uri="http://purl.org/dc/terms/Location" worksheet="Samples" worksheetUniqueKey="locationHASH">
-            <attribute column="Latitude" datatype="float" displayAnnotationProperty="true" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLatitude">
+            <attribute column="Latitude" dataformat="" datatype="float" displayAnnotationProperty="true" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLatitude">
                 Decimal Latitude
             </attribute>
-            <attribute column="Longitude" datatype="float" displayAnnotationProperty="true" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLongitude">
+            <attribute column="Longitude" dataformat="" datatype="float" displayAnnotationProperty="true" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLongitude">
                 Decimal Longitude
             </attribute>
         </entity>
         <entity conceptAlias="plantStructurePresence" conceptURI="http://purl.obolibrary.org/obo/PPO_0002002" uri="http://purl.obolibrary.org/obo/PPO_0002002" worksheet="Samples" worksheetUniqueKey="plantStructurePresenceHASH">
-            <attribute column="Latitude" datatype="float" displayAnnotationProperty="false" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLatitude">
+            <attribute column="Latitude" dataformat="" datatype="float" displayAnnotationProperty="false" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLatitude">
                 Decimal Latitude
             </attribute>
-            <attribute column="Longitude" datatype="float" displayAnnotationProperty="false" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLongitude">
+            <attribute column="Longitude" dataformat="" datatype="float" displayAnnotationProperty="false" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLongitude">
                 Decimal Longitude
             </attribute>
-            <attribute column="Phenophase_Description" datatype="string" displayAnnotationProperty="true" group="plantStructurePresence" uri="rdf:type">
+            <attribute column="Phenophase_Description" dataformat="" datatype="string" displayAnnotationProperty="true" group="plantStructurePresence" uri="rdf:type">
                 Whole plant phenological stage
             </attribute>
-            <attribute column="Observation_Date" datatype="date" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="ttp://rs.tdwg.org/dwc/terms/Event">
+            <attribute column="Observation_Date" dataformat="YYYY-MM-DD" datatype="date" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="ttp://rs.tdwg.org/dwc/terms/Event">
                 The date the observation took place
             </attribute>
-            <attribute column="Day_of_Year" datatype="integer" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/startDayOfYear">
+            <attribute column="Day_of_Year" dataformat="" datatype="integer" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/startDayOfYear">
                 Day of year the observation took place
             </attribute>
         </entity>
         <entity conceptAlias="measurementDatum" conceptURI="http://purl.obolibrary.org/obo/IAO_0000109" uri="http://purl.obolibrary.org/obo/IAO_0000109" worksheet="Samples" worksheetUniqueKey="measurementDatumHASH">
-            <attribute column="Latitude" datatype="float" displayAnnotationProperty="false" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLatitude">
+            <attribute column="Latitude" dataformat="" datatype="float" displayAnnotationProperty="false" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLatitude">
                 Decimal Latitude
             </attribute>
-            <attribute column="Longitude" datatype="float" displayAnnotationProperty="false" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLongitude">
+            <attribute column="Longitude" dataformat="" datatype="float" displayAnnotationProperty="false" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLongitude">
                 Decimal Longitude
             </attribute>
-            <attribute column="Observation_Date" datatype="date" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="ttp://rs.tdwg.org/dwc/terms/Event">
+            <attribute column="Observation_Date" dataformat="YYYY-MM-DD" datatype="date" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="ttp://rs.tdwg.org/dwc/terms/Event">
                 The date the observation took place
             </attribute>
-            <attribute column="Day_of_Year" datatype="integer" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/startDayOfYear">
+            <attribute column="Day_of_Year" dataformat="" datatype="integer" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/startDayOfYear">
                 Day of year the observation took place
             </attribute>
-            <attribute column="Intensity_Value" datatype="integer" displayAnnotationProperty="true" group="measurementDatum" uri="http://purl.obolibrary.org/obo/PPO_0001000">
+            <attribute column="Intensity_Value" dataformat="" datatype="integer" displayAnnotationProperty="true" group="measurementDatum" uri="http://purl.obolibrary.org/obo/PPO_0001000">
                 The lower value of an intensity value range
             </attribute>
         </entity>
         <entity conceptAlias="taxon" conceptURI="http://rs.tdwg.org/dwc/terms/Taxon" uri="http://rs.tdwg.org/dwc/terms/Taxon" worksheet="Samples" worksheetUniqueKey="taxonHASH">
-            <attribute column="species" datatype="string" displayAnnotationProperty="true" group="taxon" uri="http://rs.tdwg.org/dwc/terms/scientificName">
+            <attribute column="species" dataformat="" datatype="string" displayAnnotationProperty="true" group="taxon" uri="http://rs.tdwg.org/dwc/terms/scientificName">
                 Scientific Name
             </attribute>
         </entity>
