@@ -1,4 +1,4 @@
-* Instructions for setting up and running blazegraph on our server
+= Instructions for setting up and running blazegraph on our server
 # February 17, 2017
 # JBD
 For some reason i can't get blazegraph and jetty to run reliably as a service
