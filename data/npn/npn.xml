@@ -161,8 +161,8 @@
             <attribute column="Species" dataformat="" datatype="string" displayAnnotationProperty="true" group="taxon" uri="http://rs.tdwg.org/dwc/terms/scientificName">
                 Scientific Name
             </attribute>
-            <attribute column="Common_Name" dataformat="" datatype="string" displayAnnotationProperty="true" group="taxon" uri="http://rs.tdwg.org/dwc/terms/scientificName">
-                Scientific Name
+            <attribute column="Common_Name" dataformat="" datatype="string" displayAnnotationProperty="true" group="taxon" uri="http://rs.tdwg.org/dwc/terms/vernacularName">
+                Common Name
             </attribute>
         </entity>
         <relation>

@@ -4,7 +4,7 @@ Samples,Individual_ID,http://rs.tdwg.org/dwc/terms/materialSampleID,integer,,,In
 Samples,Latitude,http://rs.tdwg.org/dwc/terms/decimalLatitude,float,,,Decimal Latitude,"location, plantStructurePresence, measurementDatum",each column can contain multiple entity aliases where it can appear.  Use comma seperation 
 Samples,Longitude,http://rs.tdwg.org/dwc/terms/decimalLongitude,float,,,Decimal Longitude,"location, plantStructurePresence, measurementDatum",
 Samples,Species,http://rs.tdwg.org/dwc/terms/scientificName,string,,,Scientific Name,"taxon, identificationAssertion",
-Samples,Common_Name,http://rs.tdwg.org/dwc/terms/scientificName,string,,,Scientific Name,"taxon",
+Samples,Common_Name,http://rs.tdwg.org/dwc/terms/vernacularName,string,,,Common Name,"taxon",
 Samples,Phenophase_Description,rdf:type,string,,,Whole plant phenological stage,plantStructurePresence,"Using rdf:type indicates the values will be object properties, in this case defined by a list association in rules.csv."
 Samples,Observation_Date,ttp://rs.tdwg.org/dwc/terms/Event,date,YYYY-MM-DD,,The date the observation took place,"phenologicalObservingProcess, plantStructurePresence, measurementDatum",
 Samples,Day_of_Year,http://rs.tdwg.org/dwc/terms/startDayOfYear,integer,,,Day of year the observation took place,"phenologicalObservingProcess, plantStructurePresence, measurementDatum",
