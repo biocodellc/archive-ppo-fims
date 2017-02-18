@@ -1,11 +1,12 @@
-spreadsheet sheet name,spreadsheet column name,internal uri,datatype,dataformat,defined by,definition,entity alias,notes
-Samples,Observation_ID,http://rs.tdwg.org/dwc/terms/EventID,integer,,,Record Identifier,phenologicalObservingProcess,
-Samples,Individual_ID,http://rs.tdwg.org/dwc/terms/materialSampleID,integer,,,Individual Plant Identifier,"wholePlant, identificationAssertion",This will be mapped to {organism virus or viroid in the ontology}
-Samples,Latitude,http://rs.tdwg.org/dwc/terms/decimalLatitude,float,,,Decimal Latitude,"location, plantStructurePresence, measurementDatum",each column can contain multiple entity aliases where it can appear.  Use comma seperation 
-Samples,Longitude,http://rs.tdwg.org/dwc/terms/decimalLongitude,float,,,Decimal Longitude,"location, plantStructurePresence, measurementDatum",
-Samples,Species,http://rs.tdwg.org/dwc/terms/scientificName,string,,,Scientific Name,"taxon, identificationAssertion",
-Samples,Common_Name,http://rs.tdwg.org/dwc/terms/vernacularName,string,,,Common Name,"taxon",
-Samples,Phenophase_Description,rdf:type,string,,,Whole plant phenological stage,plantStructurePresence,"Using rdf:type indicates the values will be object properties, in this case defined by a list association in rules.csv."
-Samples,Observation_Date,ttp://rs.tdwg.org/dwc/terms/Event,date,YYYY-MM-DD,,The date the observation took place,"phenologicalObservingProcess, plantStructurePresence, measurementDatum",
-Samples,Day_of_Year,http://rs.tdwg.org/dwc/terms/startDayOfYear,integer,,,Day of year the observation took place,"phenologicalObservingProcess, plantStructurePresence, measurementDatum",
-Samples,Intensity_Value,{lower count},string,,,The lower value of an intensity value range,measurementDatum,
+spreadsheet sheet name,spreadsheet column name,internal uri,datatype,dataformat,defined by,displayAnnotationProperty,definition,entity alias,notes
+Samples,Observation_ID,http://rs.tdwg.org/dwc/terms/EventID,integer,,,,Record Identifier,phenologicalObservingProcess,
+Samples,Individual_ID,http://rs.tdwg.org/dwc/terms/materialSampleID,integer,,,,Individual Plant Identifier,"wholePlant, identificationAssertion",This will be mapped to {organism virus or viroid in the ontology}
+Samples,Latitude,http://rs.tdwg.org/dwc/terms/decimalLatitude,float,,,,Decimal Latitude,"location, plantStructurePresence, measurementDatum",each column can contain multiple entity aliases where it can appear.  Use comma seperation 
+Samples,Longitude,http://rs.tdwg.org/dwc/terms/decimalLongitude,float,,,,Decimal Longitude,"location, plantStructurePresence, measurementDatum",
+Samples,Species,http://rs.tdwg.org/dwc/terms/scientificName,string,,,,Scientific Name,"taxon, identificationAssertion",
+Samples,Common_Name,http://rs.tdwg.org/dwc/terms/vernacularName,string,,,,Common Name,taxon,
+Samples,Phenophase_Description,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,string,,,,Whole plant phenological stage,plantStructurePresence,"Using rdf:type indicates the values will be object properties, in this case defined by a list association in rules.csv."
+Samples,Observation_Date,http://rs.tdwg.org/dwc/terms/Event,date,YYYY-MM-DD,,,The date the observation took place,"phenologicalObservingProcess, plantStructurePresence, measurementDatum",
+Samples,Day_of_Year,http://rs.tdwg.org/dwc/terms/startDayOfYear,integer,,,,Day of year the observation took place,"phenologicalObservingProcess, plantStructurePresence, measurementDatum",
+Samples,Intensity_Value,{lower count},string,,,,The lower value of an intensity value range,measurementDatum,
+Samples,Phenophase_Status,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,string,,,false,The status (i.e. presence or absence) of the phenophase at the time the observation was made in the field.,plantStructurePresence,

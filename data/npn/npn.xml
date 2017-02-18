@@ -15,6 +15,7 @@
             <rule column="Day_of_Year" level="error" type="RequiredColumn"/>
             <rule column="Intensity_Value" level="error" type="RequiredColumn"/>
             <rule column="Phenophase_Description" level="error" list="phenophase_description" type="controlledVocabulary"/>
+            <rule column="Phenophase_Status" level="error" list="phenophase_status" type="controlledVocabulary"/>
         </worksheet>
         <lists>
             <list alias="phenophase_description">
@@ -88,6 +89,17 @@
                     Leaves (forbs)
                 </field>
             </list>
+            <list alias="phenophase_status">
+                <field defined_by="urn:occurring">
+                    1
+                </field>
+                <field defined_by="urn:notOccurring">
+                    0
+                </field>
+                <field defined_by="urn:uncertainIfOccurring">
+                    -1
+                </field>
+            </list>
         </lists>
     </validation>
     <mapping>
@@ -95,7 +107,7 @@
             <attribute column="Observation_ID" dataformat="" datatype="integer" displayAnnotationProperty="true" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/EventID">
                 Record Identifier
             </attribute>
-            <attribute column="Observation_Date" dataformat="YYYY-MM-DD" datatype="date" displayAnnotationProperty="true" group="phenologicalObservingProcess" uri="ttp://rs.tdwg.org/dwc/terms/Event">
+            <attribute column="Observation_Date" dataformat="YYYY-MM-DD" datatype="date" displayAnnotationProperty="true" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/Event">
                 The date the observation took place
             </attribute>
             <attribute column="Day_of_Year" dataformat="" datatype="integer" displayAnnotationProperty="true" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/startDayOfYear">
@@ -130,14 +142,17 @@
             <attribute column="Longitude" dataformat="" datatype="float" displayAnnotationProperty="false" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLongitude">
                 Decimal Longitude
             </attribute>
-            <attribute column="Phenophase_Description" dataformat="" datatype="string" displayAnnotationProperty="true" group="plantStructurePresence" uri="rdf:type">
+            <attribute column="Phenophase_Description" dataformat="" datatype="string" displayAnnotationProperty="true" group="plantStructurePresence" uri="http://www.w3.org/1999/02/22-rdf-syntax-ns#type">
                 Whole plant phenological stage
             </attribute>
-            <attribute column="Observation_Date" dataformat="YYYY-MM-DD" datatype="date" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="ttp://rs.tdwg.org/dwc/terms/Event">
+            <attribute column="Observation_Date" dataformat="YYYY-MM-DD" datatype="date" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/Event">
                 The date the observation took place
             </attribute>
             <attribute column="Day_of_Year" dataformat="" datatype="integer" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/startDayOfYear">
                 Day of year the observation took place
+            </attribute>
+            <attribute column="Phenophase_Status" dataformat="" datatype="string" displayAnnotationProperty="false" group="plantStructurePresence" uri="http://www.w3.org/1999/02/22-rdf-syntax-ns#type">
+                The status (i.e. presence or absence) of the phenophase at the time the observation was made in the field.
             </attribute>
         </entity>
         <entity conceptAlias="measurementDatum" conceptURI="http://purl.obolibrary.org/obo/IAO_0000109" uri="http://purl.obolibrary.org/obo/IAO_0000109" worksheet="Samples" worksheetUniqueKey="measurementDatumHASH">
@@ -147,7 +162,7 @@
             <attribute column="Longitude" dataformat="" datatype="float" displayAnnotationProperty="false" group="location" uri="http://rs.tdwg.org/dwc/terms/decimalLongitude">
                 Decimal Longitude
             </attribute>
-            <attribute column="Observation_Date" dataformat="YYYY-MM-DD" datatype="date" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="ttp://rs.tdwg.org/dwc/terms/Event">
+            <attribute column="Observation_Date" dataformat="YYYY-MM-DD" datatype="date" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/Event">
                 The date the observation took place
             </attribute>
             <attribute column="Day_of_Year" dataformat="" datatype="integer" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/startDayOfYear">
