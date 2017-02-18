@@ -153,7 +153,7 @@
             <attribute column="Day_of_Year" dataformat="" datatype="integer" displayAnnotationProperty="false" group="phenologicalObservingProcess" uri="http://rs.tdwg.org/dwc/terms/startDayOfYear">
                 Day of year the observation took place
             </attribute>
-            <attribute column="Intensity_Value" dataformat="" datatype="integer" displayAnnotationProperty="true" group="measurementDatum" uri="http://purl.obolibrary.org/obo/PPO_0001000">
+            <attribute column="Intensity_Value" dataformat="" datatype="string" displayAnnotationProperty="true" group="measurementDatum" uri="http://purl.obolibrary.org/obo/PPO_0001000">
                 The lower value of an intensity value range
             </attribute>
         </entity>

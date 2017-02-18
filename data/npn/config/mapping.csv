@@ -8,4 +8,4 @@ Samples,Common_Name,http://rs.tdwg.org/dwc/terms/scientificName,string,,,Scienti
 Samples,Phenophase_Description,rdf:type,string,,,Whole plant phenological stage,plantStructurePresence,"Using rdf:type indicates the values will be object properties, in this case defined by a list association in rules.csv."
 Samples,Observation_Date,ttp://rs.tdwg.org/dwc/terms/Event,date,YYYY-MM-DD,,The date the observation took place,"phenologicalObservingProcess, plantStructurePresence, measurementDatum",
 Samples,Day_of_Year,http://rs.tdwg.org/dwc/terms/startDayOfYear,integer,,,Day of year the observation took place,"phenologicalObservingProcess, plantStructurePresence, measurementDatum",
-Samples,Intensity_Value,{lower count},integer,,,The lower value of an intensity value range,measurementDatum,
+Samples,Intensity_Value,{lower count},string,,,The lower value of an intensity value range,measurementDatum,
