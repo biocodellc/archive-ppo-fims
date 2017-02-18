@@ -111,7 +111,7 @@
             <attribute column="Individual_ID" dataformat="" datatype="integer" displayAnnotationProperty="false" group="wholePlant" uri="http://rs.tdwg.org/dwc/terms/materialSampleID">
                 Individual Plant Identifier
             </attribute>
-            <attribute column="species" dataformat="" datatype="string" displayAnnotationProperty="false" group="taxon" uri="http://rs.tdwg.org/dwc/terms/scientificName">
+            <attribute column="Species" dataformat="" datatype="string" displayAnnotationProperty="false" group="taxon" uri="http://rs.tdwg.org/dwc/terms/scientificName">
                 Scientific Name
             </attribute>
         </entity>
@@ -158,7 +158,10 @@
             </attribute>
         </entity>
         <entity conceptAlias="taxon" conceptURI="http://rs.tdwg.org/dwc/terms/Taxon" uri="http://rs.tdwg.org/dwc/terms/Taxon" worksheet="Samples" worksheetUniqueKey="taxonHASH">
-            <attribute column="species" dataformat="" datatype="string" displayAnnotationProperty="true" group="taxon" uri="http://rs.tdwg.org/dwc/terms/scientificName">
+            <attribute column="Species" dataformat="" datatype="string" displayAnnotationProperty="true" group="taxon" uri="http://rs.tdwg.org/dwc/terms/scientificName">
+                Scientific Name
+            </attribute>
+            <attribute column="Common_Name" dataformat="" datatype="string" displayAnnotationProperty="true" group="taxon" uri="http://rs.tdwg.org/dwc/terms/scientificName">
                 Scientific Name
             </attribute>
         </entity>
