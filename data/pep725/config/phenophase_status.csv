@@ -1,0 +1,4 @@
+field,defined_by
+1,urn:occurring
+0,urn:notOccurring
+-1,urn:uncertainIfOccurring

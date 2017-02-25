@@ -1,0 +1,8 @@
+alias,concept uri,worksheet unique key,notes
+location,http://purl.org/dc/terms/Location,hash,indicating hash means to create hash of properties and use as identifier
+phenologicalObservingProcess,{phenology observing process},hash,
+measurementDatum,http://purl.obolibrary.org/obo/IAO_0000109,hash,
+plantStructurePresence,{plant structure presence},hash,
+identificationAssertion,http://purl.obolibrary.org/obo/bco_0000042,hash,This points to bco:taxonomic_identification_process should actually point to a bco:identification_assertion but that is not yet created. 
+wholePlant,http://purl.obolibrary.org/obo/PO_0000003,hash,
+taxon,http://rs.tdwg.org/dwc/terms/Taxon,hash,

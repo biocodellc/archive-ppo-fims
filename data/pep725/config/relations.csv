@@ -1,0 +1,8 @@
+subject entity alias,predicate,object entity alias,notes
+measurementDatum,{is about},plantStructurePresence,
+phenologicalObservingProcess,{has_specified_output},measurementDatum,
+phenologicalObservingProcess,http://purl.obolibrary.org/obo/BFO_0000066,location,
+phenologicalObservingProcess,{has_specified_input},wholePlant,
+plantStructurePresence,{quality of},wholePlant,
+identificationAssertion,{of organism},wholePlant,
+identificationAssertion,{to taxon},taxon,
