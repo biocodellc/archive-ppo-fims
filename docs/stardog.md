@@ -9,19 +9,21 @@ default port.  Installation is at: /opt/stardog/stardog-4.2.
 
 # Notes on Reasoners
 
-First, i tested the following query in Protege under the DL Query tab (loading the two files mentioned below) and turning on the Fact++ reasoner.
+First, i tested the following query in Protege under the DL Query tab (loading the two files mentioned below) and turning on the Fact++ reasoner (supporting DL reasoning).
 ```
 'whole plant' that 'participates in' some 'vascular leaf phenological stage'
 ```
-which gave me the expected 
+which gave me the expected result that plant1 and plant2 particpate in the 'vascular leaf phenological stage'
 
-Stardog supports OWL EL, RL, SL, QL, and DL.  The following are my results in experiment with them
+My next task is to replicate the above results using stardog.
+
+Stardog supports OWL EL, RL, SL, QL, and DL.  The following are my results in experiment with each of these.
 
 To test stardog, i first downloaded the following two files (one is the ontology, with all imports made "local" and converted to n3 format):
   * https://raw.githubusercontent.com/biocodellc/ppo-fims/master/data/ontology/ppo_ingest.n3
   * https://raw.githubusercontent.com/biocodellc/ppo-fims/master/data/ontology/data_pheno_paper_test.n3
 
-Then, i loaded them into their own namespace, using a different reasoner specified each time i loaded.
+Then, i loaded them into their own namespace, using a different reasoner  each time i load the data.
 ```
 stardog-admin db create -n pheno_paper_test -o reasoning.type=QL -- ppo_ingest.n3
 stardog data add pheno_paper_test data_pheno_paper_test.n3
@@ -60,7 +62,7 @@ Results for this query by reasoner:
    * DL times out
    * RL is super slow (returns the same results as QL)
    * QL is fast but does not return what we expect.
-   -  returns superclasses but does not infer plant stages
+   -  returns superclasses but does not infer plant stages as happened when we were working with Fact++ in protege.
 ```
 ppo:~/unzipped_data$ stardog query pheno_paper_test  -r stardog_query.sparql  
 +-------------------------------------------+-------------------------------------------+---------------------------------------+
@@ -80,6 +82,6 @@ Query returned 6 results in 00:00:01.028
 So, a few questions following all of this:
   * Why does DL time out... This, i'm not too surprised i guess.. full DL support not really meant for triples, but there are only 14 distinct triples i'm testing with.
   * Next question, is why aren't any of the other reasoner options working... When i tested with QL, here is what the logs say:
-  https://github.com/biocodellc/ppo-fims/blob/master/data/ontology/stardog.log
+  https://github.com/biocodellc/ppo-fims/blob/master/data/ontology/stardog.log  ... The errors in the log are perhaps clues as to what may be going on...
   
 
