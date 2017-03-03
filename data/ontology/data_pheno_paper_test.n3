@@ -19,35 +19,35 @@
 #    ('whole plant'
 #     and ('has part' some 'true leaf')))
 
+#<http://purl.obolibrary.org/obo/RO_0000056> #'participates in'
+
 # Need to declare these as objectProperties here or else protege does not figure it out
 obo:RO_0000086 a owl:ObjectProperty .
 obo:RO_0000057 a owl:ObjectProperty .
 obo:BFO_0000051 a owl:ObjectProperty .
 
 # Name the ontology
-<http://biscicol.org/test/?testOntology=5> rdf:type owl:Ontology  .
+<http://biscicol.org/test/?testOntology=123456> rdf:type owl:Ontology  .
+
+<http://biscicol.org/test/?plant1>
+      	a obo:PO_0000003;  				 # 'whole plant'
+        obo:RO_0000086  <urn:traitInstanceClass=1>; # 'has quality' some 'leaves present'
+	rdfs:label "plant1" .
 
 <http://biscicol.org/test/?plant2>
       	a obo:PO_0000003;  				 # 'whole plant'
-        obo:RO_0000086  <urn:leavesPresentClass=2>; # 'has quality' some 'leaves present'
+        obo:RO_0000086  <urn:traitInstanceClass=2>; # 'has quality' some 'senescent leaves present'
+        obo:RO_0000086  <urn:traitInstanceClass=3>; # 'has quality' some 'expanding leaves present'
 	rdfs:label "plant2" .
 
-<http://biscicol.org/test/?plant3>
-      	a obo:PO_0000003;  				 # 'whole plant'
-        obo:RO_0000086  <urn:leavesPresentClass=3>; # 'has quality' some 'senescent leaves present'
-        obo:RO_0000086  <urn:leavesPresentClass=4>; # 'has quality' some 'expanding leaves present'
-	rdfs:label "plant3" .
-
-<urn:leavesPresentClass=2> 
+<urn:traitInstanceClass=1> 
 	a obo:PPO_0003002 ; 			# 'leaves present'
-	rdfs:label "trait2" ;
-	rdfs:label "instance of leaves present (trait2)" .
+	rdfs:label "instance of leaves present (trait1)" .
 
-<urn:leavesPresentClass=3> 
-	a obo:PPO_0003005 ; 			# 'senescent leaf presence'
-	rdfs:label "trait3" ;
-	rdfs:label "instance of senescent leaf presence (trait3)" .
+<urn:traitInstanceClass=2> 
+	a obo:PPO_0003005 ; 			# 'senescent leaves present'
+	rdfs:label "instance of 'senescent leaves present' (trait2)" .
 
-<urn:leavesPresentClass=4> 
-	a obo:PPO_0003003 ; 			# 'expanding leaves presence'
-	rdfs:label "instance of expanding leaf presence (trait4)" .
+<urn:traitInstanceClass=3> 
+	a obo:PPO_0003003 ; 			# 'expanding leaves present'
+	rdfs:label "instance of 'expanding leaves present' (trait3)" .
