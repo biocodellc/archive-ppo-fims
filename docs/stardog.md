@@ -19,11 +19,11 @@ My next task is to replicate the above results using stardog.
 
 Stardog supports OWL EL, RL, SL, QL, and DL.  The following are my results in experiment with each of these.
 
-To test stardog, i first downloaded the following two files (one is the ontology, with all imports made "local" and converted to n3 format):
-  * https://raw.githubusercontent.com/biocodellc/ppo-fims/master/data/ontology/ppo_ingest.n3
+To test stardog, i first downloaded the following two files (one is the ontology, with all ontologies referenced by the application ontology merged into a single new ontology and then saved as n3 format. The purpose of this step is to easily load all of the information we need into StarDog ):
+  * https://raw.githubusercontent.com/biocodellc/ppo-fims/master/data/ontology/ppo_ingest_reasoned.n3
   * https://raw.githubusercontent.com/biocodellc/ppo-fims/master/data/ontology/data_pheno_paper_test.n3
 
-Then, i loaded them into their own namespace, using a different reasoner  each time i load the data.
+Then, i loaded them into their own namespace, using a different reasoner each time i load the data.
 ```
 stardog-admin db create -n pheno_paper_test -o reasoning.type=QL -- ppo_ingest.n3
 stardog data add pheno_paper_test data_pheno_paper_test.n3
@@ -56,6 +56,7 @@ ppo:~/unzipped_data$ stardog query pheno_paper_test  stardog_query.sparql
 
 Query returned 3 results in 00:00:00.206
 ```
+So far, so good.
 
 Results for this query by reasoner:
    * EL and SL do not work
