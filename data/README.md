@@ -15,7 +15,7 @@ ingest file  draws from the [ontobuilder] (https://github.com/stuckyb/ontobuilde
   %cd build # and remove files if doing a fresh build
   %make -f ../Makefile imports # build the imports
   %make -f ../Makefile  #build the ontology and writes to ontology/ppo_ingest.owl)
-		
+```x		
 * Step 2: 
 
 The second step involves building Bicode FIMS configuration file for each project. E.g. for npn
@@ -38,8 +38,7 @@ the completed config file to github (or wherever it should be accessed on the we
  
 * Step 3: 
 
-Loading FIMS data.  See README.md in the bin directory
-```
-  %cd bin
-  %loader.sh -h
-```
+Loading FIMS data.  
+
+See README.md in the bin directory (https://github.com/biocodellc/ppo-fims/tree/master/data/bin)
+
