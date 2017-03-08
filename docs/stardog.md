@@ -1,15 +1,16 @@
 # Stardog implementation
-We're running stardog on the server under its default port and redirecting using Apache from incoming port 80 to the 
-default port.  Installation is at: /opt/stardog/stardog-4.2.
+Running stardog on an Ubuntu (16.04) server under port 5820, using an apache reverse proxy to change incoming requests on port 80 to 5820.   Installation is at: /opt/stardog/stardog-4.2.  Note: start and stop scripts like (%stardog-admin server {start|stop})
 
-# stop and start server
-  * stardog-admin server start
-  * stardog-admin server stop
+# Test Data
 
+Following two files used for my tests (one is the ontology, with all ontologies referenced by the application ontology merged into a single new ontology and then saved as n3 format. The purpose of this step is to easily load all of the information we need into StarDog ):
+  * The ontology, based on the [PPO Application ontology] (https://raw.githubusercontent.com/biocodellc/ppo-fims/master/data/ontology/ppo_ingest.owl), has been processed in Protege by downloading all relevant source code and then exported in one unit to: https://raw.githubusercontent.com/biocodellc/ppo-fims/master/data/ontology/ppo_ingest_reasoned.n3
+  * The instance data, represent a very minimal example of what we want to do is found here: 
+  https://raw.githubusercontent.com/biocodellc/ppo-fims/master/data/ontology/data_pheno_paper_test.n3
 
 # Notes on Reasoners
 
-First, i tested the following query in Protege under the DL Query tab (loading the two files mentioned below) and turning on the Fact++ reasoner (supporting DL reasoning).
+To test that what i want to do works in Protege, I first loaded the Test Data into protege, and then formulated the following under the "DL Query" Tab with the Fact++ reasoner turned on and checking the "instance data" box:
 ```
 'whole plant' that 'participates in' some 'vascular leaf phenological stage'
 ```
@@ -18,10 +19,6 @@ which gave me the expected result that plant1 and plant2 particpate in the 'vasc
 My next task is to replicate the above results using stardog.
 
 Stardog supports OWL EL, RL, SL, QL, and DL.  The following are my results in experiment with each of these.
-
-To test stardog, i first downloaded the following two files (one is the ontology, with all ontologies referenced by the application ontology merged into a single new ontology and then saved as n3 format. The purpose of this step is to easily load all of the information we need into StarDog ):
-  * https://raw.githubusercontent.com/biocodellc/ppo-fims/master/data/ontology/ppo_ingest_reasoned.n3
-  * https://raw.githubusercontent.com/biocodellc/ppo-fims/master/data/ontology/data_pheno_paper_test.n3
 
 Then, i loaded them into their own namespace, using a different reasoner each time i load the data.
 ```
@@ -56,7 +53,7 @@ ppo:~/unzipped_data$ stardog query pheno_paper_test  stardog_query.sparql
 
 Query returned 3 results in 00:00:00.206
 ```
-So far, so good.
+So far, so good.  Now lets try the reasoning:
 
 Results for this query by reasoner:
    * EL and SL do not work
