@@ -1,6 +1,6 @@
-#plantPhenology project data
+#Loading the Plant Phenology Project Data
 
-Contained in this directory are scripts and tools for importing plant phenology data sources.
+Following is an outline of the methods used for importing plant phenology data sources.
 
 # Step 1
 
