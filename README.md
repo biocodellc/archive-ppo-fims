@@ -26,7 +26,7 @@ The Biocode FIMS Configurator is used to validate incoming data sources and map 
 # Pre-reasoning
 Pre-reasoning on instance data is based on ontobuilder, in a special project directory.  The configuration file specifies the ontology (pointing to the PPO application ontology), the incoming data sources (based on instance data created from the biocode-fims-configurator), and outgoing data file.
 
-  * The [PPO pre-reasoner] stores the code for pre-reasoning the ontologies.
+  * The [PPO pre-reasoner] (https://github.com/PlantPhenoOntology/ppo_pre_reasoner) stores the code for pre-reasoning the ontologies.
 
 # The PPO-FIMS codebase 
 This references all of the information which goes into building the plantphenology.org website.  
