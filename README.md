@@ -24,7 +24,7 @@ The Biocode FIMS Configurator is used to validate incoming data sources and map 
   * code for configuring biocode fims that use ontologies as references
 
 # Pre-reasoning
-Pre-reasoning on instance data is based on ontobuilder, in a special project directory.  The project directory specifies the ontology (pointing to the PPO application ontology), the incoming data sources (based on instance data created from the biocode-fims-configurator), and outgoing data file.
+Pre-reasoning on instance data is based on ontobuilder, in a special project directory.  The configuration file specifies the ontology (pointing to the PPO application ontology), the incoming data sources (based on instance data created from the biocode-fims-configurator), and outgoing data file.
 
   * The [PPO pre-reasoner] stores the code for pre-reasoning the ontologies.
 
