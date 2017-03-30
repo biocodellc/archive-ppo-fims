@@ -10,8 +10,10 @@ import biocode.fims.reader.ReaderManager;
 import biocode.fims.reader.plugins.TabularDataReader;
 import biocode.fims.renderers.RowMessage;
 import biocode.fims.run.ProcessController;
+import biocode.fims.settings.FimsPrinter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Lists;
+import org.apache.commons.cli.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -28,7 +30,7 @@ import java.util.Iterator;
  */
 public class generateTriplesForPaper {
     String configFile = null;
-    String outputDirectory = "output/";
+    String outputDirectory = "/Users/jdeck/IdeaProjects/ppo_data/pheno_paper/npn/output_n3/";
     static ArrayList<String> outputFiles = new ArrayList<String>();
 
 
@@ -49,16 +51,69 @@ public class generateTriplesForPaper {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(PPOAppConfig.class);
 
         // ******************
+        // CLI Interface
+        // ******************
+        // Some classes to help us
+        /*
+        CommandLineParser clp = new GnuParser();
+        HelpFormatter helpf = new HelpFormatter();
+        CommandLine cl;
+
+        String configFile = null;
+        String inputFile = null;
+        // Define our commandline options
+        Options options = new Options();
+        options.addOption("h", "help", false, "print this help and exit");
+
+        options.addOption("c", "config", false, "Configuration file");
+        options.addOption("i", "input", true, "input data file");
+
+        // Create the commands parser and parse the command line arguments.
+        try {
+            cl = clp.parse(options, args);
+        } catch (UnrecognizedOptionException e) {
+            FimsPrinter.out.println("Error: " + e.getMessage());
+            return;
+        } catch (ParseException e) {
+            FimsPrinter.out.println("Error: " + e.getMessage());
+            return;
+        }
+
+        if (cl.hasOption("c")) {
+            configFile = cl.getOptionValue("r");
+        } else {
+            FimsPrinter.out.println("Error: must specify config. file");
+            return;
+        }
+        if (cl.hasOption("i")) {
+            inputFile = cl.getOptionValue("r");
+        } else {
+            FimsPrinter.out.println("Error: must specify input file");
+            return;
+        }
+
+        generateTriplesForPaper pep = new generateTriplesForPaper(configFile);
+        try {
+            outputFiles.add(pep.triplify(inputFile));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        */
+        // ******************
         // NPN files
         // ******************
-        generateTriplesForPaper gTFP = new generateTriplesForPaper(
+
+        generateTriplesForPaper npn = new generateTriplesForPaper(
                 "/Users/jdeck/IdeaProjects/ppo-fims/data/npn/npn.xml"
         );
 
         try {
-            //outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/ppo-fims/data/bin/foo.csv"));
-            //outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/ppo_data/pheno_paper/npn/datasheet_1485012823554/status_intensity_observation_data.csv"));
-            outputFiles.add(gTFP.triplify("/Users/jdeck/IdeaProjects/ppo_data/pheno_paper/npn/datasheet_1485013283920/status_intensity_observation_data.csv"));
+            //outputFiles.add(npn.triplify("/Users/jdeck/IdeaProjects/ppo_data/pheno_paper/npn/output_csv/1485012823554.csv"));
+            outputFiles.add(
+                    npn.triplify(
+                            "/Users/jdeck/IdeaProjects/ppo_data/pheno_paper/npn/output_csv/1485013283920.csv"
+            ));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -67,7 +122,16 @@ public class generateTriplesForPaper {
         // ******************
         // PEP files
         // ******************
-
+       /* generateTriplesForPaper pep = new generateTriplesForPaper(
+                "/Users/jdeck/IdeaProjects/ppo-fims/data/npn/npn.xml"
+        );
+        try {
+            //outputFiles.add(pep.triplify("/Users/jdeck/IdeaProjects/ppo_data/pheno_paper/pep725/output/Betula.csv"));
+            //outputFiles.add(pep.triplify("/Users/jdeck/IdeaProjects/ppo_data/pheno_paper/pep725/output/Helianthus.csv"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+         */
         // ******************
         // Generated Triples
         // ******************
@@ -87,6 +151,8 @@ public class generateTriplesForPaper {
      * @return
      */
     private String triplify(String inputFile) throws Exception {
+        File inputFileFile = new File (inputFile);
+        String filename = inputFileFile.getName();
         File config = new File(configFile);
 
         ProcessController processController = new ProcessController(0, null);
@@ -149,7 +215,7 @@ public class generateTriplesForPaper {
         // Triplify results if we're all good
 
         if (isValid) {
-            Triplifier t = new Triplifier("ppo_paper", outputDirectory, processController);
+            Triplifier t = new Triplifier(filename, outputDirectory, processController);
             t.run(validation.getSqliteFile(), Lists.newArrayList(fimsMetadata.get(0).fieldNames()));
 
             return "Processing " + inputFile + " ...\n" + t.getTripleOutputFile();
