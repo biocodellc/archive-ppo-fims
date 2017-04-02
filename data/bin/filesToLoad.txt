@@ -1,2 +1,0 @@
-test_npn7 	/Users/jdeck/IdeaProjects/ppo_data/pheno_paper/npn/datasheet_1485012823554/status_intensity_observation_data.csv
-test_npn8	/Users/jdeck/IdeaProjects/ppo_data/pheno_paper/npn/datasheet_1485013283920/status_intensity_observation_data.csv
