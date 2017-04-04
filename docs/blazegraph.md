@@ -9,12 +9,14 @@ cd /opt/jetty_web/mybase/
 java -jar /opt/jetty-distribution-9.4.1.v20170120/start.jar
 ```
 # running blazegraph as a service
-I've since resorted to running blazegraph as an executable jar... this puts the blazegraph.jnl DATA file in the directory with a single jar.
+Start blazegraph by running it as a service along with apache. 
 
-I've run blazegraph using the instructions in blazegraph_executable_jar and kept it running using "nohup".
-Not sure how robust this is, but ok for now.
+```
+/etc/init.d/blazegraph start
+/etc/init.d/apache2 start
+```
 
-Also, apache is forwarding port 80 redirects to port 9999, which is the port where the server is running
+Apache is forwarding port 80 redirects to port 9999, which is the port where the server is running
 
 # Syncing data
 Data is generated using jdeck88/pheno_paper repository.  However, the data itself is not in the repository but should be stored in an ignored "data" directory off of the repository root.  
