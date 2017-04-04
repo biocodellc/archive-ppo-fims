@@ -10,18 +10,18 @@ java -jar /opt/jetty-distribution-9.4.1.v20170120/start.jar
 ```
 # running blazegraph as a service
 I've since resorted to running blazegraph as an executable jar... this puts the blazegraph.jnl DATA file in the directory with a single jar.
-pretty simple this way.
-i've run blazegraph using the instructions in blazegraph_executable_jar and kept it running using "nohup".
+
+I've run blazegraph using the instructions in blazegraph_executable_jar and kept it running using "nohup".
 Not sure how robust this is, but ok for now.
 
 Also, apache is forwarding port 80 redirects to port 9999, which is the port where the server is running
 
 # Syncing data
-The directory is under code/ppo_data
+Data is generated using jdeck88/pheno_paper repository.  However, the data itself is not in the repository but should be stored in an ignored "data" directory off of the repository root.  
 
-# The namespace
-for the paper, i'm using "pheno_paper" namespace.
-Other namespaces to follow
+# The namespaces
+for the paper, i'm using "pheno_paper_{method}" namespace.  Where {method} is the way in which data was generated (e.g. direct, short, mini)
+
 
 # Unzipping Files
 Using the directory unzipped_data
