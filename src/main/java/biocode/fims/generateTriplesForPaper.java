@@ -196,7 +196,7 @@ public class generateTriplesForPaper {
             fimsMetadata = tdc.convert(mapping.getDefaultSheetAttributes(), sheetname);
 
             // Run the validation
-            isValid = validation.run(tdr, "test", "output", mapping, fimsMetadata);
+            isValid = validation.run(tdr, "test", "output", mapping, fimsMetadata, sheetname);
         } catch (FimsRuntimeException e) {
             if (e.getErrorCode() != null) {
                 processController.addMessage(sheetname, new RowMessage(e.getUsrMessage(), "Initial Spreadsheet check", RowMessage.ERROR));

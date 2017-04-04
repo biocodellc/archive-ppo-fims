@@ -1,66 +1,44 @@
 buildscript {
     repositories {
-        mavenCentral()
-        jcenter()
         maven {
-            url "https://plugins.gradle.org/m2/"
+            url "http://repo.biocodellc.com/repository/maven-private/"
+            credentials {
+                username mavenUser
+                password mavenPass
+            }
         }
+        mavenLocal()
     }
     dependencies {
-        classpath "org.ajoberstar:gradle-git:1.4.2"
-        classpath "com.github.marceloemanoel:gradle-environments-plugin:0.1"
         classpath 'com.github.fgiannesini.libsass.gradle.plugin:libsass-gradle-plugin:+'
+        classpath "org.biocode:gradle-fims:1.1.0"
     }
 }
 
-plugins {
-    id "com.eriwen.gradle.js" version "2.14.1"
-    id 'org.hidetake.ssh' version '2.0.0'
-}
-
-import com.eriwen.gradle.js.tasks.MinifyJsTask
-import org.ajoberstar.grgit.*
-import groovy.io.FileType
-import groovy.json.*
-
-apply plugin: "java"
-apply plugin: "war"
-apply plugin: "idea"
-apply plugin: "environments"
-apply plugin: "com.eriwen.gradle.js"
+apply plugin: "application"
 apply plugin: 'com.github.fgiannesini.libsass.gradle.plugin'
+apply plugin: "org.biocode.fims-web"
 
-targetCompatibility = 1.8
-sourceCompatibility = 1.8
+import org.biocode.gradle.web.tasks.RestartRemoteJettyTask
+import org.biocode.gradle.web.tasks.HotDeployRemoteJettyTask
+
+ext.fimsCommonsVersion = "0.1.1"
+ext.fimsFusekiVersion = "0.2.0"
+
+fims {
+    maven {
+        username mavenUser
+        password mavenPass
+    }
+}
 
 repositories {
-    mavenCentral()
+    add(fims.mavenFims())
+    mavenLocal()
 }
 
-//noinspection GroovyAssignabilityCheck
-configurations {
-    server
-}
-
-// this is necessary for the subprojects.each closure to work correctly when dealing with the server configuration dependencies
-subprojects.each { subproject -> evaluationDependsOn(subproject.path) }
-
-idea {
-    module {
-        scopes.COMPILE.plus += [configurations.server]
-    }
-}
-
-//noinspection GroovyAssignabilityCheck
-sourceSets {
-    main {
-        compileClasspath += [configurations.server]
-    }
-    test {
-        compileClasspath += [configurations.server]
-        runtimeClasspath += [configurations.server]
-    }
-}
+// need to evaluate childProjects first so we can add the childProject server dependencies to the server configuration
+evaluationDependsOnChildren()
 
 dependencies {
     server 'org.glassfish.jersey.media:jersey-media-multipart:2.25'
@@ -80,15 +58,143 @@ dependencies {
     server 'commons-cli:commons-cli:1.2'
 
     server group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
-    compile project(":biocode-fims-commons")
-    compile project(":biocode-fims-fuseki")
+    compile composite.resolveDependency("org.biocode:biocode-fims-commons:${fimsCommonsVersion}", ":biocode-fims-commons")
+    compile composite.resolveDependency("org.biocode:biocode-fims-fuseki:${fimsFusekiVersion}", ":biocode-fims-fuseki")
 
     testCompile "junit:junit-dep:4.10"
+
+    subprojects.each {
+        project.configurations.server.dependencies.addAll(it.configurations.server.dependencies)
+    }
 }
 
+//=============================
+//= archive configuration
+//=============================
+
+war {
+    webInf {
+        from ("${buildDir}/css") {
+            into "/css/"
+        }
+    }
+}
+
+
+fatWar {
+    webInf {
+        from ("${buildDir}/css") {
+            into "/css/"
+        }
+    }
+}
+
+//=============================
+//= ssh configuration
+//=============================
+
+// jetty ssh plugin
+remotes {
+    biscicol {
+        host = 'biscicol.org'
+        user = biscicolUser
+        password = biscicolPassword
+    }
+}
+
+
+//=============================
+//= application configuration
+//=============================
+mainClassName = "biocode.fims.generateTriplesForPaper"
+
+distributions {
+    main {
+        contents {
+            into('lib') {
+                from configurations.server
+            }
+        }
+    }
+}
+
+startScripts {
+    classpath = files(jar.archivePath, configurations.server, configurations.runtime)
+}
+
+//=============================
+//= deployment configuration
+//=============================
+
+updateDependencies {
+    remote = remotes.biscicol
+    location = remoteLibsDirectory
+}
+
+updateDependenciesDev {
+    remote = remotes.biscicol
+    location = remoteDevLibsDirectory
+}
+
+deployFims {
+    remote = remotes.biscicol
+    remoteLibsDir = remoteLibsDirectory
+    remoteWarDir = remoteWarDirectory
+}
+
+deployFimsDev {
+    remote = remotes.biscicol
+    remoteLibsDir = remoteDevLibsDirectory
+    remoteWarDir = remoteWarDevDirectory
+}
+
+deployFimsLocal {
+    deployDir = localWarDirectory
+}
+
+task hotDeployFimsDev(type: HotDeployRemoteJettyTask, dependsOn: "deployFimsDev") {
+    group = 'Fims'
+    remoteWarDir = remoteWarDevDirectory
+    remote = remotes.biscicol
+}
+
+task hotDeployFims(type: HotDeployRemoteJettyTask, dependsOn: "deployFims") {
+    group = 'Fims'
+    remoteWarDir = remoteWarDirectory
+    remote = remotes.biscicol
+}
+
+task restartFims(type: RestartRemoteJettyTask) {
+    group = 'Fims'
+    jettyPath = biscicolJettyPath
+    remote = remotes.biscicol
+}
+
+task restartFimsDev(type: RestartRemoteJettyTask) {
+    group = 'Fims'
+    jettyPath = biscicolJettyDevPath
+    remote = remotes.biscicol
+}
+
+//=============================
+//= Rest api docs configuration
+//=============================
+
+generateRestApiDocs {
+    swagger {
+        apiInfo = "${projectDir}/swagger/api-info.json"
+        apiVersions = ["v1.1", "v2"]
+        apiBasePath = "/biocode-fims/rest/"
+    }
+}
+
+//===========================
+//= js configuration
+//===========================
+
 // specify files that require a specific loading order
-ext.externLibsOrdered = ["${projectDir}/src/main/web/js/externalLibs/lodash.js", "${projectDir}/src/main/web/js/externalLibs/papaparse.min.js",
-                         "${projectDir}/src/main/web/js/externalLibs/xlsx.min.js", "${projectDir}/src/main/web/js/externalLibs/xlsx-reader.js"]
+ext.externLibsOrdered = ["${webAppDir}/js/externalLibs/lodash.js", "${webAppDir}/js/externalLibs/papaparse.min.js",
+                         "${webAppDir}/js/externalLibs/xlsx.min.js", "${webAppDir}/js/externalLibs/xlsx-reader.js"]
 javascript.source {
     externLibs {
         js {
@@ -123,6 +229,31 @@ javascript.source {
     }
 }
 
+combineJs {
+    encoding = "UTF-8"
+    source = files("${webAppDirName}/app/app.module.js", javascript.source.modules.js.files, javascript.source.app.js.files, javascript.source.js.js.files)
+    dest = file("${webAppDirName}/js/all.js")
+}
+
+jsExternalLibs {
+    source = externLibsOrdered + javascript.source.externLibs.js.files
+    closure {
+        compilerOptions.language = "ECMASCRIPT5"
+        warningLevel = "QUIET"
+    }
+}
+
+jsApp {
+    source = files("src/main/web/app/app.module.js", javascript.source.modules.js.files, javascript.source.app.js.files, javascript.source.js.js.files)
+    closure {
+        compilerOptions.language = "ECMASCRIPT5"
+    }
+}
+
+//===========================
+//= libsass configuration
+//===========================
+
 libSassParameters {
     inputFilePath = "${projectDir}/src/main/stylesheets/style.scss"
     outputFilePath = "${buildDir}/css/style.css"
@@ -133,402 +264,6 @@ libSassParameters {
     }
 }
 
-webAppDirName = "src/main/web"
-libsDirName = "../dist"
-
-project.ext.environment = project.hasProperty('environment') ? project.getProperty('environment') : defaultEnvironment
-
-//noinspection GroovyAssignabilityCheck
-clean {
-    delete libsDir
-}
-
-// jetty ssh plugin
-remotes {
-    biscicol {
-        host = 'biscicol.org'
-        user = biscicolUser
-        password = biscicolPassword
-    }
-}
-
-allprojects {
-    task verifyMasterBranch << {
-        ext.repo = Grgit.open(project.file('.'))
-        if (ext.repo.branch.current.name != "master")
-            throw new GradleScriptException(project.name + ' is not on the master branch', null)
-    }
-}
-
-war {
-    // add minified and concatinated js and css files
-    webInf {
-        from ("${buildDir}/js") {
-            into "/js/"
-        }
-        from ("${buildDir}/css") {
-            into "/css/"
-        }
-    }
-}
-
-task setProductionEnv << {
-    project.ext.environment = "production"
-}
-task setDevelopmentEnv << {
-    project.ext.environment = "development"
-}
-task setLocalEnv << {
-    project.ext.environment = "local"
-}
-
-// if setProductionEnv or setDevelopmentEnv is run, make sure this is done before processResources
-setProductionEnv.mustRunAfter compileJava
-setDevelopmentEnv.mustRunAfter compileJava
-setLocalEnv.mustRunAfter compileJava
-
-/*
-Delete any resource files in src/main/resources if the file exists in a sub directory
-of src/main/environment, excluding the current environment setting directory
-*/
-task cleanResourceDirectory {
-    doLast {
-        def allResourceFilesToRemove = []
-
-        def environmentDir = new File("src/main/environment")
-        environmentDir.eachFileRecurse(FileType.FILES) { file ->
-            allResourceFilesToRemove << file.name
-        }
-
-        allResourceFilesToRemove.each {
-            def resourceFile = new File("src/main/resources/${it}")
-            if (resourceFile.exists()) {
-                resourceFile.delete()
-            }
-        }
-    }
-}
-
-task copyEnvironmentResources {
-    dependsOn cleanResourceDirectory
-    doLast {
-        project.copy {
-            from "src/main/environment/${project.environment}"
-            into "src/main/resources"
-            include "**/*"
-            exclude "web.xml"
-            exclude ".gitkeep"
-        }
-    }
-}
-processResources.dependsOn copyEnvironmentResources
-
-task copyWebXml {
-    inputs.dir "src/main/environment/${project.environment}/web.xml"
-    outputs.dir "src/main/web/WEB-INF"
-    doLast {
-        project.copy {
-            from "src/main/environment/${project.environment}"
-            into "src/main/web/WEB-INF"
-            include "web.xml"
-        }
-    }
-}
-
-processResources.dependsOn copyWebXml
-
-task restartFims {
-    group = 'biscicol.org'
-    description = 'Restart biscicol.org production jetty instance'
-    doLast {
-        ssh.run {
-            session(remotes.biscicol) {
-                executeSudo biscicolJettyPath + ' restart'
-            }
-        }
-    }
-}
-
-task restartFimsDev {
-    group = 'biscicol.org'
-    description = 'Restart biscicol.org dev jetty instance'
-    doLast {
-        ssh.run {
-            session(remotes.biscicol) {
-                executeSudo biscicolJettyDevPath + ' restart'
-            }
-        }
-    }
-}
-
-ext.updateRemoteDependencies = { location ->
-    subprojects.each { subproject ->
-        project.configurations.server.dependencies.addAll(subproject.configurations.server.dependencies)
-    }
-
-    ssh.run {
-        session(remotes.biscicol) {
-            execute "/bin/rm -f " + location + "*"
-            put from: project.configurations.server.incoming.getFiles(), into: location
-        }
-    }
-}
-
-task updateDependenciesDev {
-    group = "biscicol.org"
-    description = "update the jars located in " + remoteDevLibsDirectory
-
-    doLast {
-        updateRemoteDependencies(remoteDevLibsDirectory)
-    }
-}
-
-task updateDependencies {
-    group = "biscicol.org"
-    description = "update the jars located in " + remoteLibsDirectory
-
-    dependsOn verifyMasterBranch
-
-    doLast {
-        updateRemoteDependencies(remoteLibsDirectory)
-    }
-}
-
-ext.remoteDeploy = { workingDir, remoteLibsDir, remoteWarDir ->
-    ssh.run {
-        session(remotes.biscicol) {
-            // Cleanup to begin
-            execute "/bin/rm -rf " + workingDir
-            execute "/bin/mkdir " + workingDir
-            // Copy war file to server
-            put from: war.archivePath.path, into: workingDir
-            // Extract libs and copy from server
-            execute "/usr/bin/unzip -d " + workingDir + " " + workingDir + war.archiveName
-            execute "/bin/cp " + remoteLibsDir + "* " + workingDir + "WEB-INF/lib/"
-            // Remove the old war file
-            execute "/bin/rm " + workingDir + war.archiveName
-            // Need to remove the war file itself
-            execute "/bin/rm -fr " + remoteWarDir + "ppo.war"
-            // Need to execute zip command from the working Directory in order to get relative paths correct
-            execute "cd " + workingDir + ";/usr/bin/zip -r " + remoteWarDir + "ppo.war" + " ."
-            // Cleanup
-            execute "/bin/rm -rf " + workingDir
-        }
-    }
-}
-
-task deployFims {
-    group = 'biscicol.org'
-    description = 'verify that all subprojects are on the master branch. Then build and copy war to biscicol.org production jetty webApp directory'
-
-    dependsOn verifyMasterBranch
-    dependsOn setProductionEnv
-    dependsOn war
-
-    doLast {
-        def workingDir = "/tmp/ppoProd/"
-        remoteDeploy(workingDir, remoteLibsDirectory, remoteWarDirectory)
-    }
-}
-
-task deployFimsDev {
-    group = 'biscicol.org'
-    description = 'build and copy war to biscicol.org development jetty webApp directory'
-
-    dependsOn setDevelopmentEnv
-    dependsOn war
-
-    doLast {
-        def workingDir = "/tmp/ppoDev/"
-        remoteDeploy(workingDir, remoteDevLibsDirectory, remoteWarDevDirectory)
-
-    }
-}
-
-task fatWar(type: War) {
-    archiveName = "ppo-fims-fat.war"
-
-    subprojects.each { subproject ->
-        project.configurations.server.dependencies.addAll(subproject.configurations.server.dependencies)
-    }
-
-    classpath configurations.server
-    classpath configurations.compile
-
-    webInf {
-        from ("${buildDir}/js") {
-            into "/js/"
-        }
-        from ("${buildDir}/css") {
-            into "/css/"
-        }
-    }
-}
-
-task deployFimsLocal {
-    description = 'local fims deployment'
-
-    dependsOn setLocalEnv
-    dependsOn fatWar
-
-    doLast {
-        project.copy {
-            from fatWar.destinationDir
-            into localWarDirectory
-            include fatWar.archiveName
-            rename fatWar.archiveName, "ppo.war"
-        }
-    }
-}
-
-task ezidUpdate(type: JavaExec) {
-    subprojects.each { subproject ->
-        project.configurations.server.dependencies.addAll(subproject.configurations.server.dependencies)
-    }
-
-    classpath = configurations.server + configurations.compile + sourceSets.main.runtimeClasspath
-
-    main = "biocode.fims.run.EzidUpdator"
-}
-
-combineJs {
-    encoding = "UTF-8"
-    source = files("src/main/web/app/app.module.js", javascript.source.modules.js.files, javascript.source.app.js.files, javascript.source.js.js.files)
-    dest = file("src/main/web/js/all.js")
-}
-
-task jsExternalLibs(type: MinifyJsTask) {
-    source = externLibsOrdered + javascript.source.externLibs.js.files
-    dest = file("${buildDir}/js/allExternalLibs.min.js")
-    sourceMap = file("${buildDir}/js/allExternalLibs.min.map")
-    closure {
-        warningLevel = 'QUIET'
-        compilerOptions.language = "ECMASCRIPT5"
-    }
-
-    doLast { task ->
-        file(dest) << "\n//# sourceMappingURL=allExternalLibs.min.map"
-
-        def sources = []
-
-        task.source.files.each { file ->
-            sources << ".." + file.canonicalPath.minus(projectDir.canonicalPath + "/" + webAppDirName)
-        }
-
-        Map srcMap = new JsonSlurper().parseText(sourceMap.text)
-        srcMap.sources = sources
-        sourceMap.withWriter("UTF-8") { it << new JsonBuilder(srcMap).toPrettyString() }
-    }
-}
-
-task jsApp(type: MinifyJsTask) {
-    source = files("src/main/web/app/app.module.js", javascript.source.modules.js.files, javascript.source.app.js.files, javascript.source.js.js.files)
-    dest = file("${buildDir}/js/all.min.js")
-    sourceMap = file("${buildDir}/js/all.min.map")
-    closure {
-        compilerOptions.language = "ECMASCRIPT5"
-    }
-
-    doLast { task ->
-        file(dest) << "\n//# sourceMappingURL=all.min.map"
-
-        def sources = []
-
-        task.source.files.each { file ->
-            sources << ".." + file.canonicalPath.minus(projectDir.canonicalPath + "/" + webAppDirName)
-        }
-
-        Map srcMap = new JsonSlurper().parseText(sourceMap.text)
-        srcMap.sources = sources
-        sourceMap.withWriter("UTF-8") { it << new JsonBuilder(srcMap).toPrettyString() }
-    }
-}
-
-task minifyJs(overwrite: true) {
-    dependsOn jsExternalLibs
-    dependsOn jsApp
-}
-
-task copyEnvironmentFiles(overwrite: true) {
-    dependsOn copyWebXml
-    dependsOn copyEnvironmentResources
-}
-
-task addProdJsLibs(type: WebJsLibTask,
-        description: 'Modify index.html to include the combined, minified, and compressed js files') {
-    html = file('src/main/web' + '/index.html')
-    environment = 'production'
-}
-
-task addDevJsLibs(type: WebJsLibTask,
-        description: 'Modify the index.html to include all js files') {
-    html = file('src/main/web/index.html')
-    environment = 'local'
-}
-
-class WebJsLibTask extends DefaultTask {
-    final def tag = "<!-- LIBRARY LOADING -->"
-    final def endTag = "<!-- END: LIBRARY LOADING -->"
-
-    @InputFile
-    File html
-
-    @Input
-    String environment
-
-    @OutputFile
-    @Optional
-    File outputHtml
-
-    def environmentToInclude = ['local': DEV_INCLUDE, 'production': PROD_INCLUDE]
-
-    final static def DEV_INCLUDE = """
-<!-- USE individual js files FOR LOCAL DEV -->
-<script src=\"libs/head/1.0.3/head.min.js\" data-headjs-load=\"js/init.js\"></script>
-"""
-    final static def PROD_INCLUDE = """
-<!-- use minified and combined js file FOR PROD -->
-<script src="js/allExternalLibs.min.js"></script>
-<script src="js/all.min.js"></script>
-"""
-
-    @TaskAction
-    def void applyScriptAndStylesheetTags() {
-        if (html.exists()) {
-            def htmlReplacement = html.getText().replaceAll(
-                    "$tag\\p{all}*$endTag",
-                    "$tag${getHtmlReplacement(environment)}$endTag")
-            if (outputHtml == null) outputHtml = html
-            outputHtml.setText(htmlReplacement, 'UTF-8')
-        }
-    }
-
-    def String getHtmlReplacement(String environment) {
-        switch (environment) {
-            case 'local':
-                return getLocalHtml()
-            case 'production':
-                return environmentToInclude['production']
-        }
-    }
-
-    def String getLocalHtml() {
-        String html = "\n"
-
-        project.jsExternalLibs.source.files.each { file ->
-            html += "<script src=\"" + file.canonicalPath.minus(project.projectDir.canonicalPath + "/" + project.webAppDirName + "/") + "\"></script>\n";
-        }
-        project.jsApp.source.files.each { file ->
-            html += "<script src=\"" + file.canonicalPath.minus(project.projectDir.canonicalPath + "/" + project.webAppDirName + "/") + "\"></script>\n";
-        }
-
-        return html
-    }
-}
-
-minifyJs.dependsOn addProdJsLibs
-fatWar.dependsOn minifyJs
-fatWar.dependsOn compileLibSassProdution
-war.dependsOn minifyJs
-war.dependsOn compileLibSassProdution
+fatWar.dependsOn compileLibSassProduction
+war.dependsOn compileLibSassProduction
 
