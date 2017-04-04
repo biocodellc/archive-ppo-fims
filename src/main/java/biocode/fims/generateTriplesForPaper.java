@@ -30,7 +30,8 @@ import java.util.Iterator;
  */
 public class generateTriplesForPaper {
     String configFile = null;
-    String outputDirectory = "/Users/jdeck/IdeaProjects/ppo_data/pheno_paper/npn/output_n3/";
+    String outputDirectory = null;
+    String defaultLocalURIPrefix = "http://biscicol.org/ppo/";
     static ArrayList<String> outputFiles = new ArrayList<String>();
 
 
@@ -40,8 +41,9 @@ public class generateTriplesForPaper {
      *
      * @param configFile
      */
-    public generateTriplesForPaper(String configFile) {
+    public generateTriplesForPaper(String configFile, String outputDirectory) {
         this.configFile = configFile;
+        this.outputDirectory = outputDirectory;
         outputFiles = new ArrayList<String>();
 
     }
@@ -105,15 +107,25 @@ public class generateTriplesForPaper {
         // ******************
 
         generateTriplesForPaper npn = new generateTriplesForPaper(
-                "/Users/jdeck/IdeaProjects/ppo-fims/data/npn/npn.xml"
+                "/Users/jdeck/IdeaProjects/pheno_paper/npn_direct/npn_direct.xml",
+                "/Users/jdeck/IdeaProjects/pheno_paper/data/npn_direct/output_unreasoned_n3/"
         );
 
         try {
             //outputFiles.add(npn.triplify("/Users/jdeck/IdeaProjects/ppo_data/pheno_paper/npn/output_csv/1485012823554.csv"));
-            outputFiles.add(
-                    npn.triplify(
-                            "/Users/jdeck/IdeaProjects/ppo_data/pheno_paper/npn/output_csv/1485013283920.csv"
+            boolean overwriteOutputFile = true;
+
+            outputFiles.add(npn.triplify(
+                    "/Users/jdeck/IdeaProjects/pheno_paper/data/npn_direct/output_csv/1485013283920.csv",
+                    //"/Users/jdeck/IdeaProjects/pheno_paper/data/npn/output_csv/1485012823554.csv",
+                    //"/Users/jdeck/IdeaProjects/pheno_paper/data/npn/output_csv/test.csv",
+                    overwriteOutputFile
             ));
+            outputFiles.add(npn.triplify(
+                    "/Users/jdeck/IdeaProjects/pheno_paper/data/npn_direct/output_csv/1485012823554.csv",
+                    overwriteOutputFile
+            ));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -150,8 +162,8 @@ public class generateTriplesForPaper {
      *
      * @return
      */
-    private String triplify(String inputFile) throws Exception {
-        File inputFileFile = new File (inputFile);
+    private String triplify(String inputFile, boolean overwriteOutputFile) throws Exception {
+        File inputFileFile = new File(inputFile);
         String filename = inputFileFile.getName();
         File config = new File(configFile);
 
@@ -197,6 +209,7 @@ public class generateTriplesForPaper {
 
             // Run the validation
             isValid = validation.run(tdr, "test", "output", mapping, fimsMetadata, sheetname);
+
         } catch (FimsRuntimeException e) {
             if (e.getErrorCode() != null) {
                 processController.addMessage(sheetname, new RowMessage(e.getUsrMessage(), "Initial Spreadsheet check", RowMessage.ERROR));
@@ -215,7 +228,7 @@ public class generateTriplesForPaper {
         // Triplify results if we're all good
 
         if (isValid) {
-            Triplifier t = new Triplifier(filename, outputDirectory, processController);
+            Triplifier t = new Triplifier(filename, outputDirectory, processController, overwriteOutputFile, defaultLocalURIPrefix);
             t.run(validation.getSqliteFile(), Lists.newArrayList(fimsMetadata.get(0).fieldNames()));
 
             return "Processing " + inputFile + " ...\n" + t.getTripleOutputFile();
