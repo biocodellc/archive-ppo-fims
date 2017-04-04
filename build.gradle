@@ -15,6 +15,10 @@ buildscript {
     }
 }
 
+plugins {
+    id 'com.github.johnrengelman.shadow' version '1.2.4'
+}
+
 apply plugin: "application"
 apply plugin: 'com.github.fgiannesini.libsass.gradle.plugin'
 apply plugin: "org.biocode.fims-web"
@@ -74,7 +78,7 @@ dependencies {
 
 war {
     webInf {
-        from ("${buildDir}/css") {
+        from("${buildDir}/css") {
             into "/css/"
         }
     }
@@ -83,7 +87,7 @@ war {
 
 fatWar {
     webInf {
-        from ("${buildDir}/css") {
+        from("${buildDir}/css") {
             into "/css/"
         }
     }
@@ -101,7 +105,6 @@ remotes {
         password = biscicolPassword
     }
 }
-
 
 //=============================
 //= application configuration
@@ -122,6 +125,20 @@ startScripts {
     classpath = files(jar.archivePath, configurations.server, configurations.runtime)
 }
 
+shadowJar {
+    baseName = "${project.name}-triples"
+    classifier = null
+    version = null
+
+    configurations = [project.configurations.server, project.configurations.runtime]
+
+    append "META-INF/spring.handlers"
+    append "META-INF/spring.schemas"
+
+    manifest {
+        attributes 'Main-Class': 'biocode.fims.generateTriplesForPaper'
+    }
+}
 //=============================
 //= deployment configuration
 //=============================
