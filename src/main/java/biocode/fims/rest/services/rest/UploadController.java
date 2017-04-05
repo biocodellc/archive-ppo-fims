@@ -13,6 +13,8 @@ import biocode.fims.fimsExceptions.*;
 import biocode.fims.fimsExceptions.BadRequestException;
 import biocode.fims.fimsExceptions.errorCodes.UploadCode;
 import biocode.fims.fuseki.run.TriplesToJsonConverter;
+import biocode.fims.rest.AcknowledgedResponse;
+import biocode.fims.rest.ConformationResponse;
 import biocode.fims.rest.FimsService;
 import biocode.fims.rest.filters.Admin;
 import biocode.fims.run.FimsInputter;
@@ -62,23 +64,23 @@ public class UploadController extends FimsService {
     /**
      * Service to upload a dataset to an expedition. This does not do any data validation, and expects a triples file
      *
-     * @param projectId required
-     * @param expeditionCode required
+     * @param projectId        required
+     * @param expeditionCode   required
      * @param createExpedition create the expedition if it doesn't exist. defaults to false
-     * @param isPublic if creating an expedition, this will determine if the expedition is public. defaults to false
-     * @param triplesLang triples language of the triplesFile. defaults to N3
-     * @param triplesFile the triples file to upload
-     * @return
+     * @param isPublic         if creating an expedition, this will determine if the expedition is public. defaults to false
+     * @param triplesLang      triples language of the triplesFile. defaults to N3
+     * @param triplesFile      the triples file to upload
+     * @return ConformationResponse
      */
     @Admin
     @POST
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response upload(@FormDataParam("projectId") Integer projectId,
-                           @FormDataParam("expeditionCode") String expeditionCode,
-                           @FormDataParam("create") @DefaultValue("false") boolean createExpedition,
-                           @FormDataParam("public") @DefaultValue("false") boolean isPublic,
-                           @FormDataParam("triplesLang") @DefaultValue(com.hp.hpl.jena.util.FileUtils.langN3) String triplesLang,
-                           @FormDataParam("triplesFile") FormDataBodyPart triplesFile) {
+    public ConformationResponse upload(@FormDataParam("projectId") Integer projectId,
+                                       @FormDataParam("expeditionCode") String expeditionCode,
+                                       @FormDataParam("create") @DefaultValue("false") boolean createExpedition,
+                                       @FormDataParam("public") @DefaultValue("false") boolean isPublic,
+                                       @FormDataParam("triplesLang") @DefaultValue(com.hp.hpl.jena.util.FileUtils.langN3) String triplesLang,
+                                       @FormDataParam("triplesFile") FormDataBodyPart triplesFile) {
         if (projectId == null || expeditionCode == null || triplesFile == null) {
             throw new BadRequestException("projectId, expeditionCode, and triplesFile are required");
         }
@@ -159,7 +161,7 @@ public class UploadController extends FimsService {
                 index
         );
 
-        return Response.ok().build();
+        return new ConformationResponse(true);
     }
 }
 
