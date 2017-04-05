@@ -1,22 +1,13 @@
 package biocode.fims.rest.services.rest;
 
-import biocode.fims.bcid.ProjectMinter;
 import biocode.fims.config.ConfigurationFileEsMapper;
 import biocode.fims.config.ConfigurationFileFetcher;
 import biocode.fims.digester.*;
 import biocode.fims.elasticSearch.ElasticSearchIndexer;
-import biocode.fims.entities.Expedition;
-import biocode.fims.entities.Project;
-import biocode.fims.entities.User;
 import biocode.fims.fimsExceptions.FimsRuntimeException;
-import biocode.fims.fimsExceptions.ForbiddenRequestException;
-import biocode.fims.rest.filters.Admin;
-import biocode.fims.rest.filters.Authenticated;
 import biocode.fims.run.TemplateProcessor;
 import biocode.fims.service.ExpeditionService;
-import biocode.fims.service.OAuthProviderService;
 import biocode.fims.service.ProjectService;
-import biocode.fims.service.UserService;
 import biocode.fims.settings.SettingsManager;
 import org.elasticsearch.client.Client;
 import org.json.simple.JSONArray;
@@ -44,13 +35,13 @@ public class ProjectController extends FimsAbstractProjectsController {
 
     private static Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
-    private final UserService userService;
+    private final Client esClient;
 
     @Autowired
     ProjectController(ExpeditionService expeditionService, SettingsManager settingsManager,
-                      ProjectService projectService, UserService userService) {
+                      ProjectService projectService, Client esClient) {
         super(expeditionService, settingsManager, projectService);
-        this.userService = userService;
+        this.esClient = esClient;
     }
 
     @GET
@@ -460,7 +451,11 @@ public class ProjectController extends FimsAbstractProjectsController {
     @GET
     @Path("/{projectId}/config/refreshCache")
     public Response refreshCache(@PathParam("projectId") Integer projectId) {
-        new ConfigurationFileFetcher(projectId, defaultOutputDirectory(), false).getOutputFile();
+        File configFile = new ConfigurationFileFetcher(projectId, defaultOutputDirectory(), false).getOutputFile();
+
+        ElasticSearchIndexer indexer = new ElasticSearchIndexer(esClient);
+        JSONObject mapping = ConfigurationFileEsMapper.convert(configFile);
+        indexer.updateMapping(projectId, mapping);
 
         return Response.noContent().build();
     }
