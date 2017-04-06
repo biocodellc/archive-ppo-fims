@@ -19,6 +19,5 @@ jetty-env.xml
 ppo-fims.ipr
 ppo-fims.iws
 out/
-triples/
 src/main/web/WEB-INF/web.xml
 **/app.constants.js

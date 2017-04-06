@@ -8,7 +8,7 @@ AUTH_URL = "authenticationService/login"
 UPLOAD_URL = "upload"
 
 
-def upload(rest_root, project_id, expedition_code, triples_file, username, password, triples_lang, is_public=False,
+def upload(rest_root, project_id, expedition_code, triples_file, username, password, is_public=False,
            create_expedition=False):
     rest_root = __sanitize_url(rest_root)
 
@@ -31,7 +31,6 @@ def upload(rest_root, project_id, expedition_code, triples_file, username, passw
             'expeditionCode': expedition_code,
             'create': str(create_expedition),
             'public': str(is_public),
-            'triplesLang': triples_lang
         })
 
         headers = {'Content-Type': e.content_type}
@@ -93,12 +92,6 @@ def main():
         action="store_true",
         dest="create_expedition")
     parser.add_argument(
-        "-t",
-        "--triples_lang",
-        help="the language of the triples file",
-        default="N3",
-        dest="triples_lang")
-    parser.add_argument(
         "-u",
         "--username",
         required=True,
@@ -113,7 +106,7 @@ def main():
     args = parser.parse_args()
 
     upload(args.rest_service, args.project_id, args.expedition_code, args.triples_file, args.username, args.password,
-           args.triples_lang, args.is_public, args.create_expedition)
+           args.is_public, args.create_expedition)
 
 
 if __name__ == '__main__':

@@ -9,6 +9,7 @@ import biocode.fims.run.TemplateProcessor;
 import biocode.fims.service.ExpeditionService;
 import biocode.fims.service.ProjectService;
 import biocode.fims.settings.SettingsManager;
+import biocode.fims.triples.PPOFimsModel;
 import org.elasticsearch.client.Client;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -455,6 +456,11 @@ public class ProjectController extends FimsAbstractProjectsController {
 
         ElasticSearchIndexer indexer = new ElasticSearchIndexer(esClient);
         JSONObject mapping = ConfigurationFileEsMapper.convert(configFile);
+
+        JSONObject properties = (JSONObject) mapping.get("properties");
+        JSONObject type = new JSONObject();
+        type.put("type", "keyword");
+        properties.put(PPOFimsModel.TYPE_ARRAY, type);
         indexer.updateMapping(projectId, mapping);
 
         return Response.noContent().build();
