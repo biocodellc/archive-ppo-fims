@@ -1,1 +1,1 @@
-angular.module('fims.expeditions', ['fims.users']);
+angular.module('fims.expeditions', ['fims.users', 'fims.exception']);

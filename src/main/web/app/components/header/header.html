@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" role="navigation" ng-controller="NavCtrl as vm">
+<nav class="navbar navbar-default" role="navigation" ng-controller="HeaderCtrl as vm">
     <div class="container-fluid">
 
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -15,9 +15,7 @@
             <a class="navbar-left" ui-sref="home">
                 <img src='images/budsUpsideDown.png' height=150>
             </a>
-            <a class="navbar-brand" ui-sref="home">
-                Plant Phenology
-            </a>
+            <a class="navbar-brand" ui-sref="home">Plant Phenology</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -27,9 +25,8 @@
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" class="dropdown-toggle">Tools<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a ui-sref="template" class='enabled'>Generate Template</a></li>
-                        <li><a ui-sref="validate" class='enabled'>Validate and Load Data</a></li>
-                        <li><a ui-sref="expeditionManager" class='enabled'>Expedition Manager</a></li>
+                        <li ng-show="vm.isAdmin"><a ui-sref="expeditionManager" class='enabled'>Expedition Manager</a></li>
+                        <li ng-show="!vm.isAdmin"><a href="#" class='disabled'>Expedition Manager</a></li>
                         <li ng-show="vm.isAdmin"><a ui-sref='projects' class='enabled'>Project Manager</a></li>
                         <li ng-show="!vm.isAdmin"><a href='#' class='disabled'>Project Manager</a></li>
                     </ul>

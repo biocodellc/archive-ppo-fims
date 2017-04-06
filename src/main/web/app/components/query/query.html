@@ -1,56 +1,67 @@
-<div class="row">
+<div class="query-bar">
 
-    <h3 class="page-header">Coming Soon!</h3>
+    <!-- alerts -->
+    <div class="alerts row">
+        <div class="col-xs-12">
+            <div ng-repeat="alert in vm.alerts.getAlerts()" class="alert alert-{{alert.level}} alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" ng-click="vm.alerts.remove(alert)"
+                        aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                {{ alert.msg }}
+            </div>
+        </div>
+    </div>
 
-    <!--<div class="col-xs-12">-->
-        <!--<form method="POST">-->
-            <!--<table border=0 class="table" style="width:800px;">-->
+    <div class="actions clearfix">
+        <!-- query view toggle -->
+        <div class="btn-group btn-group-sm pull-right query-view-toggle">
+            <button type="button" ng-click="vm.showMap = true" ng-class="{'disabled': vm.showMap}"
+                    class="btn btn-default">Map
+            </button>
+            <button type="button" ng-click="vm.showMap = false" ng-class="{'disabled': !vm.showMap}"
+                    class="btn btn-default">Table
+            </button>
+        </div>
 
-                <!--<tr project-select></tr>-->
+        <!-- download menu -->
+        <div ng-show="vm.queryResults.isSet" class="btn-group btn-group-sm pull-right download-btn">
+            <button type="button" class="btn dropdown-toggle"
+                    data-toggle="dropdown">Download <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#" ng-click="vm.downloadCsv()">CSV</a></li>
+                <li><a href="#" ng-click="vm.downloadKml()">KML</a></li>
+            </ul>
+        </div>
+    </div>
 
-                <!--<tr>-->
-                    <!--<td align=right>&nbsp;&nbsp;Choose Dataset(s)&nbsp;&nbsp;&nbsp;</td>-->
-                    <!--<td><select id=graphs multiple style="display:inline-block;width:400px;text-align:left;"></select>-->
-                    <!--</td>-->
-                <!--</tr>-->
 
-                <!--<tr class=toggle-content id=filter-toggle>-->
-                    <!--<td align=right>Filter</td>-->
-                    <!--<td>-->
-                        <!--<select id="uri" style="max-width:100px;">-->
-                            <!--<option value="0">Loading ...</option>-->
-                        <!--</select>-->
-                        <!--<p style='display:inline;'>=</p>-->
-                        <!--<input type="text" name="filter_value" style="width:250px;"/>-->
-                        <!--<input type=button value=+ id=add_filter class="btn btn-default btn-sm"/>-->
-                    <!--</td>-->
-                <!--</tr>-->
+</div>
 
-                <!--<tr>-->
-                    <!--<td colspan=2>-->
-                        <!--<input type="button" ng-click="queryVm.queryJson()" value="table"-->
-                               <!--class="btn btn-default btn-sm">-->
-                        <!--<input type=button id="submit" value=excel class="btn btn-default btn-sm">-->
-                        <!--<input type=button id="submit" value=kml class="btn btn-default btn-sm">-->
-                    <!--</td>-->
-                <!--</tr>-->
-            <!--</table>-->
-        <!--</form>-->
+<div class="query-page fill-screen">
+    <!-- sidebar-->
+    <div ng-show="vm.showSidebar" ng-include="'app/components/query/queryForm.html'" class="sidebar"></div>
 
-        <!--<div class="panel panel-default" ng-show="queryVm.queryResults" style="overflow: auto">-->
-            <!--<span ng-show="queryVm.queryResults.length == 0">No resources found.</span>-->
+    <!-- sidebar toggle -->
+    <div class="sidebar-toggle">
+        <button class="btn btn-default" ng-click="vm.showSidebar = !vm.showSidebar"><span
+                class="glyphicon" uib-tooltip="{{ vm.sidebarToggleToolTip }}" tooltip-placement="right"
+                ng-class="{'glyphicon-chevron-left': vm.showSidebar, 'glyphicon-chevron-right': !vm.showSidebar}"></span>
+        </button>
+    </div>
 
-            <!--<table class="table table-condensed">-->
-                <!--<thead>-->
-                <!--<th ng-repeat="(key, value) in queryVm.queryResults[0]">{{ key }}</th>-->
-                <!--</thead>-->
-                <!--<tbody>-->
-                <!--<tr ng-repeat="resource in queryVm.queryResults">-->
-                    <!--<td ng-repeat="(key, value) in resource">{{ value }}</td>-->
-                <!--</tr>-->
-                <!--</tbody>-->
-            <!--</table>-->
-        <!--</div>-->
+    <!-- main content-->
+    <div class="query-content">
 
-    <!--</div>-->
+        <div class="center-spinner" us-spinner="" spinner-key="query-spinner"></div>
+
+        <!-- map -->
+        <fims-map ng-show="vm.showMap" map="vm.queryMap" invalidate-size="vm.invalidSize" class="angular-leaflet-map"></fims-map>
+
+
+        <!-- table -->
+        <div ng-show="!vm.showMap" class="query-table" ng-class="{'full-page-query-table': !vm.showSidebar}"
+             ng-include="'app/components/query/queryTable.html'"></div>
+
+    </div>
 </div>

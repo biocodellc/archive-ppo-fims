@@ -1,66 +1,54 @@
-angular.module('fims.query', ['fims.modals'])
+(function () {
+    'use strict';
 
-    .controller('QueryCtrl', ['$rootScope', '$http', 'LoadingModalFactory', 'FailModalFactory', 'REST_ROOT',
-        function ($rootScope, $http, LoadingModalFactory, FailModalFactory, REST_ROOT) {
-            var vm = this;
-            vm.queryResults = null;
-            vm.queryJson = queryJson;
+    angular.module('fims.query')
+        .controller('QueryController', QueryController);
 
-            function queryJson() {
-                LoadingModalFactory.open();
-                $http.post(REST_ROOT + "projects/query/json/", getQueryPostParams())
-                    .then(
-                        function (response) {
-                            vm.queryResults = response.data;
-                        }, function (response) {
-                            var error;
-                            if (response.status = -1 && !response.data) {
-                                error = "Timed out waiting for response! Try again later or reduce the number of graphs you are querying. If the problem persists, contact the System Administrator.";
-                            } else {
-                                error = response.data.error || response.data.usrMessage || "Server Error!";
-                            }
+    QueryController.$inject = ['$scope', 'queryService', 'queryParams', 'queryResults', 'queryMap', 'alerts'];
 
-                            FailModalFactory.open("Error", error);
-                            vm.queryResults = null;
-                        }
-                    )
-                    .finally(function() {
-                        LoadingModalFactory.close();
-                    })
+    function QueryController($scope, queryService, queryParams, queryResults, queryMap, alerts) {
+        var vm = this;
+        vm.alerts = alerts;
+        vm.queryResults = queryResults;
+
+        vm.showSidebar = true;
+        vm.showMap = true;
+        vm.sidebarToggleToolTip = "hide sidebar";
+
+        vm.queryMap = queryMap;
+        vm.invalidSize = false;
+
+
+        vm.downloadCsv = function () {
+            queryService.downloadCsv(queryParams.build())
+        };
+        vm.downloadKml = function () {
+            queryService.downloadKml(queryParams.build())
+        };
+
+        activate();
+
+        function activate() {
+            queryParams.clear();
+            queryResults.clear();
+        }
+
+        $scope.$watch('vm.showSidebar', function () {
+            if (vm.showSidebar) {
+                vm.sidebarToggleToolTip = "hide sidebar";
+            } else {
+                vm.sidebarToggleToolTip = "show sidebar";
             }
+        });
 
-            $rootScope.$on('projectSelectLoadedEvent', function (event) {
-                graphsMessage('Choose a project to see loaded spreadsheets');
+        $scope.$watch('vm.showSidebar', updateMapSize);
+        $scope.$watch('vm.showMap', updateMapSize);
 
-                $("#projects").change(function () {
-                    if ($(this).val() == 0) {
-                        $(".toggle-content#filter-toggle").hide(400);
-                    } else {
-                        $(".toggle-content#filter-toggle").show(400);
-                    }
-                    populateGraphs(this.options[this.selectedIndex].value);
-                    getFilterOptions(this.value).done(function () {
-                        $("#uri").replaceWith(filterSelect);
-                    });
-                });
+        function updateMapSize(newVal, oldVal) {
+            if (newVal != oldVal) {
+                vm.invalidSize = true;
+            }
+        }
+    }
 
-                $("#add_filter").click(function () {
-                    addFilter();
-                });
-
-                $("input[id=submit]").click(function (e) {
-                    e.preventDefault();
-
-                    var params = getQueryPostParams();
-                    switch (this.value) {
-                        case "excel":
-                            queryExcel(params);
-                            break;
-                        case "kml":
-                            queryKml(params);
-                            break;
-                    }
-                });
-            });
-
-        }]);
+})();

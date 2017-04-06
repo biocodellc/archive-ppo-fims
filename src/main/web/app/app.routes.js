@@ -7,7 +7,16 @@ angular.module('ppoApp')
         $urlMatcherFactoryProvider.strictMode(false);
 
         $stateProvider
+            .state('main', {
+                templateUrl: "app/partials/main.html",
+                abstract: true
+            })
+            .state('fullPage', {
+                templateUrl: "app/partials/fullPage.html",
+                abstract: true
+            })
             .state('home', {
+                parent: "main",
                 url: "/",
                 templateUrl: "app/components/home/home.html",
             })
@@ -15,26 +24,19 @@ angular.module('ppoApp')
                 url: "/login",
                 templateUrl: "app/components/auth/login.html",
                 controller: "LoginCtrl as vm",
-            })
-            .state('validate', {
-                url: "/validate",
-                templateUrl: "app/components/validation/validation.html",
-                controller: "ValidationCtrl as vm"
+                parent: "main",
             })
             .state('resetPass', {
                 url: "/resetPass",
                 templateUrl: "app/components/users/resetPass.html",
-                controller: "ResetPassCtrl as vm"
-            })
-            .state('template', {
-                url: "/template?projectId",
-                templateUrl: "app/components/templates/templates.html",
-                controller: "TemplateCtrl as templateVm"
+                controller: "ResetPassCtrl as vm",
+                parent: "main",
             })
             .state('query', {
                 url: "/query",
                 templateUrl: "app/components/query/query.html",
-                controller: "QueryCtrl as queryVm",
+                controller: "QueryController as vm",
+                parent: "fullPage",
             })
             .state('profile', {
                 url: "/secure/profile?error",
@@ -46,21 +48,21 @@ angular.module('ppoApp')
                 url: "/secure/projects",
                 templateUrl: "app/components/projects/projects.html",
                 controller: "ProjectCtrl as vm",
+                parent: "main",
                 loginRequired: true
             })
             .state('expeditionManager', {
                 url: "/secure/expeditions",
                 templateUrl: "app/components/expeditions/expeditions.html",
                 controller: "ExpeditionCtrl as vm",
+                parent: "main",
                 loginRequired: true
             })
             .state('notFound', {
                 url: '*path',
+                parent: "main",
                 templateUrl: "app/partials/page-not-found.html"
             });
 
         $locationProvider.html5Mode(true);
-
-        // For any unmatched url, redirect to /
-        $urlRouterProvider.otherwise("/");
     }]);

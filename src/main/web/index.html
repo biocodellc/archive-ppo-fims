@@ -5,31 +5,20 @@
     <title>Plant Phenology Network Field Information Management System</title>
 
     <link rel="stylesheet" type="text/css" href="css/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
+    <link rel="stylesheet" type="text/css" href="css/MarkerCluster.Default.css"/>
+    <link rel="stylesheet" type="text/css" href="css/MarkerCluster.css"/>
+    <link rel="stylesheet" type="text/css" href="css/leaflet.draw.css"/>
+    <link rel="stylesheet" type="text/css" href="css/select.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/alerts.css"/>
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
-
-    <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css' rel='stylesheet'/>
-    <link href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css'
-          rel='stylesheet'/>
-    <link href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css'
-          rel='stylesheet'/>
 
 
     <link rel="short icon" href="docs/fimsicon.png"/>
 </head>
 <body ng-cloak>
-    <header ng-include="'app/partials/header-nav.html'"></header>
 
-    <div class="container">
-        <div class="alert-container">
-            <div id="alerts"></div>
-        </div>
-        <div ng-show="error" class="alert alert-error">{{ error }}</div>
-
-        <div ui-view></div>
-
-        <div id="dialogContainer"></div>
-    </div>
+    <div ui-view></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script
@@ -41,9 +30,6 @@
             integrity="sha256-lCF+55kMUF+3fO/3BiXui4eiUKcQmtr7ecKSeLVDxIQ="
             crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-
-    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'></script>
-    <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'></script>
 
     <!-- LIBRARY LOADING -->
     <!-- use minified and combined js file FOR PROD -->

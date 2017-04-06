@@ -1,13 +1,14 @@
 var app = angular.module('ppoApp', [
     'ui.router',
     'ui.bootstrap',
+    'fims.header',
     'fims.query',
     'fims.auth',
-    'fims.templates',
     'fims.expeditions',
-    'fims.validation',
     'fims.projects',
     'fims.users',
+    'fims.home',
+    'fims.filters.html',
     'utils.autofocus',
     'ui.bootstrap.showErrors',
     'angularSpinner'
@@ -54,41 +55,6 @@ app.controller('ppoCtrl', ['$rootScope', '$scope', '$state', '$location', 'AuthF
             }
         });
 }]);
-
-app.controller('NavCtrl', ['$rootScope', '$scope', '$location', '$state', 'AuthFactory', 'UserFactory',
-    function ($rootScope, $scope, $location, $state, AuthFactory, UserFactory) {
-        var vm = this;
-        vm.isAuthenticated = AuthFactory.isAuthenticated;
-        vm.isAdmin = UserFactory.isAdmin;
-        vm.user = UserFactory.user;
-        vm.logout = logout;
-        vm.login = login;
-
-        function login() {
-            $rootScope.savedState = $state.current.name;
-            $rootScope.savedStateParams = $state.params;
-        }
-        function logout() {
-            AuthFactory.logout();
-            UserFactory.removeUser();
-        }
-
-        $scope.$watch(
-            function(){ return AuthFactory.isAuthenticated},
-
-            function(newVal) {
-                vm.isAuthenticated = newVal;
-            }
-        )
-
-        $scope.$watch(
-            function(){ return UserFactory.isAdmin},
-
-            function(newVal) {
-                vm.isAdmin = newVal;
-            }
-        )
-    }]);
 
 // register an interceptor to convert objects to a form-data like string for $http data attributes and
 // set the appropriate header

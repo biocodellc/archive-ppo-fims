@@ -211,7 +211,8 @@ generateRestApiDocs {
 
 // specify files that require a specific loading order
 ext.externLibsOrdered = ["${webAppDir}/js/externalLibs/lodash.js", "${webAppDir}/js/externalLibs/papaparse.min.js",
-                         "${webAppDir}/js/externalLibs/xlsx.min.js", "${webAppDir}/js/externalLibs/xlsx-reader.js"]
+                         "${webAppDir}/js/externalLibs/xlsx.min.js", "${webAppDir}/js/externalLibs/xlsx-reader.js",
+                         "${webAppDir}/js/externalLibs/leaflet.js"]
 javascript.source {
     externLibs {
         js {
@@ -230,6 +231,7 @@ javascript.source {
             exclude "app.js"
             exclude "app.module.js"
             exclude "**/module.js"
+            exclude "**/*.module.js"
         }
     }
     js {
@@ -242,6 +244,7 @@ javascript.source {
         js {
             srcDir "src/main/web/app"
             include "**/module.js"
+            include "**/*.module.js"
         }
     }
 }
@@ -265,6 +268,17 @@ jsApp {
     closure {
         compilerOptions.language = "ECMASCRIPT5"
     }
+}
+
+//=================================
+//= angular constants configuration
+//=================================
+
+populateJsProps {
+    propsFile file("src/main/resources/ppo-fims.props")
+    templateFile file("${webAppDir}/app/app.constants.js.template")
+    constantsFile file("${webAppDir}/app/app.constants.js")
+    propsMap = ['mapboxToken': 'mapboxAccessToken']
 }
 
 //===========================
