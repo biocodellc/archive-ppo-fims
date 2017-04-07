@@ -22,13 +22,11 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li><a ui-sref="query" class='enabled'>Query</a></li>
-                <li class="dropdown">
+                <li class="dropdown" ng-show="vm.isAdmin">
                     <a href="#" data-toggle="dropdown" class="dropdown-toggle">Tools<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li ng-show="vm.isAdmin"><a ui-sref="expeditionManager" class='enabled'>Expedition Manager</a></li>
-                        <li ng-show="!vm.isAdmin"><a href="#" class='disabled'>Expedition Manager</a></li>
-                        <li ng-show="vm.isAdmin"><a ui-sref='projects' class='enabled'>Project Manager</a></li>
-                        <li ng-show="!vm.isAdmin"><a href='#' class='disabled'>Project Manager</a></li>
+                        <li><a ui-sref="expeditionManager" class='enabled'>Expedition Manager</a></li>
+                        <li><a ui-sref='projects' class='enabled'>Project Manager</a></li>
                     </ul>
                 </li>
 

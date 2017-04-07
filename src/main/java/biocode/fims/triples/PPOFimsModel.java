@@ -146,6 +146,7 @@ public class PPOFimsModel {
         while (stmtIterator.hasNext()) {
             Statement statement = stmtIterator.nextStatement();
             addLiteralsToEntry(statement.getSubject(), entry);
+            addTypesToEntry(statement.getSubject(), entry);
             if (depth <= 1) {
                 loopObjects(entry, getRelations(statement.getSubject()));
             }

@@ -47,7 +47,7 @@
             }
 
             if (params.yearCollected) {
-                builder.add("+Observation_Date:" + params.yearCollected)
+                builder.add("+Observation_Date:[" + params.yearCollected + "||/y TO " + params.yearCollected + "||/y]")
             }
 
             if (params.fromDay) {

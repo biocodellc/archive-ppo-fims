@@ -461,8 +461,11 @@ public class ProjectController extends FimsAbstractProjectsController {
         JSONObject type = new JSONObject();
         type.put("type", "keyword");
         properties.put(PPOFimsModel.TYPE_ARRAY, type);
-        indexer.updateMapping(projectId, mapping);
 
+        JSONObject event = (JSONObject) properties.get("http://rs.tdwg.org/dwc/terms/Event");
+        event.put("format", event.get("format") + " || yyyy");
+
+        indexer.updateMapping(projectId, mapping);
         return Response.noContent().build();
     }
 }

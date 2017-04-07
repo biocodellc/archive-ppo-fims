@@ -32,48 +32,17 @@ a {
   right: 0;
   left: 0;
   bottom: 0;
-  background: #fff;
   border: 1px solid white;
-  border-color: rgba(255, 255, 255, 0.5);
   display: flex;
   flex-direction: column;
-  /*overflow: auto;*/
-}
-
-.full-page-header {
-  width: 90%;
-  max-width: 1250px;
-  margin: 0 auto;
 
   .navbar {
-    min-height: 78px;
+    margin-bottom: $line-height-computed/2;
 
-    .nav > li > a {
-      padding-top: 26px;
-      padding-bottom: 26px;
+    img {
+      height: 100px;
     }
   }
-  .navbar-brand {
-    padding-top: 3px;
-    padding-bottom: 0;
-  }
-}
-
-.full-page-header-bottom-border:after {
-  bottom: 0;
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#dedede+0,f7f7f7+50,f7f7f7+100,fcfff5+100 */
-  background: #dedede; /* Old browsers */
-  background: -moz-linear-gradient(top, #dedede 0%, #f7f7f7 50%, #f7f7f7 100%, #fcfff5 100%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, #dedede 0%, #f7f7f7 50%, #f7f7f7 100%, #fcfff5 100%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, #dedede 0%, #f7f7f7 50%, #f7f7f7 100%, #fcfff5 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dedede', endColorstr='#fcfff5', GradientType=0); /* IE6-9 */
-  content: "";
-  width: 100%;
-  height: 3px;
-  background-repeat: no-repeat;
-  background-size: 100% 3px;
-  z-index: 100;
-  display: block;
 }
 
 .full-page-content {
@@ -94,7 +63,7 @@ a {
 }
 
 .query-bar {
-  background-color: rgba(96, 134, 152, 0.6);
+  background-color: hsla(117, 60%, 19%, 0.72);
 
   .actions {
     padding: 10px 15px;
@@ -142,7 +111,7 @@ a {
 }
 
 .sidebar {
-  min-width: 500px;
+  min-width: 520px;
   flex: 1 1;
   padding-top: 20px;
   overflow-y: auto;
@@ -155,16 +124,6 @@ a {
 
 .sidebar a > .control-label {
   width: 100%;
-}
-
-.dwc-terms .form-control {
-  margin-bottom: 6px;
-}
-
-.dwc-terms span.control-label {
-  float: left;
-  margin-top: 7px;
-  display: inline-block;
 }
 
 .expedition-filter .dropdown-menu {
@@ -260,16 +219,16 @@ a {
 
 .download-btn > .btn {
   background-image: none;
-  background-color: #4CAF50;
-  border-color: #4A974C;
+  background-color: #03A9F4;
   color: #fdfdfd;
+  border-color: darken(#03A9F4, 10%);
 }
 
 .download-btn > .btn:active,
 .download-btn > .btn:focus,
 .download-btn > .btn:visited,
 .download-btn > .btn:hover {
-  background-color: #4A974C;
+  background-color: darken(#03A9F4, 10%);
 }
 
 .download-btn > .dropdown-menu {

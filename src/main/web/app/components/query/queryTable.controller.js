@@ -10,7 +10,7 @@
         var vm = this;
         vm.queryResults = queryResults;
 
-        vm.tableColumns = ["Observation_ID", "Individual_ID", "Latitude", "Longitude", "Species", "Common_Name", "Phenophase_Description", "Observation_Date"];
+        vm.tableColumns = ["Observation_ID", "Latitude", "Longitude", "Genus", "Species", "Common_Name", "Day_of_Year", "Observation_Date"];
         vm.tableData = [];
         vm.currentPage = 1;
         vm.pageSize = 50;

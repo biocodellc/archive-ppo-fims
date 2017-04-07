@@ -12,7 +12,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr sly-repeat="resource in queryTableVm.tableData"">
+                <tr sly-repeat="resource in queryTableVm.tableData">
                     <td uib-popover-html="value | trusted_html"
                         popover-enable="value.length > 35"
                         popover-trigger="mouseenter"
