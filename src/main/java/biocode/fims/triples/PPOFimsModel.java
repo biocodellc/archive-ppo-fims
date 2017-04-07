@@ -7,27 +7,30 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hp.hpl.jena.rdf.model.*;
 import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.impl.StmtIteratorImpl;
 
 import java.util.*;
 
+/**
+ * this will flatten a triples file into the startingResource.
+ * NOTE: This will only traverse relations to a depth of 1. Meaning we will add all literals and types from
+ * any direct relations to the startingResource, but not from related resources to any directly related resources
+ */
 public class PPOFimsModel {
     private static String TYPE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
     public static String TYPE_ARRAY = "types";
 
 
     private List<String> configurationFileAttributeURIs;
-    private Set<String> visitedResources;
     private Model model;
     private boolean getOnlySpecifiedProperties;
     private String startingResource;
 
     private ArrayNode dataset = null;
+    private int depth = 0;
 
     public PPOFimsModel(Model model, List<String> attributeURIs, String startingResource, boolean getOnlySpecifiedProperties) {
         this.model = model;
         this.getOnlySpecifiedProperties = getOnlySpecifiedProperties;
-        this.visitedResources = new HashSet<>();
         this.configurationFileAttributeURIs = attributeURIs;
         this.startingResource = startingResource;
     }
@@ -51,8 +54,8 @@ public class PPOFimsModel {
 
             createEntryFromResource(s.getSubject());
 
-            // reset visitedResources for next entry
-            visitedResources.clear();
+            // reset depth for next entry
+            depth = 0;
         }
 
         i.close();
@@ -63,7 +66,8 @@ public class PPOFimsModel {
         int index = dataset.size();
         ObjectNode entry = dataset.addObject();
 
-        String BCIDString = addPropertiesToEntry(subject, entry);
+        addLiteralsToEntry(subject, entry);
+        addTypesToEntry(subject, entry);
 
         loopObjects(entry, getRelations(subject));
 
@@ -71,41 +75,43 @@ public class PPOFimsModel {
         if (entry.size() == 0) {
             dataset.remove(index);
         } else {
-            entry.put("bcid", BCIDString);
+            entry.put("bcid", subject.toString());
         }
     }
 
-    private String addPropertiesToEntry(Resource resource, ObjectNode entry) {
-        String BCIDString = null;
-        StmtIterator it = resource.listProperties();
+    private void addTypesToEntry(Resource subject, ObjectNode entry) {
+        StmtIterator it = model.listStatements(subject, getProperty(TYPE), (RDFNode) null);
 
         while (it.hasNext()) {
             Statement s = it.next();
+            addToTypeArray(entry, s.getObject().toString());
+        }
+    }
 
-            // the first property is the bcid
-            if (BCIDString == null)
-                BCIDString = s.getSubject().toString();
+    private void addLiteralsToEntry(Resource resource, ObjectNode entry) {
+        SimpleSelector literalSelector = new SimpleSelector(resource, null, (RDFNode) null) {
+            @Override
+            public boolean selects(Statement s) {
+                return s.getObject().isLiteral();
+            }
+        };
 
+        StmtIterator it = model.listStatements(literalSelector);
+
+        while (it.hasNext()) {
+            Statement s = it.next();
             Property predicate = s.getPredicate();
 
-            if (predicate.equals(getProperty(TYPE))) {
+            if (predicate.getLocalName() != null && !predicate.getLocalName().equals("null")) {
 
-                addToTypeArray(entry, s.getObject().toString());
-
-            } else if (s.getObject().isLiteral()) {
-
-                if (predicate.getLocalName() != null && !predicate.getLocalName().equals("null")) {
-
-                    if (!getOnlySpecifiedProperties || configurationFileAttributeURIs.contains(predicate.toString())) {
-                        entry.put(predicate.toString(), getObject(s));
-                    }
+                if (!getOnlySpecifiedProperties || configurationFileAttributeURIs.contains(predicate.toString())) {
+                    entry.put(predicate.toString(), getObject(s));
                 }
             }
 
         }
 
         it.close();
-        return BCIDString;
     }
 
     private String getObject(Statement s) {
@@ -136,12 +142,16 @@ public class PPOFimsModel {
     }
 
     private void loopObjects(ObjectNode entry, StmtIterator stmtIterator) {
+        depth++;
         while (stmtIterator.hasNext()) {
             Statement statement = stmtIterator.nextStatement();
-            addPropertiesToEntry(statement.getSubject(), entry);
-            loopObjects(entry, getRelations(statement.getSubject()));
+            addLiteralsToEntry(statement.getSubject(), entry);
+            if (depth <= 1) {
+                loopObjects(entry, getRelations(statement.getSubject()));
+            }
         }
     }
+
 
     /**
      * get a property named by a particular string (in URI format)
@@ -160,12 +170,7 @@ public class PPOFimsModel {
      * @return
      */
     private StmtIterator getRelations(Resource subject) {
-        if (visitedResources.contains(subject.toString())) {
-            return new StmtIteratorImpl(new ArrayList<Statement>().iterator());
-        } else {
-            visitedResources.add(subject.toString());
-            return getResourceStatements(subject.asNode().toString());
-        }
+        return getResourceStatements(subject.asNode().toString());
 
     }
 
