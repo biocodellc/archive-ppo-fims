@@ -9,30 +9,75 @@
                 More search options</a>
         </div>
 
-        <div ng-show="queryFormVm.moreSearchOptions">
+        <div ng-show="queryFormVm.moreSearchOptions" class="form form-horizontal">
+
+
+            <!--<div class="form-group">-->
+            <!--<label class="control-label">Advanced Search</label>-->
+
 
             <div class="form-group">
-                <label class="control-label">Vernacular Name</label>
-                <div class="filters">
-                    <select class="form-control input-sm" ng-options="v as v for v in queryFormVm.vernaculars"
-                            ng-model="queryFormVm.params.vernacular">
-                        <option value="">-- Choose a Vernacular --</option>
-                    </select>
+                <div class="col-xs-12">
+                    <label class="control-label">Phenological Traits</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <ui-select multiple ng-model="queryFormVm.params.traits">
+                        <ui-select-match placeholder="Select traits...">{{$item.key}}</ui-select-match>
+                        <ui-select-choices
+                                repeat="trait.value as (key, trait) in queryFormVm.traits | filter: {'key': $select.search} | orderBy: 'key'"
+                                position="down">
+                            <div ng-bind-html="trait.key | highlight: $select.search | trusted_html"></div>
+                        </ui-select-choices>
+                    </ui-select>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label">Phenological Traits</label>
+                <div class="col-xs-3">
+                    <label class="control-label">Year</label>
+                </div>
+                <div class="col-xs-4">
+                    <input ng-model="queryFormVm.params.yearCollected" type="text"
+                           class="form-control input-sm"/>
+                </div>
+            </div>
 
-                <div class="filters">
-                    <ui-select multiple ng-model="queryFormVm.params.traits">
-                        <ui-select-match placeholder="Select traits...">{{$item.value}}</ui-select-match>
-                        <ui-select-choices
-                                repeat="t in (queryFormVm.traits | filter: {value: $select.search}) track by $index"
-                                position="down">
-                            <div ng-bind-html="t.value | highlight: $select.search | trusted_html"></div>
-                        </ui-select-choices>
-                    </ui-select>
+            <div class="form-group">
+                <div class="col-xs-3">
+                    <label class="control-label">Day of Year</label>
+                </div>
+                <div class="col-xs-2">
+                    <input ng-model="queryFormVm.params.fromDay" type="text"
+                           class="form-control input-sm"/>
+                </div>
+                <span class="pull-left">to</span>
+                <div class="col-xs-2">
+                    <input ng-model="queryFormVm.params.toDay" type="text"
+                           class="form-control input-sm"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-3">
+                    <label class="control-label">Genus</label>
+                </div>
+                <div class="col-xs-4">
+                    <input ng-model="queryFormVm.params.genus" type="text"
+                           class="form-control input-sm"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label class="control-label">Vernacular Name</label>
+                </div>
+                <div class="col-xs-8">
+                    <select class="form-control input-sm" ng-options="v as v for v in queryFormVm.vernaculars"
+                            ng-model="queryFormVm.params.vernacular">
+                        <option value="">-- Choose a Vernacular --</option>
+                    </select>
                 </div>
             </div>
         </div>
