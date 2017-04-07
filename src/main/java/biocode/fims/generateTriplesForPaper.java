@@ -1,6 +1,5 @@
 package biocode.fims;
 
-import biocode.fims.application.config.PPOAppConfig;
 import biocode.fims.digester.Mapping;
 import biocode.fims.digester.Validation;
 import biocode.fims.fimsExceptions.FimsRuntimeException;
@@ -10,12 +9,8 @@ import biocode.fims.reader.ReaderManager;
 import biocode.fims.reader.plugins.TabularDataReader;
 import biocode.fims.renderers.RowMessage;
 import biocode.fims.run.ProcessController;
-import biocode.fims.settings.FimsPrinter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Lists;
-import org.apache.commons.cli.*;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -50,7 +45,6 @@ public class generateTriplesForPaper {
 
 
     public static void main(String[] args) throws Exception {
-        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(PPOAppConfig.class);
 
         // ******************
         // CLI Interface
