@@ -89,7 +89,7 @@ public class UploadController extends FimsService {
         Expedition expedition;
         if (createExpedition) {
             expedition = new Expedition.ExpeditionBuilder(expeditionCode)
-                    .expeditionTitle(expeditionCode + "dataset")
+                    .expeditionTitle(expeditionCode + " dataset")
                     .isPublic(isPublic)
                     .build();
 

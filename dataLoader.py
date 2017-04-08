@@ -66,7 +66,7 @@ def main():
     parser.add_argument(
         "--rest_service",
         help="location of the FIMS REST services",
-        default="http://www.plantphenology.com/rest/v2/",
+        default="http://www.plantphenology.org/rest/",
         dest="rest_service",
     )
     parser.add_argument(
