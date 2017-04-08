@@ -34,7 +34,7 @@
             var builder = new QueryBuilder();
 
             angular.forEach(params.traits, function (t) {
-                builder.add("+types:" + t);
+                builder.add("+types:\"" + t + "\"");
             });
 
 

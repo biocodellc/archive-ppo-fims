@@ -2,7 +2,6 @@ package biocode.fims.triples;
 
 import biocode.fims.digester.Attribute;
 import biocode.fims.digester.Mapping;
-import biocode.fims.rest.SpringObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;

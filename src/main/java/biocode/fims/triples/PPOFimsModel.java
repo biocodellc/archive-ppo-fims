@@ -12,7 +12,7 @@ import java.util.*;
 
 /**
  * this will flatten a triples file into the startingResource.
- * NOTE: This will only traverse relations to a depth of 1. Meaning we will add all literals and types from
+ * NOTE: This will only traverse direct relations. Relations of relations will be ignored. Meaning we will add all literals and types from
  * any direct relations to the startingResource, but not from related resources to any directly related resources
  */
 public class PPOFimsModel {
@@ -26,7 +26,6 @@ public class PPOFimsModel {
     private String startingResource;
 
     private ArrayNode dataset = null;
-    private int depth = 0;
 
     public PPOFimsModel(Model model, List<String> attributeURIs, String startingResource, boolean getOnlySpecifiedProperties) {
         this.model = model;
@@ -53,9 +52,6 @@ public class PPOFimsModel {
             Statement s = i.next();
 
             createEntryFromResource(s.getSubject());
-
-            // reset depth for next entry
-            depth = 0;
         }
 
         i.close();
@@ -68,8 +64,7 @@ public class PPOFimsModel {
 
         addLiteralsToEntry(subject, entry);
         addTypesToEntry(subject, entry);
-
-        loopObjects(entry, getRelations(subject));
+        addRelationsToEntry(entry, subject);
 
         // if no values found, remove the resource
         if (entry.size() == 0) {
@@ -141,18 +136,15 @@ public class PPOFimsModel {
         types.add(val);
     }
 
-    private void loopObjects(ObjectNode entry, StmtIterator stmtIterator) {
-        depth++;
-        while (stmtIterator.hasNext()) {
-            Statement statement = stmtIterator.nextStatement();
+    private void addRelationsToEntry(ObjectNode entry, Resource subject) {
+        StmtIterator it = getResourceStatements(subject.asNode().toString());
+
+        while (it.hasNext()) {
+            Statement statement = it.nextStatement();
             addLiteralsToEntry(statement.getSubject(), entry);
             addTypesToEntry(statement.getSubject(), entry);
-            if (depth <= 1) {
-                loopObjects(entry, getRelations(statement.getSubject()));
-            }
         }
     }
-
 
     /**
      * get a property named by a particular string (in URI format)
@@ -162,17 +154,6 @@ public class PPOFimsModel {
      */
     private Property getProperty(String propertyAsString) {
         return model.getProperty(propertyAsString);
-    }
-
-    /**
-     * Get all relations for a particular subject resource
-     *
-     * @param subject
-     * @return
-     */
-    private StmtIterator getRelations(Resource subject) {
-        return getResourceStatements(subject.asNode().toString());
-
     }
 
     private StmtIterator getResourceStatements(String resource) {

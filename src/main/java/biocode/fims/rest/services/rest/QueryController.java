@@ -246,6 +246,7 @@ public class QueryController extends FimsService {
         List<ElasticSearchFilterField> filterFields = PPOQueryUtils.getAvailableFilters(getMappings());
         filterFields.add(PPOQueryUtils.get_AllFilter());
         filterFields.add(PPOQueryUtils.getBcidFilter());
+        filterFields.add(PPOQueryUtils.getTypesFilter());
 
         FieldColumnTransformer transformer = new FieldColumnTransformer(filterFields);
 

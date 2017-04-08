@@ -21,3 +21,4 @@ ppo-fims.iws
 out/
 src/main/web/WEB-INF/web.xml
 **/app.constants.js
+.python-version

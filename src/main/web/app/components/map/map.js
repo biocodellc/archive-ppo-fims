@@ -49,7 +49,7 @@
                 this._satelliteTiles = L.tileLayer('https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.png?access_token={access_token}',
                     {access_token: MAPBOX_TOKEN});
 
-                this._clusterLayer = L.markerClusterGroup({chunkedLoading: true});
+                this._clusterLayer = L.markerClusterGroup({chunkedLoading: true, maxClusterRadius: 40});
             },
 
             /**

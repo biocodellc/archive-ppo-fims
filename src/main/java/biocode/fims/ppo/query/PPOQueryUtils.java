@@ -50,6 +50,10 @@ public class PPOQueryUtils {
         return new ElasticSearchFilterField("bcid", "bcid", DataType.STRING, "hidden");
     }
 
+    public static ElasticSearchFilterField getTypesFilter() {
+        return new ElasticSearchFilterField("types", "types", DataType.STRING, "hidden");
+    }
+
     /**
      * get a list of attributes as JsonFieldTransform objects to be used in transforming
      * the json resource fields into human readable fields.
