@@ -8,12 +8,11 @@
 
     function queryParams(QueryBuilder) {
         var defaultParams = {
-            vernacular: null,
-            yearCollected: null,
+            fromYear: null,
+            toYear: null,
             fromDay: null,
             toDay: null,
-            genus: null,
-            queryString: null
+            genus: null
         };
 
         var params = {
@@ -37,17 +36,12 @@
                 builder.add("+types:\"" + t + "\"");
             });
 
-
-            if (params.queryString) {
-                builder.add(params.queryString);
+            if (params.fromYear) {
+                builder.add("+Observation_Date:>=" + params.fromYear + "\\|\\|\\/y");
             }
 
-            if (params.vernacular) {
-                builder.add("+Common_Name:" + params.vernacular);
-            }
-
-            if (params.yearCollected) {
-                builder.add("+Observation_Date:[" + params.yearCollected + "||/y TO " + params.yearCollected + "||/y]")
+            if (params.toYear) {
+                builder.add("+Observation_Date:<=" + params.toYear + "\\|\\|\\/y]");
             }
 
             if (params.fromDay) {

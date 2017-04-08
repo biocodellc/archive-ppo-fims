@@ -58,18 +58,13 @@
             "abscised cones or seeds absent": "http://purl.obolibrary.org/obo/PPO_0003063"
         };
 
-        vm.vernaculars = [
-            'common sunflower',
-            'dwarf birch',
-            'paper birch',
-            'river birch',
-            'sweet birch',
-            'yellow birch'
+        vm.genus = [
+            'Helianthus',
+            'Betula'
         ];
 
 
         // view toggles
-        vm.moreSearchOptions = false;
         vm.showMap = true;
 
         vm.params = queryParams;
