@@ -1,6 +1,5 @@
 package biocode.fims.rest.services.rest;
 
-import biocode.fims.authorizers.QueryAuthorizer;
 import biocode.fims.config.ConfigurationFileFetcher;
 import biocode.fims.digester.Mapping;
 import biocode.fims.elasticSearch.ElasticSearchIndexer;
@@ -16,7 +15,6 @@ import biocode.fims.query.dsl.QueryParser;
 import biocode.fims.query.writers.*;
 import biocode.fims.rest.Compress;
 import biocode.fims.rest.FimsService;
-import biocode.fims.service.ExpeditionService;
 import biocode.fims.settings.SettingsManager;
 import biocode.fims.tools.CachedFile;
 import biocode.fims.tools.FileCache;
@@ -54,7 +52,7 @@ import java.util.stream.Collectors;
 public class QueryController extends FimsService {
     private static final Logger logger = LoggerFactory.getLogger(QueryController.class);
 
-    private static List<Integer> projectIds = Arrays.asList(27);
+    private static List<Integer> projectIds = Arrays.asList(27, 33);
     private static String[] indicies = projectIds.stream().map(String::valueOf).toArray(String[]::new);
     private List<Mapping> mappings;
 
