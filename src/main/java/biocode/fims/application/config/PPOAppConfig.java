@@ -1,9 +1,11 @@
 package biocode.fims.application.config;
 
+import biocode.fims.elasticSearch.ESFimsMetadataPersistenceManager;
 import biocode.fims.fileManagers.fimsMetadata.FimsMetadataPersistenceManager;
 import biocode.fims.fileManagers.fimsMetadata.FimsMetadataFileManager;
 import biocode.fims.fuseki.fileManagers.fimsMetadata.FusekiFimsMetadataPersistenceManager;
 import biocode.fims.service.ProjectService;
+import org.elasticsearch.client.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
@@ -20,18 +22,17 @@ public class PPOAppConfig {
     @Autowired
     FimsAppConfig fimsAppConfig;
     @Autowired
-    ProjectService projectService;
-    @Autowired
     MessageSource messageSource;
+    @Autowired
+    Client esClient;
 
     @Bean
     @Scope("prototype")
     public FimsMetadataFileManager FimsMetadataFileManager() {
-        FimsMetadataPersistenceManager persistenceManager = new FusekiFimsMetadataPersistenceManager(
-                fimsAppConfig.expeditionService,
-                fimsAppConfig.bcidService,
+        FimsMetadataPersistenceManager persistenceManager = new ESFimsMetadataPersistenceManager(
+                esClient,
                 fimsAppConfig.settingsManager);
-        return new FimsMetadataFileManager(persistenceManager, fimsAppConfig.settingsManager, 
+        return new FimsMetadataFileManager(persistenceManager, fimsAppConfig.settingsManager,
                 fimsAppConfig.expeditionService, fimsAppConfig.bcidService, messageSource);
     }
 
