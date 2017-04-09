@@ -8,6 +8,17 @@
         'usSpinnerService', 'exception'];
 
     function QueryFormController(queryParams, queryService, queryResults, queryMap, usSpinnerService, exception) {
+        var SOURCE = [
+            "http://rs.tdwg.org/dwc/terms/EventID",
+            "http://rs.tdwg.org/dwc/terms/decimalLatitude",
+            "http://rs.tdwg.org/dwc/terms/decimalLongitude",
+            "http://rs.tdwg.org/dwc/terms/startDayOfYear",
+            "http://purl.org/dc/elements/1.1/creator",
+            "http://rs.tdwg.org/dwc/terms/genus",
+            "http://rs.tdwg.org/dwc/terms/scientificName",
+            "http://rs.tdwg.org/dwc/terms/Event"
+        ];
+
         var vm = this;
 
         // select lists
@@ -74,7 +85,7 @@
         function queryJson() {
             usSpinnerService.spin('query-spinner');
 
-            queryService.queryJson(queryParams.build(), 0, 10000)
+            queryService.queryJson(queryParams.build(), 0, 10000, SOURCE)
                 .then(queryJsonSuccess)
                 .catch(queryJsonFailed)
                 .finally(queryJsonFinally);

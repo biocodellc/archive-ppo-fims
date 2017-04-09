@@ -9,7 +9,9 @@ import com.fasterxml.jackson.core.JsonPointer;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Helper class for obtaining PPO specific Query information
@@ -27,11 +29,15 @@ public class PPOQueryUtils {
     public static List<ElasticSearchFilterField> getAvailableFilters(List<Mapping> mappings) {
         List<ElasticSearchFilterField> filters = new ArrayList<>();
 
-        for (Mapping mapping: mappings) {
-            for (Attribute attribute : mapping.getDefaultSheetAttributes()) {
-                String group = !StringUtils.isBlank(attribute.getGroup()) ? attribute.getGroup() : "Default Columns";
-                filters.add(new ElasticSearchFilterField(attribute.getUri(), attribute.getColumn(), attribute.getDatatype(), group));
-            }
+        Set<Attribute> attributes = new HashSet<>();
+
+        mappings.forEach(
+                m -> attributes.addAll(m.getDefaultSheetAttributes())
+        );
+
+        for (Attribute attribute : attributes) {
+            String group = !StringUtils.isBlank(attribute.getGroup()) ? attribute.getGroup() : "Default Columns";
+            filters.add(new ElasticSearchFilterField(attribute.getUri(), attribute.getColumn(), attribute.getDatatype(), group));
         }
 
         return filters;
@@ -63,17 +69,21 @@ public class PPOQueryUtils {
     public static List<JsonFieldTransform> getJsonFieldTransforms(List<Mapping> mappings) {
         List<JsonFieldTransform> fieldTransforms = new ArrayList<>();
 
-        for (Mapping mapping: mappings) {
-            for (Attribute a : mapping.getDefaultSheetAttributes()) {
-                fieldTransforms.add(
-                        new JsonFieldTransform(
-                                a.getColumn(),
-                                a.getUri(),
-                                a.getDatatype(),
-                                false
-                        )
-                );
-            }
+        Set<Attribute> attributes = new HashSet<>();
+
+        mappings.forEach(
+                m -> attributes.addAll(m.getDefaultSheetAttributes())
+        );
+
+        for (Attribute a : attributes) {
+            fieldTransforms.add(
+                    new JsonFieldTransform(
+                            a.getColumn(),
+                            a.getUri(),
+                            a.getDatatype(),
+                            false
+                    )
+            );
         }
 
         fieldTransforms.add(

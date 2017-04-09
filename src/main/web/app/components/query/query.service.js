@@ -19,11 +19,16 @@
 
         return queryService;
 
-        function queryJson(query, page, limit) {
+        function queryJson(query, page, limit, source) {
             alerts.removeTmp();
+            var url = REST_ROOT + "projects/query/json/?limit=" + limit + "&page=" + page;
+
+            if (source) {
+                url += "&source=" + encodeURIComponent(source);
+            }
             return $http({
                 method: 'GET',
-                url: REST_ROOT + "projects/query/json/?limit=" + limit + "&page=" + page,
+                url: url,
                 params: query,
                 keepJson: true
             })
