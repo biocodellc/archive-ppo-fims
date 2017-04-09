@@ -58,7 +58,7 @@
                 var _this = this;
                 angular.forEach(data, function (resource) {
                     var lat = resource[_this.latColumn];
-                    var lng = L.Util.wrapNum(resource[_this.lngColumn], [0, 360], true); // center on pacific ocean
+                    var lng = resource[_this.lngColumn];
 
                     var marker = L.marker([lat, lng]);
 
@@ -80,7 +80,7 @@
                     this._map.fitBounds(this._clusterLayer.getBounds(), {padding: [30, 30]});
                 }
 
-                // this._map.on('move', this._updateMarkerLocations.bind(this));
+                this._map.on('move', this._updateMarkerLocations.bind(this));
 
                 this._map.on('dragstart', function () {
                     var centerLng = _this._map.getCenter().lng;

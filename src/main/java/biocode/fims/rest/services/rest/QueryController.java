@@ -173,7 +173,7 @@ public class QueryController extends FimsService {
 
             JsonWriter jsonWriter = new DelimitedTextJsonWriter(results, PPOQueryUtils.getJsonFieldTransforms(getMappings()), defaultOutputDirectory(), ",");
 
-            return returnFileResults(jsonWriter.write(), "geome-fims-output.csv");
+            return returnFileResults(jsonWriter.write(), "ppo-fims-output.csv");
         } catch (FimsRuntimeException e) {
             if (e.getErrorCode() == QueryCode.NO_RESOURCES) {
                 return Response.noContent().build();
@@ -206,7 +206,7 @@ public class QueryController extends FimsService {
                     .namePath(PPOQueryUtils.getUniqueKeyPointer())
                     .build();
 
-            return returnFileResults(jsonWriter.write(), "geome-fims-output.kml");
+            return returnFileResults(jsonWriter.write(), "ppo-fims-output.kml");
         } catch (FimsRuntimeException e) {
             if (e.getErrorCode() == QueryCode.NO_RESOURCES) {
                 return Response.noContent().build();
