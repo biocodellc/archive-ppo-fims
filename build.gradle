@@ -11,7 +11,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.github.fgiannesini.libsass.gradle.plugin:libsass-gradle-plugin:+'
-        classpath "org.biocode:gradle-fims:1.1.4"
+        classpath "org.biocode:gradle-fims:1.1.5"
     }
 }
 
@@ -85,6 +85,7 @@ dependencies {
 
     subprojects.each {
         project.configurations.server.dependencies.addAll(it.configurations.server.dependencies)
+        project.configurations.serverRuntime.dependencies.addAll(it.configurations.serverRuntime.dependencies)
     }
 }
 
@@ -246,6 +247,7 @@ javascript.source {
             include "**/*.js"
             exclude "app.js"
             exclude "app.module.js"
+            exclude "app.constants.js.template"
             exclude "**/module.js"
             exclude "**/*.module.js"
         }
