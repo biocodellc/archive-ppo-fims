@@ -80,6 +80,14 @@ dependencies {
     generateTriples 'commons-lang:commons-lang:2.6'
     generateTriples 'commons-validator:commons-validator:1.5.0'
     generateTriples group: 'org.biocode', name: 'd2rq', version: '0.8.1'
+    generateTriples 'commons-cli:commons-cli:1.2'
+    generateTriples 'org.xerial:sqlite-jdbc:3.7.2'
+    generateTriples 'com.googlecode.json-simple:json-simple:1.1.1'
+    generateTriples 'com.fasterxml.jackson.core:jackson-databind:2.8.4'
+    generateTriples 'org.apache.poi:poi:3.10.1'
+    generateTriples 'org.apache.poi:poi-ooxml:3.10.1'
+    generateTriples 'org.apache.poi:poi-ooxml-schemas:3.10.1'
+
 
     testCompile "junit:junit-dep:4.10"
 

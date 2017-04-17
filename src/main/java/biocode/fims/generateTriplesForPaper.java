@@ -1,5 +1,6 @@
 package biocode.fims;
 
+import biocode.fims.application.config.PPOAppConfig;
 import biocode.fims.digester.Mapping;
 import biocode.fims.digester.Validation;
 import biocode.fims.fimsExceptions.FimsRuntimeException;
@@ -9,8 +10,13 @@ import biocode.fims.reader.ReaderManager;
 import biocode.fims.reader.plugins.TabularDataReader;
 import biocode.fims.renderers.RowMessage;
 import biocode.fims.run.ProcessController;
+import biocode.fims.settings.FimsPrinter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Lists;
+import com.hp.hpl.jena.util.FileUtils;
+import org.apache.commons.cli.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,8 +32,9 @@ import java.util.Iterator;
 public class generateTriplesForPaper {
     String configFile = null;
     String outputDirectory = null;
-    String defaultLocalURIPrefix = "http://biscicol.org/ppo/";
+    static String defaultLocalURIPrefix = "http://www.plantphenology.org/id/";
     static ArrayList<String> outputFiles = new ArrayList<String>();
+    static String outputFormat = "TURTLE";
 
 
     /**
@@ -36,33 +43,46 @@ public class generateTriplesForPaper {
      *
      * @param configFile
      */
-    public generateTriplesForPaper(String configFile, String outputDirectory) {
+    public generateTriplesForPaper(String configFile, String outputDirectory, String defaultLocalURIPrefix) {
         this.configFile = configFile;
         this.outputDirectory = outputDirectory;
+        if (defaultLocalURIPrefix != null)
+            this.defaultLocalURIPrefix = defaultLocalURIPrefix;
         outputFiles = new ArrayList<String>();
 
     }
 
 
     public static void main(String[] args) throws Exception {
-
         // ******************
         // CLI Interface
         // ******************
         // Some classes to help us
-        /*
+
         CommandLineParser clp = new GnuParser();
         HelpFormatter helpf = new HelpFormatter();
         CommandLine cl;
 
         String configFile = null;
         String inputFile = null;
+        String outputDirectory = null;
+        String defaultPrefix = null;
+        Boolean overwriteOutputFile = true;
+        ArrayList<String> outputFormats = new ArrayList<String>();
+        outputFormats.add("N3");
+        outputFormats.add("N-TRIPLE");
+        outputFormats.add("RDF/XML");
+        outputFormats.add("TURTLE");
+
         // Define our commandline options
         Options options = new Options();
         options.addOption("h", "help", false, "print this help and exit");
 
-        options.addOption("c", "config", false, "Configuration file");
-        options.addOption("i", "input", true, "input data file");
+        options.addOption("c", "config", true, "Configuration file (mandatory)");
+        options.addOption("i", "input", true, "input data file (mandatory)");
+        options.addOption("p", "prefix", true, "default prefix (default value = " + defaultLocalURIPrefix + ")");
+        options.addOption("o", "output", true, "output directory (mandatory)");
+        options.addOption("F", "format",true, "output format: N3, N-TRIPLE, TURTLE, RDF/XML --TURTLE is default.");
 
         // Create the commands parser and parse the command line arguments.
         try {
@@ -74,70 +94,59 @@ public class generateTriplesForPaper {
             FimsPrinter.out.println("Error: " + e.getMessage());
             return;
         }
+        HelpFormatter formatter = new HelpFormatter();
 
+        // generate help file and then exitZZ
+        if (cl.hasOption("h")) {
+            formatter.printHelp( "java -jar ppo-fims-triples.jar", options );
+            return;
+        }
+        // configuration file
         if (cl.hasOption("c")) {
-            configFile = cl.getOptionValue("r");
+            configFile = cl.getOptionValue("c");
         } else {
             FimsPrinter.out.println("Error: must specify config. file");
+            formatter.printHelp("java -jar ppo-fims-triples.jar", options);
             return;
         }
+         // output Format
+        if (cl.hasOption("F")) {
+            outputFormat = cl.getOptionValue("F");
+        }
+        if (!outputFormats.contains(outputFormat)) {
+            FimsPrinter.out.println("Error: invalid output Format");
+            formatter.printHelp("java -jar ppo-fims-triples.jar", options);
+            return;
+        }
+
+        // input file (comma separated or spreadsheet input data)
         if (cl.hasOption("i")) {
-            inputFile = cl.getOptionValue("r");
+            inputFile = cl.getOptionValue("i");
         } else {
             FimsPrinter.out.println("Error: must specify input file");
+            formatter.printHelp( "java -jar ppo-fims-triples.jar", options );
             return;
         }
+        // output directory
+        if (cl.hasOption("o")) {
+            outputDirectory = cl.getOptionValue("o");
+        } else {
+            FimsPrinter.out.println("Error: must specify output directory");
+            formatter.printHelp( "java -jar ppo-fims-triples.jar", options );
+            return;
+        }
+        // prefix
+        if (cl.hasOption("p")) {
+            defaultLocalURIPrefix = cl.getOptionValue("p");
+        }
 
-        generateTriplesForPaper pep = new generateTriplesForPaper(configFile);
+        generateTriplesForPaper pep = new generateTriplesForPaper(configFile, outputDirectory, defaultLocalURIPrefix);
         try {
-            outputFiles.add(pep.triplify(inputFile));
+            outputFiles.add(pep.triplify(inputFile, overwriteOutputFile));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        */
-        // ******************
-        // NPN files
-        // ******************
-
-        generateTriplesForPaper npn = new generateTriplesForPaper(
-                "/Users/jdeck/IdeaProjects/pheno_paper/npn_direct/npn_direct.xml",
-                "/Users/jdeck/IdeaProjects/pheno_paper/data/npn_direct/output_unreasoned_n3/"
-        );
-
-        try {
-            //outputFiles.add(npn.triplify("/Users/jdeck/IdeaProjects/ppo_data/pheno_paper/npn/output_csv/1485012823554.csv"));
-            boolean overwriteOutputFile = true;
-
-            outputFiles.add(npn.triplify(
-                    "/Users/jdeck/IdeaProjects/pheno_paper/data/npn_direct/output_csv/1485013283920.csv",
-                    //"/Users/jdeck/IdeaProjects/pheno_paper/data/npn/output_csv/1485012823554.csv",
-                    //"/Users/jdeck/IdeaProjects/pheno_paper/data/npn/output_csv/test.csv",
-                    overwriteOutputFile
-            ));
-            outputFiles.add(npn.triplify(
-                    "/Users/jdeck/IdeaProjects/pheno_paper/data/npn_direct/output_csv/1485012823554.csv",
-                    overwriteOutputFile
-            ));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        // ******************
-        // PEP files
-        // ******************
-       /* generateTriplesForPaper pep = new generateTriplesForPaper(
-                "/Users/jdeck/IdeaProjects/ppo-fims/data/npn/npn.xml"
-        );
-        try {
-            //outputFiles.add(pep.triplify("/Users/jdeck/IdeaProjects/ppo_data/pheno_paper/pep725/output/Betula.csv"));
-            //outputFiles.add(pep.triplify("/Users/jdeck/IdeaProjects/ppo_data/pheno_paper/pep725/output/Helianthus.csv"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-         */
         // ******************
         // Generated Triples
         // ******************
@@ -184,7 +193,7 @@ public class generateTriplesForPaper {
         }
 
         // Attempt to get the sheetname
-        String sheetname = "default";
+        String sheetname = "Samples";
         try {
             sheetname = tdr.getSheet().getSheetName();
         } catch (NullPointerException npe) {
@@ -222,7 +231,13 @@ public class generateTriplesForPaper {
         // Triplify results if we're all good
 
         if (isValid) {
-            Triplifier t = new Triplifier(filename, outputDirectory, processController, overwriteOutputFile, defaultLocalURIPrefix);
+            Triplifier t = new Triplifier(
+                    filename,
+                    outputDirectory,
+                    processController,
+                    overwriteOutputFile,
+                    defaultLocalURIPrefix,
+                    outputFormat);
             t.run(validation.getSqliteFile(), Lists.newArrayList(fimsMetadata.get(0).fieldNames()));
 
             return "Processing " + inputFile + " ...\n" + t.getTripleOutputFile();
