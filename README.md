@@ -1,39 +1,16 @@
-The ppo-fims consists of a collection of tools and resources for building the plant phenology ontology (PPO) and annotating instance data from large-scale phenological repositories.  The ppo-fims has a running website at http://www.plantphenology.org/.  The following 
+The ppo-fims repository stores the codebase for the plantphenology.org website running at http://www.plantphenology.org/.  It also runs the triplifying code for turning CSV files into unreasoned RDF Triples.  This repository is similar to other FIMS instances (e.g. geomedb, arms, biscicol) but instead of relying on user-uploaded spreadsheets, the processing and loading of data files is done outside of this instance, using, for now the code and instructions running under the https://github.com/jdeck88/pheno_paper repository.  
 
-# Ontology Development 
-The following repositories contain the code and data which together are used for building the core [purl.obolibrary.org/obo/ppo.owl](PPO ontology):  
+# Triplifying Jar
+The gradlew sripts supplied with this repository can build a self-contained jar file for triplifying data, which is part of the data processing process.   This is run like:
 
-  * [ontobuilder](https://github.com/stuckyb/ontobuilder): code for building ontologies
+```
+./gradlew shadowJar
+```
 
-  * [plant phenology ontology](https://github.com/plantPhenoOntology/PPO): code for building the [plant phenology ontology OWL File](http://purl.obolibrary.org/obo/ppo.owl).
+The output of this task will create a dist/ppo-fims-triples.jar file which can be executed with help, like:
 
-  * [PPO application ontology] (https://github.com/PlantPhenoOntology/ppo_ingest_app) WILL be stored at this location
+```
+java -jar ppo-fims-triples.jar -h
+```
 
-# Data Collection
-Following are a collection of some of the raw data sources that are referenced by the plantphenology website:  
 
-  * [Jan, 2016 plant phenology "workshop" data] (https://github.com/plantPhenoOntology/pheno_data)
-
-  * [plant phenology paper data sources](https://github.com/jdeck88/ppo_data)
-
-# Instance Data Annotation
-The Biocode FIMS Configurator is used to validate incoming data sources and map concepts in the incoming data to classes referenced in the PPO application ontology.
-
-[The Biocode FIMS Configurator] (https://github.com/biocodellc/biocode-fims-configurator) fulfills the following purposes:
-  * current code for building application ontologies but soon to be DEPRECATED in favor of the following repo: [PPO application ontology] (https://github.com/PlantPhenoOntology/ppo_ingest_app)
-  * code for configuring biocode fims that use ontologies as references
-
-# Pre-reasoning
-Pre-reasoning on instance data is based on ontobuilder, in a special project directory.  The configuration file specifies the ontology (pointing to the PPO application ontology), the incoming data sources (based on instance data created from the biocode-fims-configurator), and outgoing data file.
-
-  * The [ppo_pre_reasoner] (https://github.com/PlantPhenoOntology/ppo_pre_reasoner) stores the ontobuilder configuration file for pre-reasoning the ontologies.
-
-# The PPO-FIMS codebase 
-This references all of the information which goes into building the plantphenology.org website.  
-
-[The PPO-FIMS website](https://github.com/biocodellc/ppo-fims)
-  * plant phenology website
-  * plantPhenology specific configuration scripts from configurator
-    * stores ppo_ingest.owl file
-    * stores the npn.xml and pep.xml configuration files
-  * Python Scripts for loading loading data sources (data stored under other relevant respoitories, see Data components above)
