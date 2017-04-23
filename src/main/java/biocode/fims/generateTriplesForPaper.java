@@ -32,7 +32,7 @@ import java.util.Iterator;
 public class generateTriplesForPaper {
     String configFile = null;
     String outputDirectory = null;
-    static String defaultLocalURIPrefix = "http://www.plantphenology.org/id/";
+    static String defaultLocalURIPrefix = "ppo:"; // maps to "http://www.plantphenology.org/id/" in prefixes
     static ArrayList<String> outputFiles = new ArrayList<String>();
     static String outputFormat = "TURTLE";
 
@@ -82,7 +82,7 @@ public class generateTriplesForPaper {
         options.addOption("i", "input", true, "input data file (mandatory)");
         options.addOption("p", "prefix", true, "default prefix (default value = " + defaultLocalURIPrefix + ")");
         options.addOption("o", "output", true, "output directory (mandatory)");
-        options.addOption("F", "format",true, "output format: N3, N-TRIPLE, TURTLE, RDF/XML --TURTLE is default.");
+        options.addOption("F", "format", true, "output format: N3, N-TRIPLE, TURTLE, RDF/XML --TURTLE is default.");
 
         // Create the commands parser and parse the command line arguments.
         try {
@@ -98,7 +98,7 @@ public class generateTriplesForPaper {
 
         // generate help file and then exitZZ
         if (cl.hasOption("h")) {
-            formatter.printHelp( "java -jar ppo-fims-triples.jar", options );
+            formatter.printHelp("java -jar ppo-fims-triples.jar", options);
             return;
         }
         // configuration file
@@ -109,7 +109,7 @@ public class generateTriplesForPaper {
             formatter.printHelp("java -jar ppo-fims-triples.jar", options);
             return;
         }
-         // output Format
+        // output Format
         if (cl.hasOption("F")) {
             outputFormat = cl.getOptionValue("F");
         }
@@ -124,7 +124,7 @@ public class generateTriplesForPaper {
             inputFile = cl.getOptionValue("i");
         } else {
             FimsPrinter.out.println("Error: must specify input file");
-            formatter.printHelp( "java -jar ppo-fims-triples.jar", options );
+            formatter.printHelp("java -jar ppo-fims-triples.jar", options);
             return;
         }
         // output directory
@@ -132,7 +132,7 @@ public class generateTriplesForPaper {
             outputDirectory = cl.getOptionValue("o");
         } else {
             FimsPrinter.out.println("Error: must specify output directory");
-            formatter.printHelp( "java -jar ppo-fims-triples.jar", options );
+            formatter.printHelp("java -jar ppo-fims-triples.jar", options);
             return;
         }
         // prefix
@@ -151,7 +151,6 @@ public class generateTriplesForPaper {
         // Generated Triples
         // ******************
         Iterator it = outputFiles.iterator();
-        System.out.println("##########\n# Results\n###########");
         while (it.hasNext()) {
             String message = (String) it.next();
             System.out.println(message);
@@ -238,12 +237,29 @@ public class generateTriplesForPaper {
                     overwriteOutputFile,
                     defaultLocalURIPrefix,
                     outputFormat);
+            // TODO: set prefixes and imports information in the configuration file
+
+            t.setPrefixes(
+                    "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n" +
+                            "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n" +
+                            "@prefix ark: <http://biscicol.org/id/ark:> .\n" +
+                            "@prefix owl: <http://www.w3.org/2002/07/owl#> .\n" +
+                            "@prefix dwc: <http://rs.tdwg.org/dwc/terms/> . \n" +
+                            "@prefix dc: <http://purl.org/dc/elements/1.1/> .\n" +
+                            "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n" +
+                            "@prefix ppo: <http://www.plantphenology.org/id/> .\n" +
+                            "@prefix obo: <http://purl.obolibrary.org/obo/> .\n");
+            t.setImports(
+                    "<urn:ppoOntologyInstance> " +
+                            "owl:imports " +
+                            "<https://github.com/PlantPhenoOntology/PPO/raw/master/ontology/ppo-reasoned.owl> .\n");
+
             t.run(validation.getSqliteFile(), Lists.newArrayList(fimsMetadata.get(0).fieldNames()));
 
-            return "Processing " + inputFile + " ...\n" + t.getTripleOutputFile();
+            return "    writing " + t.getTripleOutputFile();
 
         } else {
-            return "Processing " + inputFile + " ...\n" + processController.printMessages();
+            return "    writing " + processController.printMessages();
         }
 
     }
