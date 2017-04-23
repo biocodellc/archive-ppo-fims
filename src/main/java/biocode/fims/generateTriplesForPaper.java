@@ -158,7 +158,7 @@ public class generateTriplesForPaper {
     }
 
     /**
-     * Run triplification
+     * Special triplifier task
      *
      * @param inputFile
      *
