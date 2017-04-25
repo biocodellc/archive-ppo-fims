@@ -45,7 +45,7 @@ repositories {
 evaluationDependsOnChildren()
 
 dependencies {
-    server 'org.apache.commons:commons-digester3:3.2' {
+    server ('org.apache.commons:commons-digester3:3.2') {
         exclude module: 'asm'
     }
     server 'org.glassfish.jersey.media:jersey-media-multipart:2.25'
