@@ -3,6 +3,7 @@ var appRoot = "/";
 var biocodeFimsRestRoot = "/rest/v1/";
 
 $.ajaxSetup({
+    headers: { 'Fims-App': 'PPO-Fims' },
     beforeSend: function (jqxhr, config) {
         jqxhr.config = config;
         var ppoSessionStorage = JSON.parse(window.sessionStorage.ppo);

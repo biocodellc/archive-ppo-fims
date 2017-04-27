@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.rdf.model.*;
 import com.hp.hpl.jena.rdf.model.Resource;
 
@@ -159,6 +160,7 @@ public class PPOFimsModel {
     private StmtIterator getResourceStatements(String resource) {
         RDFNode node = model.createResource(model.expandPrefix(resource));
         SimpleSelector selector = new SimpleSelector(null, null, node);
+
 
         return model.listStatements(selector);
     }
