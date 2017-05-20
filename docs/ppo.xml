@@ -272,7 +272,7 @@
             <attribute column="genus" uri="genus" dataformat="" datatype="string" group="wholePlant" >
                 Genus
             </attribute>
-            <attribute column="species" uri="specificEpithet" dataformat="" datatype="string" group="wholePlant" >
+            <attribute column="specificEpithet" uri="specificEpithet" dataformat="" datatype="string" group="wholePlant" >
                 Specific Epithet
             </attribute>
             <attribute column="scientificName" uri="scientificName" dataformat="" datatype="string" group="wholePlant" >
