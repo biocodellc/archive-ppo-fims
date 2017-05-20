@@ -53,8 +53,9 @@ public class QueryController extends FimsService {
     private static final Logger logger = LoggerFactory.getLogger(QueryController.class);
 
     private static List<Integer> projectIds = Arrays.asList(27, 33);
-    private static String[] indicies = projectIds.stream().map(String::valueOf).toArray(String[]::new);
-    private List<Mapping> mappings;
+    private static int projectId = 27;
+    private static String[] indicies = new String[]{String.valueOf(projectId)};
+    private Mapping mapping;
 
     private final Client esClient;
     private final FileCache fileCache;
@@ -101,7 +102,7 @@ public class QueryController extends FimsService {
 
         Page<ObjectNode> results = elasticSearchQuerier.getPageableResults();
 
-        List<JsonFieldTransform> writerColumns = PPOQueryUtils.getJsonFieldTransforms(getMappings());
+        List<JsonFieldTransform> writerColumns = PPOQueryUtils.getJsonFieldTransforms(getMapping());
 
         List<JsonFieldTransform> filteredWriterColumns;
         if (query.getSource().isEmpty()) {
@@ -120,6 +121,7 @@ public class QueryController extends FimsService {
     /**
      * Return JSON for a graph query as POST
      * <p/>
+     *
      * @return
      */
     @Compress
@@ -171,7 +173,7 @@ public class QueryController extends FimsService {
 
             ArrayNode results = elasticSearchQuerier.getAllResults();
 
-            JsonWriter jsonWriter = new DelimitedTextJsonWriter(results, PPOQueryUtils.getJsonFieldTransforms(getMappings()), defaultOutputDirectory(), ",");
+            JsonWriter jsonWriter = new DelimitedTextJsonWriter(results, PPOQueryUtils.getJsonFieldTransforms(getMapping()), defaultOutputDirectory(), ",");
 
             return returnFileResults(jsonWriter.write(), "ppo-fims-output.csv");
         } catch (FimsRuntimeException e) {
@@ -200,7 +202,7 @@ public class QueryController extends FimsService {
 
             ArrayNode results = elasticSearchQuerier.getAllResults();
 
-            JsonWriter jsonWriter = new KmlJsonWriter.KmlJsonWriterBuilder(results, defaultOutputDirectory(), PPOQueryUtils.getJsonFieldTransforms(getMappings()))
+            JsonWriter jsonWriter = new KmlJsonWriter.KmlJsonWriterBuilder(results, defaultOutputDirectory(), PPOQueryUtils.getJsonFieldTransforms(getMapping()))
                     .latPath(PPOQueryUtils.getLatitudePointer())
                     .longPath(PPOQueryUtils.getLongitudePointer())
                     .namePath(PPOQueryUtils.getUniqueKeyPointer())
@@ -241,7 +243,7 @@ public class QueryController extends FimsService {
     }
 
     private Query parseQueryString(String q) {
-        List<ElasticSearchFilterField> filterFields = PPOQueryUtils.getAvailableFilters(getMappings());
+        List<ElasticSearchFilterField> filterFields = PPOQueryUtils.getAvailableFilters(getMapping());
         filterFields.add(PPOQueryUtils.get_AllFilter());
         filterFields.add(PPOQueryUtils.getBcidFilter());
         filterFields.add(PPOQueryUtils.getTypesFilter());
@@ -264,23 +266,19 @@ public class QueryController extends FimsService {
 
     }
 
-    private List<Mapping> getMappings() {
-        if (mappings != null) {
-            return mappings;
+    private Mapping getMapping() {
+        if (mapping != null) {
+            return mapping;
         }
 
-        mappings = new ArrayList<>();
+        File configFile = new ConfigurationFileFetcher(projectId, defaultOutputDirectory(), true).getOutputFile();
 
-        for (Integer projectId: projectIds) {
-            File configFile = new ConfigurationFileFetcher(projectId, defaultOutputDirectory(), true).getOutputFile();
+        Mapping mapping = new Mapping();
+        mapping.addMappingRules(configFile);
 
-            Mapping mapping = new Mapping();
-            mapping.addMappingRules(configFile);
+        this.mapping = mapping;
 
-            mappings.add(mapping);
-        }
-
-        return mappings;
+        return mapping;
     }
 }
 

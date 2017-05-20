@@ -26,14 +26,11 @@ public class PPOQueryUtils {
      *
      * @return
      */
-    public static List<ElasticSearchFilterField> getAvailableFilters(List<Mapping> mappings) {
+    public static List<ElasticSearchFilterField> getAvailableFilters(Mapping mapping) {
         List<ElasticSearchFilterField> filters = new ArrayList<>();
 
         Set<Attribute> attributes = new HashSet<>();
-
-        mappings.forEach(
-                m -> attributes.addAll(m.getDefaultSheetAttributes())
-        );
+        attributes.addAll(mapping.getDefaultSheetAttributes());
 
         for (Attribute attribute : attributes) {
             String group = !StringUtils.isBlank(attribute.getGroup()) ? attribute.getGroup() : "Default Columns";
@@ -66,14 +63,11 @@ public class PPOQueryUtils {
      *
      * @return
      */
-    public static List<JsonFieldTransform> getJsonFieldTransforms(List<Mapping> mappings) {
+    public static List<JsonFieldTransform> getJsonFieldTransforms(Mapping mapping) {
         List<JsonFieldTransform> fieldTransforms = new ArrayList<>();
 
         Set<Attribute> attributes = new HashSet<>();
-
-        mappings.forEach(
-                m -> attributes.addAll(m.getDefaultSheetAttributes())
-        );
+        attributes.addAll(mapping.getDefaultSheetAttributes());
 
         for (Attribute a : attributes) {
             fieldTransforms.add(

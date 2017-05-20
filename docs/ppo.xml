@@ -1,0 +1,349 @@
+<?xml version="1.0" ?>
+<fims>
+    <metadata default_worksheet="Samples"/>
+    <validation>
+        <lists>
+            <list alias="phenophase_description">
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002007">
+                    &gt;=50% of leaves colored (deciduous)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002009">
+                    &gt;=50% of leaves fallen (deciduous)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002007">
+                    &gt;=50% of needles colored (larch)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002009">
+                    &gt;=50% of needles fallen (larch)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002006">
+                    &gt;=75% of full leaf size (deciduous)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002008">
+                    All leaf buds broken (lilac/honeysuckle)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002007">
+                    All leaves colored (deciduous)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002009">
+                    All leaves fallen (deciduous)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002007">
+                    All leaves withered (herbaceous and grasses)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002007">
+                    All needles colored (larch)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002009">
+                    All needles fallen (larch)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002008">
+                    Breaking leaf buds
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002008">
+                    Breaking leaf buds (lilac/honeysuckle)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002008">
+                    Breaking needle buds (conifers)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002008">
+                    Breaking needle buds (deciduous)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002007">
+                    Colored leaves
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002007">
+                    Colored needles
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002002">
+                    Dotted inflated receptacles
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002008">
+                    Emerging leaves (1 location)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002008">
+                    Emerging needles (pines)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002014">
+                    End bloom (historic lilac/eastern honeysuckle)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002014">
+                    End bloom (historic western honeysuckle)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002014">
+                    End of flowering (lilac/honeysuckle)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002007">
+                    Falling leaves
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002007">
+                    Falling needles
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002014">
+                    First bloom (historic eastern lilac)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002014">
+                    First bloom (historic honeysuckle)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002014">
+                    First bloom (historic western lilac)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002005">
+                    First leaf (historic lilac/honeysuckle)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002017">
+                    First red berry (historic western honeysuckle)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002017">
+                    First shriveled berry (historic western honeysuckle)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002002">
+                    Flat receptacles
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002012">
+                    Flower buds (1 location)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002013">
+                    Flower heads (grasses/sedges)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002012">
+                    Flowers or flower buds
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002016">
+                    Fruits
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002014">
+                    Full bloom (historic eastern honeysuckle)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002014">
+                    Full bloom (historic lilac/western honeysuckle)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002014">
+                    Full flowering (50%)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002014">
+                    Full flowering (honeysuckle)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002014">
+                    Full flowering (lilac)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002006">
+                    Full leaf (historic lilac/honeysuckle)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002015">
+                    Full pollen release (angiosperms)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002021">
+                    Full pollen release (conifers)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002017">
+                    Full red berries (historic western honeysuckle)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002017">
+                    Full shriveled berries (historic western honeysuckle)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002005">
+                    Increasing leaf size
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002010">
+                    Initial growth (forbs)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002010">
+                    Initial growth (grasses/sedges)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002004">
+                    Leaves
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002004">
+                    Leaves (forbs)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002004">
+                    Leaves (grasses)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002004">
+                    Leaves (sedges)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002004">
+                    Needles (deciduous)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002002">
+                    New side branches (rockweed)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002014">
+                    Open flowers
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002014">
+                    Open flowers (1 location)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002014">
+                    Open flowers (grasses/sedges)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002014">
+                    Open flowers (honeysuckle)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002014">
+                    Open flowers (lilac)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002021">
+                    Open pollen cones (conifers)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002020">
+                    Pollen cones (conifers)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002021">
+                    Pollen release (conifers)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002015">
+                    Pollen release (flowers)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002026">
+                    Recent cone or seed drop
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002018">
+                    Recent fruit or seed drop
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002002">
+                    Receptacles
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002017">
+                    Ripe fruits
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002017">
+                    Ripe fruits (1 location)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002025">
+                    Ripe seed cones
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002023">
+                    Ripe seeds (grasses)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002002">
+                    Smooth inflated receptacles
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002002">
+                    Torn receptacles
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002023">
+                    Unripe seed cones
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002005">
+                    Young leaves (forbs)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002005">
+                    Young leaves (tree/shrub)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002005">
+                    Young needles (conifers)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002005">
+                    Young needles (pines)
+                </field>
+                <field defined_by="http://purl.obolibrary.org/obo/PPO_0002005">
+                    Young unfolded leaves (evergreen 1 location)
+                </field>
+            </list>
+        </lists>
+    </validation>
+    <mapping>
+        <entity conceptAlias="phenologicalObservingProcess" conceptURI="http://purl.obolibrary.org/obo/PPO_0002000" uniqueKey="Observation_ID" worksheet="Samples">
+            <attribute column="eventID" uri="eventID" dataformat="" datatype="integer" group="phenologicalObservingProcess">
+                Record Identifier
+            </attribute>
+            <attribute column="latitude" uri="latitude" dataformat="" datatype="float" group="phenologicalObservingProcess" >
+                Decimal Latitude
+            </attribute>
+            <attribute column="longitude" uri="longitude" dataformat="" datatype="float" group="phenologicalObservingProcess" >
+                Decimal Longitude
+            </attribute>
+            <attribute column="year" uri="year" dataformat="" datatype="integer" group="phenologicalObservingProcess" >
+                The year the observation took place
+            </attribute>
+            <attribute column="startDayOfYear" uri="startDayOfYear" dataformat="" datatype="integer" group="phenologicalObservingProcess" >
+                Day of year the observation took place
+            </attribute>
+            <attribute column="source" uri="source" dataformat="" datatype="string" group="phenologicalObservingProcess" >
+                Dataset Source
+            </attribute>
+        </entity>
+        <entity conceptAlias="wholePlant" conceptURI="http://purl.obolibrary.org/obo/PO_0000003"  uniqueKey="Individual_ID" worksheet="Samples">
+            <attribute column="materialSampleID" uri="materialSampleID" dataformat="" datatype="integer" group="wholePlant">
+                Individual Plant Identifier
+            </attribute>
+            <attribute column="genus" uri="genus" dataformat="" datatype="string" group="wholePlant" >
+                Genus
+            </attribute>
+            <attribute column="specificEpithet" uri="specificEpithet" dataformat="" datatype="string" group="wholePlant" >
+                Specific Epithet
+            </attribute>
+            <attribute column="scientificName" uri="scientificName" dataformat="" datatype="string" group="wholePlant" >
+                Scientific Name
+            </attribute>
+        </entity>
+        <entity conceptAlias="plantStructurePresence" conceptURI="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"  uniqueKey="Observation_ID" worksheet="Samples">
+            <attribute column="plantStructurePresenceTypes" uri="plantStructurePresenceTypes" delimitedBy="" delimited_by="|" dataformat="" datatype="string" group="plantStructurePresence" >
+                Whole plant phenological stage
+            </attribute>
+            <!--<attribute column="Phenophase_Description" dataformat="" datatype="string" group="plantStructurePresence" >-->
+                <!--Whole plant phenological stage-->
+            <!--</attribute>-->
+        </entity>
+        <entity conceptAlias="measurementDatum" conceptURI="http://purl.obolibrary.org/obo/IAO_0000109"  uniqueKey="Observation_ID" worksheet="Samples">
+            <attribute column="lower_count" uri="lower_count" dataformat="" datatype="integer" group="measurementDatum" >
+                The lower value of an intensity value range
+            </attribute>
+            <attribute column="upper_count" uri="upper_count" dataformat="" datatype="integer" group="measurementDatum" >
+                The upper value of an intensity value range
+            </attribute>
+            <attribute column="lower_percent" uri="lower_percent" dataformat="" datatype="float" group="measurementDatum" >
+                The lower percent of an intensity value range
+            </attribute>
+            <attribute column="upper_percent" uri="upper_percent" dataformat="" datatype="float" group="measurementDatum" >
+                The upper percent of an intensity value range
+            </attribute>
+        </entity>
+        <relation>
+            <subject>
+                plantStructurePresence
+            </subject>
+            <predicate>
+                http://purl.obolibrary.org/obo/PPO_0001007
+            </predicate>
+            <object>
+                measurementDatum
+            </object>
+        </relation>
+        <relation>
+            <subject>
+                plantStructurePresence
+            </subject>
+            <predicate>
+                http://purl.obolibrary.org/obo/RO_0000080
+            </predicate>
+            <object>
+                wholePlant
+            </object>
+        </relation>
+        <relation>
+            <subject>
+                wholePlant
+            </subject>
+            <predicate>
+                http://purl.obolibrary.org/obo/OBI_0000295
+            </predicate>
+            <object>
+                phenologicalObservingProcess
+            </object>
+        </relation>
+        <relation>
+            <subject>
+                phenologicalObservingProcess
+            </subject>
+            <predicate>
+                http://purl.obolibrary.org/obo/OBI_0000299
+            </predicate>
+            <object>
+                measurementDatum
+            </object>
+        </relation>
+    </mapping>
+</fims>
