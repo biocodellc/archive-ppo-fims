@@ -8,16 +8,7 @@
         'usSpinnerService', 'exception'];
 
     function QueryFormController(queryParams, queryService, queryResults, queryMap, usSpinnerService, exception) {
-        var SOURCE = [
-            "http://rs.tdwg.org/dwc/terms/EventID",
-            "http://rs.tdwg.org/dwc/terms/decimalLatitude",
-            "http://rs.tdwg.org/dwc/terms/decimalLongitude",
-            "http://rs.tdwg.org/dwc/terms/startDayOfYear",
-            "http://purl.org/dc/elements/1.1/creator",
-            "http://rs.tdwg.org/dwc/terms/genus",
-            "http://rs.tdwg.org/dwc/terms/scientificName",
-            "http://rs.tdwg.org/dwc/terms/Event"
-        ];
+        var SOURCE = ["latitude", "longitude", "startDayOfYear", "year", "genus", "specificEpithet", "source"];
 
         var vm = this;
 
@@ -68,12 +59,6 @@
             "ripening seed cones absent": "http://purl.obolibrary.org/obo/PPO_0003062",
             "abscised cones or seeds absent": "http://purl.obolibrary.org/obo/PPO_0003063"
         };
-
-        vm.genus = [
-            'Helianthus',
-            'Betula'
-        ];
-
 
         // view toggles
         vm.showMap = true;

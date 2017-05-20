@@ -258,7 +258,7 @@
             <attribute column="year" uri="year" dataformat="" datatype="integer" group="phenologicalObservingProcess" >
                 The year the observation took place
             </attribute>
-            <attribute column="startDayOfYear" uri="startDayOfYear" dataformat="" datatype="integer" group="phenologicalObservingProcess" >
+            <attribute column="dayOfYear" uri="startDayOfYear" dataformat="" datatype="integer" group="phenologicalObservingProcess" >
                 Day of year the observation took place
             </attribute>
             <attribute column="source" uri="source" dataformat="" datatype="string" group="phenologicalObservingProcess" >
@@ -272,7 +272,7 @@
             <attribute column="genus" uri="genus" dataformat="" datatype="string" group="wholePlant" >
                 Genus
             </attribute>
-            <attribute column="specificEpithet" uri="specificEpithet" dataformat="" datatype="string" group="wholePlant" >
+            <attribute column="species" uri="specificEpithet" dataformat="" datatype="string" group="wholePlant" >
                 Specific Epithet
             </attribute>
             <attribute column="scientificName" uri="scientificName" dataformat="" datatype="string" group="wholePlant" >

@@ -30,6 +30,7 @@ import org.parboiled.support.ParsingResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -47,14 +48,15 @@ import java.util.stream.Collectors;
 /**
  * Query interface for Biocode-fims expedition
  */
+@Scope("prototype")
 @Controller
 @Path("/projects/query")
 public class QueryController extends FimsService {
     private static final Logger logger = LoggerFactory.getLogger(QueryController.class);
 
-    private static List<Integer> projectIds = Arrays.asList(27, 33);
     private static int projectId = 27;
-    private static String[] indicies = new String[]{String.valueOf(projectId)};
+    private static String[] indicies = new String[]{"ppo"};
+    private static String[] types = new String[]{"record"};
     private Mapping mapping;
 
     private final Client esClient;
@@ -238,7 +240,7 @@ public class QueryController extends FimsService {
         return new ElasticSearchQuery(
                 query.getQueryBuilder(),
                 indicies,
-                new String[]{ElasticSearchIndexer.TYPE}
+                types
         );
     }
 

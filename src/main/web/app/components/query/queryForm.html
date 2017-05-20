@@ -55,10 +55,28 @@
                     <label class="control-label">Genus</label>
                 </div>
                 <div class="col-xs-9">
-                    <select class="form-control input-sm" ng-options="v as v for v in queryFormVm.genus"
-                            ng-model="queryFormVm.params.genus">
-                        <option value="">-- Choose a Genus --</option>
-                    </select>
+                    <input ng-model="queryFormVm.params.genus" type="text"
+                           class="form-control input-sm"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-3">
+                    <label class="control-label">SpecificEpithet</label>
+                </div>
+                <div class="col-xs-9">
+                    <input ng-model="queryFormVm.params.specificEpithet" type="text"
+                           class="form-control input-sm"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-3">
+                    <label class="control-label">Source</label>
+                </div>
+                <div class="col-xs-5">
+                    <input ng-model="queryFormVm.params.source" type="text"
+                           class="form-control input-sm"/>
                 </div>
             </div>
         </div>

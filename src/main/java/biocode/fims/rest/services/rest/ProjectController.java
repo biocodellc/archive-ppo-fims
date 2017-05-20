@@ -448,24 +448,4 @@ public class ProjectController extends FimsAbstractProjectsController {
         return Response.ok("{\"uniqueKey\":\"" + mapping.getDefaultSheetUniqueKey() + "\"}").build();
     }
 
-    @Override
-    @GET
-    @Path("/{projectId}/config/refreshCache")
-    public Response refreshCache(@PathParam("projectId") Integer projectId) {
-        File configFile = new ConfigurationFileFetcher(projectId, defaultOutputDirectory(), false).getOutputFile();
-
-        ElasticSearchIndexer indexer = new ElasticSearchIndexer(esClient);
-        JSONObject mapping = ConfigurationFileEsMapper.convert(configFile);
-
-        JSONObject properties = (JSONObject) mapping.get("properties");
-        JSONObject type = new JSONObject();
-        type.put("type", "keyword");
-        properties.put(PPOFimsModel.TYPE_ARRAY, type);
-
-        JSONObject event = (JSONObject) properties.get("http://rs.tdwg.org/dwc/terms/Event");
-        event.put("format", event.get("format") + " || yyyy");
-
-        indexer.updateMapping(projectId, mapping);
-        return Response.noContent().build();
-    }
 }

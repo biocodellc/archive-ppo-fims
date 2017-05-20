@@ -6,6 +6,7 @@ import biocode.fims.rest.filters.Authenticated;
 import biocode.fims.rest.services.rest.FimsAbstractExpeditionController;
 import biocode.fims.service.ExpeditionService;
 import biocode.fims.service.OAuthProviderService;
+import biocode.fims.service.ProjectService;
 import biocode.fims.settings.SettingsManager;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ public class ExpeditionController extends FimsAbstractExpeditionController {
 
 
     @Autowired
-    public ExpeditionController(ExpeditionService expeditionService, SettingsManager settingsManager) {
-        super(expeditionService, settingsManager);
+    public ExpeditionController(ExpeditionService expeditionService, ProjectService projectService, SettingsManager settingsManager) {
+        super(expeditionService, projectService, settingsManager);
     }
 
     @GET

@@ -12,7 +12,9 @@
             toYear: null,
             fromDay: null,
             toDay: null,
-            genus: null
+            genus: null,
+            specificEpithet: null,
+            source: null
         };
 
         var params = {
@@ -37,23 +39,31 @@
             });
 
             if (params.fromYear) {
-                builder.add("+Observation_Date:>=" + params.fromYear + "\\|\\|\\/y");
+                builder.add("+year:>=" + params.fromYear);
             }
 
             if (params.toYear) {
-                builder.add("+Observation_Date:<=" + params.toYear + "\\|\\|\\/y]");
+                builder.add("+year:<=" + params.toYear);
             }
 
             if (params.fromDay) {
-                builder.add("+Day_of_Year:>=" + params.fromDay);
+                builder.add("+startDayOfYear:>=" + params.fromDay);
             }
 
             if (params.toDay) {
-                builder.add("+Day_of_Year:<=" + params.toDay);
+                builder.add("+startDayOfYear:<=" + params.toDay);
             }
 
             if (params.genus) {
-                builder.add("+Genus:" + params.genus);
+                builder.add("+genus:" + params.genus);
+            }
+
+            if (params.specificEpithet) {
+                builder.add("+specificEpithet:" + params.specificEpithet);
+            }
+
+            if (params.source) {
+                builder.add("+source:" + params.source);
             }
 
             builder.setSource(source);

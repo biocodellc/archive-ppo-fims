@@ -15,10 +15,6 @@ buildscript {
     }
 }
 
-plugins {
-    id 'com.github.johnrengelman.shadow' version '1.2.4'
-}
-
 apply plugin: "application"
 apply plugin: 'com.github.fgiannesini.libsass.gradle.plugin'
 apply plugin: "org.biocode.fims-web"
@@ -26,7 +22,7 @@ apply plugin: "org.biocode.fims-web"
 import org.biocode.gradle.web.tasks.RestartRemoteJettyTask
 import org.biocode.gradle.web.tasks.HotDeployRemoteJettyTask
 
-ext.fimsCommonsVersion = "0.2.2"
+ext.fimsCommonsVersion = "0.2.6"
 ext.fimsFusekiVersion = "0.3.0"
 
 fims {
@@ -130,21 +126,6 @@ startScripts {
     classpath = files(jar.archivePath, configurations.server, configurations.runtime)
 }
 
-shadowJar {
-    //baseName = "${project.name}-triples"
-    baseName = "triplifier"
-    classifier = null
-    version = null
-
-    configurations = [project.configurations.server, project.configurations.runtime]
-
-    append "META-INF/spring.handlers"
-    append "META-INF/spring.schemas"
-
-    manifest {
-        attributes 'Main-Class': 'biocode.fims.fuseki.triplify.Triplifier'
-    }
-}
 //=============================
 //= deployment configuration
 //=============================
