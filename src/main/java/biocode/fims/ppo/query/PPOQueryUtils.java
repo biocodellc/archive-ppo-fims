@@ -8,10 +8,7 @@ import biocode.fims.query.writers.JsonFieldTransform;
 import com.fasterxml.jackson.core.JsonPointer;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Helper class for obtaining PPO specific Query information
@@ -64,9 +61,9 @@ public class PPOQueryUtils {
      * @return
      */
     public static List<JsonFieldTransform> getJsonFieldTransforms(Mapping mapping) {
-        List<JsonFieldTransform> fieldTransforms = new ArrayList<>();
+        List<JsonFieldTransform> fieldTransforms = new LinkedList<>();
 
-        Set<Attribute> attributes = new HashSet<>();
+        Set<Attribute> attributes = new LinkedHashSet<>();
         attributes.addAll(mapping.getDefaultSheetAttributes());
 
         for (Attribute a : attributes) {
@@ -75,19 +72,21 @@ public class PPOQueryUtils {
                             a.getColumn(),
                             a.getUri(),
                             a.getDatatype(),
-                            false
+                            false,
+                            a.getDelimited_by()
                     )
             );
         }
-
-        fieldTransforms.add(
-                new JsonFieldTransform(
-                        "bcid",
-                        "bcid",
-                        DataType.STRING,
-                        false
-                )
-        );
+//
+//        fieldTransforms.add(
+//                new JsonFieldTransform(
+//                        "bcid",
+//                        "bcid",
+//                        DataType.STRING,
+//                        false,
+//                        null
+//                )
+//        );
 
         return fieldTransforms;
     }
