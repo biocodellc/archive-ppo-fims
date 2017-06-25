@@ -18,7 +18,7 @@
             Map.prototype.setMarkers.call(this, data, generatePopupContent);
         };
 
-        return new QueryMap('Latitude', 'Longitude');
+        return new QueryMap('latitude', 'longitude');
 
         function generatePopupContent(resource) {
             return "<strong>Genus</strong>:  " + resource.Genus + "<br>" +
