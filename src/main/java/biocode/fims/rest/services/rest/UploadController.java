@@ -1,5 +1,6 @@
 package biocode.fims.rest.services.rest;
 
+import biocode.fims.application.config.FimsProperties;
 import biocode.fims.config.ConfigurationFileFetcher;
 import biocode.fims.digester.Attribute;
 import biocode.fims.digester.Mapping;
@@ -15,8 +16,6 @@ import biocode.fims.rest.FimsService;
 import biocode.fims.rest.filters.Admin;
 import biocode.fims.service.ExpeditionService;
 import biocode.fims.service.ProjectService;
-import biocode.fims.settings.SettingsManager;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.elasticsearch.client.Client;
@@ -28,9 +27,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.io.InputStream;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @Path("upload")
@@ -41,8 +37,8 @@ public class UploadController extends FimsService {
     private final Client esClient;
 
     public UploadController(ExpeditionService expeditionService, ProjectService projectService,
-                            Client esClient, SettingsManager settingsManager) {
-        super(settingsManager);
+                            Client esClient, FimsProperties props) {
+        super(props);
         this.expeditionService = expeditionService;
         this.esClient = esClient;
         this.projectService = projectService;
@@ -74,7 +70,7 @@ public class UploadController extends FimsService {
             throw new ForbiddenRequestException("You must be this project's admin in order to upload data");
         }
 
-        Project project = projectService.getProject(projectId, settingsManager.retrieveValue("appRoot"));
+        Project project = projectService.getProject(projectId, props.appRoot());
 
         if (project == null) {
             throw new BadRequestException("Invalid projectId.");

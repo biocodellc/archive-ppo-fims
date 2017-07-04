@@ -1,5 +1,6 @@
 package biocode.fims.rest.services.rest;
 
+import biocode.fims.application.config.FimsProperties;
 import biocode.fims.config.ConfigurationFileFetcher;
 import biocode.fims.digester.Mapping;
 import biocode.fims.elasticSearch.ElasticSearchIndexer;
@@ -15,7 +16,6 @@ import biocode.fims.query.dsl.QueryParser;
 import biocode.fims.query.writers.*;
 import biocode.fims.rest.Compress;
 import biocode.fims.rest.FimsService;
-import biocode.fims.settings.SettingsManager;
 import biocode.fims.tools.CachedFile;
 import biocode.fims.tools.FileCache;
 import biocode.fims.utils.StringGenerator;
@@ -63,8 +63,8 @@ public class QueryController extends FimsService {
     private final FileCache fileCache;
 
     @Autowired
-    QueryController(SettingsManager settingsManager, Client esClient, FileCache fileCache) {
-        super(settingsManager);
+    QueryController(FimsProperties props, Client esClient, FileCache fileCache) {
+        super(props);
         this.esClient = esClient;
         this.fileCache = fileCache;
     }
