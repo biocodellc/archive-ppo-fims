@@ -1,3 +1,5 @@
-The ppo-fims consists of a collection of tools and resources for building the plant phenology ontology (PPO) and annotating instance data from large-scale phenological repositories.  The ppo-fims has a running website at http://www.plantphenology.org/.  The following repository stores information about data processing processes:
+ppo-fims is the front-end/API endpoint for plant phenology ontology work.  The source code here is deployed at  http://www.plantphenology.org/.   The code here and site is still proof-of-concept.  
 
-https://github.com/jdeck88/pheno_paper
+Processing for data delivered to this site is stored at:
+
+https://github.com/biocodellc/ppo-data-pipeline
