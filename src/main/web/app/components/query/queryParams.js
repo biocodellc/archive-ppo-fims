@@ -47,11 +47,11 @@
             }
 
             if (params.fromDay) {
-                builder.add("+startDayOfYear:>=" + params.fromDay);
+                builder.add("+dayOfYear:>=" + params.fromDay);
             }
 
             if (params.toDay) {
-                builder.add("+startDayOfYear:<=" + params.toDay);
+                builder.add("+dayOfYear:<=" + params.toDay);
             }
 
             if (params.genus) {

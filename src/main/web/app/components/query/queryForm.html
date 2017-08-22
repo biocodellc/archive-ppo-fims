@@ -75,8 +75,11 @@
                     <label class="control-label">Source</label>
                 </div>
                 <div class="col-xs-5">
-                    <input ng-model="queryFormVm.params.source" type="text"
-                           class="form-control input-sm"/>
+                    <select ng-options="s for s in queryFormVm.dataSources"
+                        ng-model="queryFormVm.params.source"
+                           class="form-control input-sm">
+                        <option value="">-- Source --</option>
+                    </select>
                 </div>
             </div>
         </div>
