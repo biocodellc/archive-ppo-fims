@@ -8,10 +8,7 @@ import biocode.fims.query.writers.JsonFieldTransform;
 import com.fasterxml.jackson.core.JsonPointer;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Helper class for obtaining PPO specific Query information
@@ -26,14 +23,11 @@ public class PPOQueryUtils {
      *
      * @return
      */
-    public static List<ElasticSearchFilterField> getAvailableFilters(List<Mapping> mappings) {
+    public static List<ElasticSearchFilterField> getAvailableFilters(Mapping mapping) {
         List<ElasticSearchFilterField> filters = new ArrayList<>();
 
         Set<Attribute> attributes = new HashSet<>();
-
-        mappings.forEach(
-                m -> attributes.addAll(m.getDefaultSheetAttributes())
-        );
+        attributes.addAll(mapping.getDefaultSheetAttributes());
 
         for (Attribute attribute : attributes) {
             String group = !StringUtils.isBlank(attribute.getGroup()) ? attribute.getGroup() : "Default Columns";
@@ -66,14 +60,11 @@ public class PPOQueryUtils {
      *
      * @return
      */
-    public static List<JsonFieldTransform> getJsonFieldTransforms(List<Mapping> mappings) {
-        List<JsonFieldTransform> fieldTransforms = new ArrayList<>();
+    public static List<JsonFieldTransform> getJsonFieldTransforms(Mapping mapping) {
+        List<JsonFieldTransform> fieldTransforms = new LinkedList<>();
 
-        Set<Attribute> attributes = new HashSet<>();
-
-        mappings.forEach(
-                m -> attributes.addAll(m.getDefaultSheetAttributes())
-        );
+        Set<Attribute> attributes = new LinkedHashSet<>();
+        attributes.addAll(mapping.getDefaultSheetAttributes());
 
         for (Attribute a : attributes) {
             fieldTransforms.add(
@@ -81,19 +72,21 @@ public class PPOQueryUtils {
                             a.getColumn(),
                             a.getUri(),
                             a.getDatatype(),
-                            false
+                            false,
+                            a.getDelimited_by()
                     )
             );
         }
-
-        fieldTransforms.add(
-                new JsonFieldTransform(
-                        "bcid",
-                        "bcid",
-                        DataType.STRING,
-                        false
-                )
-        );
+//
+//        fieldTransforms.add(
+//                new JsonFieldTransform(
+//                        "bcid",
+//                        "bcid",
+//                        DataType.STRING,
+//                        false,
+//                        null
+//                )
+//        );
 
         return fieldTransforms;
     }

@@ -15,7 +15,7 @@ var app = angular.module('ppoApp', [
 ]);
 
 var currentUser = {};
-app.run(['UserFactory', function(UserFactory) {
+app.run(['$http', 'UserFactory', function ($http, UserFactory) {
     UserFactory.setUser(currentUser);
     $http.defaults.headers.common = {'Fims-App': 'PPO-Fims'};
 }]);

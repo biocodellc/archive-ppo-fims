@@ -7,21 +7,10 @@
     QueryTableController.$inject = ['$scope', 'queryResults'];
 
     function QueryTableController($scope, queryResults) {
-        var TABLE_COUMN_MAP = {
-            "Observation_ID": "Observation ID",
-            "Genus": "Genus",
-            "Species": "Species",
-            "Day_of_Year": "Day of Year",
-            "Observation_Date": "Year",
-            "Latitude": "Latitude",
-            "Longitude": "Longitude",
-            "Source": "Source"
-        };
-
         var vm = this;
         vm.queryResults = queryResults;
 
-        vm.tableColumns = Object.values(TABLE_COUMN_MAP);
+        vm.tableColumns = ["genus", "specificEpithet", "dayOfYear", "year", "latitude", "longitude", "source"];
         vm.tableData = [];
         vm.currentPage = 1;
         vm.pageSize = 50;
@@ -47,12 +36,8 @@
 
                 angular.forEach(data, function (resource) {
                     var resourceData = [];
-                    angular.forEach(Object.keys(TABLE_COUMN_MAP), function (key) {
-                        if (key === "Observation_Date" && resource[key]) {
-                            resourceData.push(resource[key].split("-")[0])
-                        } else {
-                            resourceData.push(resource[key]);
-                        }
+                    angular.forEach(vm.tableColumns, function (key) {
+                        resourceData.push(resource[key]);
                     });
                     vm.tableData.push(resourceData);
                 });

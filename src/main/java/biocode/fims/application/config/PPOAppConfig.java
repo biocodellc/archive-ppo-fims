@@ -31,8 +31,8 @@ public class PPOAppConfig {
     public FimsMetadataFileManager FimsMetadataFileManager() {
         FimsMetadataPersistenceManager persistenceManager = new ESFimsMetadataPersistenceManager(
                 esClient,
-                fimsAppConfig.settingsManager);
-        return new FimsMetadataFileManager(persistenceManager, fimsAppConfig.settingsManager,
+                fimsAppConfig.fimsProperties());
+        return new FimsMetadataFileManager(persistenceManager, fimsAppConfig.fimsProperties(),
                 fimsAppConfig.expeditionService, fimsAppConfig.bcidService, messageSource);
     }
 

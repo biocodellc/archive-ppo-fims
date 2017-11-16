@@ -1,39 +1,5 @@
-The ppo-fims consists of a collection of tools and resources for building the plant phenology ontology (PPO) and annotating instance data from large-scale phenological repositories.  The ppo-fims has a running website at http://www.plantphenology.org/.  The following 
+ppo-fims is the front-end/API endpoint for plant phenology ontology work.  The source code here is deployed at  http://www.plantphenology.org/.   The code here and site is still proof-of-concept.  
 
-# Ontology Development 
-The following repositories contain the code and data which together are used for building the core [purl.obolibrary.org/obo/ppo.owl](PPO ontology):  
+Processing for data delivered to this site is stored at:
 
-  * [ontobuilder](https://github.com/stuckyb/ontobuilder): code for building ontologies
-
-  * [plant phenology ontology](https://github.com/plantPhenoOntology/PPO): code for building the [plant phenology ontology OWL File](http://purl.obolibrary.org/obo/ppo.owl).
-
-  * [PPO application ontology] (https://github.com/PlantPhenoOntology/ppo_ingest_app) WILL be stored at this location
-
-# Data Collection
-Following are a collection of some of the raw data sources that are referenced by the plantphenology website:  
-
-  * [Jan, 2016 plant phenology "workshop" data] (https://github.com/plantPhenoOntology/pheno_data)
-
-  * [plant phenology paper data sources](https://github.com/jdeck88/ppo_data)
-
-# Instance Data Annotation
-The Biocode FIMS Configurator is used to validate incoming data sources and map concepts in the incoming data to classes referenced in the PPO application ontology.
-
-[The Biocode FIMS Configurator] (https://github.com/biocodellc/biocode-fims-configurator) fulfills the following purposes:
-  * current code for building application ontologies but soon to be DEPRECATED in favor of the following repo: [PPO application ontology] (https://github.com/PlantPhenoOntology/ppo_ingest_app)
-  * code for configuring biocode fims that use ontologies as references
-
-# Pre-reasoning
-Pre-reasoning on instance data is based on ontobuilder, in a special project directory.  The configuration file specifies the ontology (pointing to the PPO application ontology), the incoming data sources (based on instance data created from the biocode-fims-configurator), and outgoing data file.
-
-  * The [ppo_pre_reasoner] (https://github.com/PlantPhenoOntology/ppo_pre_reasoner) stores the ontobuilder configuration file for pre-reasoning the ontologies.
-
-# The PPO-FIMS codebase 
-This references all of the information which goes into building the plantphenology.org website.  
-
-[The PPO-FIMS website](https://github.com/biocodellc/ppo-fims)
-  * plant phenology website
-  * plantPhenology specific configuration scripts from configurator
-    * stores ppo_ingest.owl file
-    * stores the npn.xml and pep.xml configuration files
-  * Python Scripts for loading loading data sources (data stored under other relevant respoitories, see Data components above)
+https://github.com/biocodellc/ppo-data-pipeline

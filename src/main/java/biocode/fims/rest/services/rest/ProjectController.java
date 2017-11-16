@@ -1,15 +1,12 @@
 package biocode.fims.rest.services.rest;
 
-import biocode.fims.config.ConfigurationFileEsMapper;
+import biocode.fims.application.config.FimsProperties;
 import biocode.fims.config.ConfigurationFileFetcher;
 import biocode.fims.digester.*;
-import biocode.fims.elasticSearch.ElasticSearchIndexer;
 import biocode.fims.fimsExceptions.FimsRuntimeException;
 import biocode.fims.run.TemplateProcessor;
 import biocode.fims.service.ExpeditionService;
 import biocode.fims.service.ProjectService;
-import biocode.fims.settings.SettingsManager;
-import biocode.fims.triples.PPOFimsModel;
 import org.elasticsearch.client.Client;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -39,9 +36,9 @@ public class ProjectController extends FimsAbstractProjectsController {
     private final Client esClient;
 
     @Autowired
-    ProjectController(ExpeditionService expeditionService, SettingsManager settingsManager,
+    ProjectController(ExpeditionService expeditionService, FimsProperties props,
                       ProjectService projectService, Client esClient) {
-        super(expeditionService, settingsManager, projectService);
+        super(expeditionService, props, projectService);
         this.esClient = esClient;
     }
 
@@ -109,7 +106,7 @@ public class ProjectController extends FimsAbstractProjectsController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDefinitions(@PathParam("projectId") int projectId,
                                    @PathParam("columnName") String columnName) {
-        TemplateProcessor t = new TemplateProcessor(projectId, defaultOutputDirectory());
+        TemplateProcessor t = new TemplateProcessor(projectId, defaultOutputDirectory(), props.naan());
         StringBuilder output = new StringBuilder();
 
         Iterator attributes = t.getMapping().getAllAttributes(t.getMapping().getDefaultSheetName()).iterator();
@@ -270,7 +267,7 @@ public class ProjectController extends FimsAbstractProjectsController {
     @Path("/{projectId}/attributes")
     @Produces(MediaType.TEXT_HTML)
     public Response getAttributes(@PathParam("projectId") int projectId) {
-        TemplateProcessor t = new TemplateProcessor(projectId, defaultOutputDirectory());
+        TemplateProcessor t = new TemplateProcessor(projectId, defaultOutputDirectory(), props.naan());
         LinkedList<String> requiredColumns = t.getRequiredColumns("error");
         LinkedList<String> desiredColumns = t.getRequiredColumns("warning");
         // Use TreeMap for natural sorting of groups
@@ -418,7 +415,7 @@ public class ProjectController extends FimsAbstractProjectsController {
             @FormParam("projectId") Integer projectId) {
 
         // Create the template processor which handles all functions related to the template, reading, generation
-        TemplateProcessor t = new TemplateProcessor(projectId, defaultOutputDirectory());
+        TemplateProcessor t = new TemplateProcessor(projectId, defaultOutputDirectory(), props.naan());
 
         // Set the default sheet-name
         String defaultSheetname = t.getMapping().getDefaultSheetName();
@@ -448,24 +445,4 @@ public class ProjectController extends FimsAbstractProjectsController {
         return Response.ok("{\"uniqueKey\":\"" + mapping.getDefaultSheetUniqueKey() + "\"}").build();
     }
 
-    @Override
-    @GET
-    @Path("/{projectId}/config/refreshCache")
-    public Response refreshCache(@PathParam("projectId") Integer projectId) {
-        File configFile = new ConfigurationFileFetcher(projectId, defaultOutputDirectory(), false).getOutputFile();
-
-        ElasticSearchIndexer indexer = new ElasticSearchIndexer(esClient);
-        JSONObject mapping = ConfigurationFileEsMapper.convert(configFile);
-
-        JSONObject properties = (JSONObject) mapping.get("properties");
-        JSONObject type = new JSONObject();
-        type.put("type", "keyword");
-        properties.put(PPOFimsModel.TYPE_ARRAY, type);
-
-        JSONObject event = (JSONObject) properties.get("http://rs.tdwg.org/dwc/terms/Event");
-        event.put("format", event.get("format") + " || yyyy");
-
-        indexer.updateMapping(projectId, mapping);
-        return Response.noContent().build();
-    }
 }
