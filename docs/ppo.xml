@@ -258,14 +258,11 @@
             <attribute column="year" uri="year" dataformat="" datatype="integer" group="phenologicalObservingProcess" >
                 The year the observation took place
             </attribute>
-            <attribute column="dayOfYear" uri="dayOfYear" dataformat="" datatype="integer" group="phenologicalObservingProcess" >
+            <attribute column="dayOfYear" uri="startDayOfYear" dataformat="" datatype="integer" group="phenologicalObservingProcess" >
                 Day of year the observation took place
             </attribute>
             <attribute column="source" uri="source" dataformat="" datatype="string" group="phenologicalObservingProcess" >
                 Dataset Source
-            </attribute>
-            <attribute column="Mean Monthly Average Temperature Range" uri="adjustedNcepReanalysisMonthlyMeanTemp" dataformat="" datatype="string" group="phenologicalObservingProcess" >
-                Mean Monthly Average Temperature Range
             </attribute>
         </entity>
         <entity conceptAlias="wholePlant" conceptURI="http://purl.obolibrary.org/obo/PO_0000003"  uniqueKey="Individual_ID" worksheet="Samples">
@@ -275,7 +272,7 @@
             <attribute column="genus" uri="genus" dataformat="" datatype="string" group="wholePlant" >
                 Genus
             </attribute>
-            <attribute column="species" uri="specificEpithet" dataformat="" datatype="string" group="wholePlant" >
+            <attribute column="specificEpithet" uri="specificEpithet" dataformat="" datatype="string" group="wholePlant" >
                 Specific Epithet
             </attribute>
             <attribute column="scientificName" uri="scientificName" dataformat="" datatype="string" group="wholePlant" >
